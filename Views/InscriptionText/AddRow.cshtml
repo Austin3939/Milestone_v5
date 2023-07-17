@@ -1,0 +1,22 @@
+﻿@model Inscript_v5.Models.InscriptionTextModel
+@using HtmlHelpers.BeginCollectionItem
+
+@{
+    ViewBag.Title = "AddRow";
+}
+
+{
+
+<tr class="form-group">
+    <td width="10%">
+        @Html.HiddenFor(m => m.TextID)
+        @Html.TextBoxFor(model => model.LineNumber, new { @style = "height: 30px; width:30px; max-width:none; border:1px solid #ced4da; border-radius:.375rem; !important" })
+        @Html.ValidationMessageFor(model => model.LineNumber, "", new { @class = "text-danger" })
+    </td>
+    <td>
+        @Html.TextAreaFor(model => model.Text, new { @style = "height: 35px; width:500px; max-width:none; border:1px solid #ced4da; border-radius:.375rem; !important" })
+        @Html.ValidationMessageFor(model => model.Text, "", new { @class = "text-danger" })
+    </td>
+</tr>
+
+}

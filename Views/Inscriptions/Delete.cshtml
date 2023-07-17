@@ -1,0 +1,52 @@
+﻿@model Inscript_v5.Models.InscriptionsModel
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+
+<!-- <h2>Delete</h2> -->
+
+<h4>Confirm Delete</h4>
+<div>
+    <div>Inscription</div>
+    <hr />
+    <dl class="dl-horizontal">
+     
+        <dd>
+            @Html.DisplayFor(model => model.InscriptionName)
+        </dd>
+
+        <dd>
+            @Html.DisplayFor(model => model.Date)
+        </dd>
+
+        <dd>
+            @Html.DisplayFor(model => model.Language)
+        </dd>
+
+        <dd>
+            @Html.DisplayFor(model => model.Location)
+        </dd>
+
+        <dd>
+            @Html.DisplayFor(model => model.LineNumber)
+        </dd>
+
+        <dd>
+            @Html.DisplayFor(model => model.Text)
+        </dd>
+
+     
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

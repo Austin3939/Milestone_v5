@@ -1,0 +1,41 @@
+﻿@model Inscript_v5.Models.InscriptionTextModel
+
+@{
+    ViewBag.Title = "NewEntry";
+}
+
+<script>
+    window.onload = function () {
+        $("#addRow").on("click", function () {
+            console.log($("#newLines"))
+            $.ajax({
+                url: '@Url.Content("~/InscriptionText/AddRow")',
+                datatype: 'html',
+                data:$("#newLines").val(),
+                success: function (result) {
+                    $("#newLines").val() = result;
+                }
+            });
+        });
+    }
+</script>
+
+
+@for (var i = 0; i < Model.newLines.Count; i++)
+{
+
+    <tr class="form-group">
+        <td width="10%">
+            @Html.HiddenFor(model => Model.newLines[i].TextID)
+            @Html.TextAreaFor(model => Model.newLines[i].LineNumber, new { @style = "height: 35px; width:35px; max-width:none; border:1px solid #ced4da; border-radius:.375rem; readonly !important" })
+            @Html.ValidationMessageFor(model => Model.newLines[i].LineNumber, "", new { @class = "text-danger" })
+        </td>
+        <td>
+            @Html.TextAreaFor(model => Model.newLines[i].Text, new { @style = "height: 35px; width:500px; max-width:none; border:1px solid #ced4da; border-radius:.375rem; !important" })
+            @Html.ValidationMessageFor(model => Model.newLines[i].Text, "", new { @class = "text-danger" })
+        </td>
+    </tr>
+
+}
+
+<button type="button" class="btn btn-default" id="addRow">Add Row</button>

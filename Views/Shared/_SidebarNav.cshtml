@@ -1,0 +1,38 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    @Styles.Render("~/Content/SidebarStyle.css")
+    <script src="https://kit.fontawesome.com/b99e675b6e.js"></script>
+
+</head>
+<body>
+    <div class="wrapper">
+        <div class="sidebar">
+            <h2>HELLO</h2>
+            <ul>
+                <li>@Html.ActionLink("Home", "Index", "Home", new { area = "" }, new { @class = "fas fa-home" })</li>
+                <li>@Html.ActionLink("About", "About", "Home", new { area = "" }, new { @class = "fas fa-about" })</li>
+                <li>@Html.ActionLink("Contact", "Contact", "Home", new { area = "" }, new { @class = "fas fa-contact" })</li>
+
+
+            </ul>
+
+        </div>
+        @Styles.Render("~/Content/css")
+        @Scripts.Render("~/bundles/modernizr")
+        <div class="container main_content">
+            @RenderBody()
+            <hr />
+        </div>
+
+    </div>
+    
+   
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>
+

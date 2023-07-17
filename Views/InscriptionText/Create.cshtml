@@ -1,0 +1,82 @@
+﻿@model Inscript_v5.Models.InscriptionTextModel
+
+@{
+    ViewBag.Title = "Create";
+}
+
+
+<script>
+    function addRow() {
+        
+    }
+
+        
+</script>
+
+
+@Html.AntiForgeryToken()
+
+@Html.HiddenFor(model => model.InscriptionID)
+
+
+<div class="form-horizontal">
+    <hr />
+</div>
+
+<h5>Inscription Text</h5>
+
+
+@using (Ajax.BeginForm("Create", new { }, new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "InscriptionsModel" }, new { @id = "InscriptionText" }))
+{
+    <table>
+        <tr class="form-group">
+            <td width="10%">
+                @Html.LabelFor(model => model.LineNumber, "Line#", htmlAttributes: new { @class = "control-label" })
+            </td>
+
+            <td>
+                @Html.LabelFor(model => model.Text, "", htmlAttributes: new { @class = "control-label" })
+            </td>
+        </tr>
+
+
+        <tbody id="dataRow">
+
+            <tr>
+                <td>
+                    @Html.EditorFor(model => model.LineNumber, null, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.LineNumber, "", new { @class = "text-danger" })
+                </td>
+                <td>
+                    @Html.EditorFor(model => model.Text, null, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Text, "", new { @class = "text-danger" })
+                </td>
+               
+            </tr>
+            
+        </tbody>
+    </table>
+
+
+
+
+    }
+<br />
+
+<div class="form-group">
+    <div class="col-md-offset-2 col-md-10">
+        <button type="button" onClick="addRow">Add</button>
+    </div>
+</div>
+
+<div class="form-group">
+    <div class="col-md-offset-2 col-md-10">
+        <input type="submit" value="Submit" class="btn btn-default" />
+    </div>
+</div>
+
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

@@ -1,0 +1,24 @@
+﻿@model List<Inscript_v5.Models.InscriptionTextModel>
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<div>
+    Inscription Text View 
+    <table>
+       @foreach (var item in Model)
+       {
+            <tr class="form-group">
+                <td width="10%">
+                    @Html.DisplayFor(modelItem => item.LineNumber)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Text)
+                </td>
+            </tr>
+       }
+        </table>
+
+    </div>

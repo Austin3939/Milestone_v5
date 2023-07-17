@@ -1,0 +1,57 @@
+﻿
+
+@{
+    ViewBag.Title = "Index";
+}
+
+@{
+    if (Session["UserID"] == null)
+    {
+        Response.Redirect("~/UserLogin/Index");
+    }
+}
+
+<h2>Dashboard</h2>
+
+<h4>Hello @Session["Name"]!</h4>
+
+<div class="form-horizontal">
+    <div>
+        <h5>User Information</h5>
+    </div>
+<div class="flex-container" style="width: 30%";>
+    <div>
+
+                    @{Html.RenderAction("UserInscriptionsView", "UserPortal"); }
+
+        </div>
+    </div>
+<div class="flex-container" style="width: 30%";>
+    <div class="card">
+        <table class="table">
+            <tr>
+                <th>
+                    Saved Translations
+                </th>
+            </tr>
+        </table>
+    </div>
+</div>
+<div class="flex-container" style="width: 30%";>
+    <div class="card">
+        <table class="table">
+            <tr>
+                <th>
+                    Notes
+                </th>
+            </tr>
+        </table>
+    </div>
+</div>
+
+</div>
+
+
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+    }

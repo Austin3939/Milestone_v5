@@ -1,0 +1,27 @@
+﻿@model IEnumerable<Inscript_v5.Models.InscriptionsModel>
+
+@{
+    ViewBag.Title = "SelectRecent";
+}
+
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.InscriptionName)
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.InscriptionName)
+            </td>
+            <td>
+                @Html.ActionLink("Details", "Details", new { id = item.InscriptionID })
+            </td>
+        </tr>
+    }
+</table>

@@ -1,0 +1,658 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Inscriptv4Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <Function Name="DatesGet" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="DateID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="DatesGetList" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="DeleteInscription" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="InscriptionID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="DeleteInscriptionText" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="TextID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="DeleteUser" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="UserID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
+        <Function Name="ImagesGet" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ImageID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="ImagesGetList" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="InscriptionGetList" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="InscriptionsGet" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="InscriptionID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="InscriptionTextGet" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="TextID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="InscriptionTextGetList" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="InscriptionID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="InsertInscription" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="InscriptionName" Type="varchar" Mode="In" />
+          <Parameter Name="Date" Type="varchar" Mode="In" />
+          <Parameter Name="Location" Type="nvarchar" Mode="In" />
+          <Parameter Name="Language" Type="varchar" Mode="In" />
+          <Parameter Name="InscriptionID" Type="int" Mode="InOut" />
+        </Function>
+        <Function Name="InsertInscriptionText" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="InscriptionID" Type="int" Mode="In" />
+          <Parameter Name="LineNumber" Type="int" Mode="In" />
+          <Parameter Name="Text" Type="nvarchar(max)" Mode="In" />
+        </Function>
+        <Function Name="InsertUser" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Name" Type="varchar" Mode="In" />
+          <Parameter Name="Email" Type="varchar" Mode="In" />
+          <Parameter Name="Password" Type="varchar" Mode="In" />
+          <Parameter Name="RoleID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="InsertUserInscriptions" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="UserID" Type="int" Mode="In" />
+          <Parameter Name="InscriptionID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="LanguageGet" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="LanguageID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="LanguageGetList" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="LocationGet" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="LocationID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="LocationGetList" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="RemoveSavedInscription" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="UserID" Type="int" Mode="In" />
+          <Parameter Name="InscriptionID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="SelectRecent" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="version" Type="int" Mode="In" />
+          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_creatediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="version" Type="int" Mode="In" />
+          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_dropdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_helpdiagramdefinition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_helpdiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_renamediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="TranslationGet" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="TranslationID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="TranslationGetList" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="UpdateInscriptions" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="InscriptionID" Type="int" Mode="In" />
+          <Parameter Name="InscriptionName" Type="nvarchar" Mode="In" />
+          <Parameter Name="Date" Type="varchar" Mode="In" />
+          <Parameter Name="DateID" Type="int" Mode="In" />
+          <Parameter Name="Location" Type="nvarchar" Mode="In" />
+          <Parameter Name="LocationID" Type="int" Mode="In" />
+          <Parameter Name="Language" Type="varchar" Mode="In" />
+          <Parameter Name="LanguageID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="UpdateInscriptionText" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="TextID" Type="int" Mode="In" />
+          <Parameter Name="InscriptionID" Type="int" Mode="In" />
+          <Parameter Name="Text" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="LineNumber" Type="int" Mode="In" />
+        </Function>
+        <Function Name="UpdateUser" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="UserID" Type="int" Mode="In" />
+          <Parameter Name="Name" Type="varchar" Mode="In" />
+          <Parameter Name="Email" Type="varchar" Mode="In" />
+          <Parameter Name="Password" Type="varchar" Mode="In" />
+          <Parameter Name="UserRole" Type="int" Mode="In" />
+        </Function>
+        <Function Name="UserGet" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="UserID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="UserGetList" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="UserInscriptionsGetList" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <EntityContainer Name="Inscriptv4ModelStoreContainer" />
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Inscriptv4Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="Inscriptv4Entities" annotation:LazyLoadingEnabled="true">
+          <FunctionImport Name="InscriptionGetList" ReturnType="Collection(Inscriptv4Model.InscriptionsGet_Result)" />
+          <FunctionImport Name="InscriptionsGet" ReturnType="Collection(Inscriptv4Model.InscriptionsGet_Result)">
+          <Parameter Name="InscriptionID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="DeleteInscription">
+          <Parameter Name="InscriptionID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="InsertInscription">
+            <Parameter Name="InscriptionName" Mode="In" Type="String" />
+            <Parameter Name="Date" Mode="In" Type="String" />
+            <Parameter Name="Location" Mode="In" Type="String" />
+            <Parameter Name="Language" Mode="In" Type="String" />
+            <Parameter Name="InscriptionID" Mode="InOut" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="UpdateInscriptions">
+            <Parameter Name="InscriptionID" Mode="In" Type="Int32" />
+            <Parameter Name="InscriptionName" Mode="In" Type="String" />
+            <Parameter Name="Date" Mode="In" Type="String" />
+            <Parameter Name="DateID" Mode="In" Type="Int32" />
+            <Parameter Name="Location" Mode="In" Type="String" />
+            <Parameter Name="LocationID" Mode="In" Type="Int32" />
+            <Parameter Name="Language" Mode="In" Type="String" />
+            <Parameter Name="LanguageID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="DatesGet" ReturnType="Collection(Inscriptv4Model.DatesGet_Result)">
+          <Parameter Name="DateID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="DatesGetList" ReturnType="Collection(Inscriptv4Model.DatesGet_Result)" />
+          <FunctionImport Name="LanguageGet" ReturnType="Collection(Inscriptv4Model.LanguageGet_Result)">
+          <Parameter Name="LanguageID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="LanguageGetList" ReturnType="Collection(Inscriptv4Model.LanguageGet_Result)" />
+          <FunctionImport Name="LocationGet" ReturnType="Collection(Inscriptv4Model.LocationGet_Result)">
+          <Parameter Name="LocationID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="LocationGetList" ReturnType="Collection(Inscriptv4Model.LocationGet_Result)" />
+          <FunctionImport Name="TranslationGet" ReturnType="Collection(Inscriptv4Model.TranslationGet_Result)">
+          <Parameter Name="TranslationID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="TranslationGetList" ReturnType="Collection(Inscriptv4Model.TranslationGet_Result)" />
+          <FunctionImport Name="ImagesGet" ReturnType="Collection(Inscriptv4Model.ImagesGet_Result)">
+          <Parameter Name="ImageID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="ImagesGetList" ReturnType="Collection(Inscriptv4Model.ImagesGet_Result)" />
+          <FunctionImport Name="sp_alterdiagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="version" Mode="In" Type="Int32" />
+            <Parameter Name="definition" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="sp_creatediagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="version" Mode="In" Type="Int32" />
+            <Parameter Name="definition" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="sp_dropdiagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_helpdiagramdefinition" ReturnType="Collection(Inscriptv4Model.sp_helpdiagramdefinition_Result)">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_helpdiagrams" ReturnType="Collection(Inscriptv4Model.sp_helpdiagrams_Result)">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_renamediagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="new_diagramname" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_upgraddiagrams" />
+          <FunctionImport Name="InscriptionTextGet" ReturnType="Collection(Inscriptv4Model.InscriptionTextGet_Result)">
+          <Parameter Name="TextID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="InscriptionTextGetList" ReturnType="Collection(Inscriptv4Model.InscriptionTextGet_Result)" >
+          <Parameter Name="InscriptionID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="DeleteInscriptionText">
+          <Parameter Name="TextID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="InsertInscriptionText">
+            <Parameter Name="InscriptionID" Mode="In" Type="Int32" />
+            <Parameter Name="LineNumber" Mode="In" Type="Int32" />
+            <Parameter Name="Text" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="UpdateInscriptionText">
+            <Parameter Name="TextID" Mode="In" Type="Int32" />
+            <Parameter Name="InscriptionID" Mode="In" Type="Int32" />
+            <Parameter Name="Text" Mode="In" Type="String" />
+            <Parameter Name="LineNumber" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="UserGet" ReturnType="Collection(Inscriptv4Model.UserGet_Result)">
+          <Parameter Name="UserID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="DeleteUser">
+          <Parameter Name="UserID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="InsertUser">
+            <Parameter Name="Name" Mode="In" Type="String" />
+            <Parameter Name="Email" Mode="In" Type="String" />
+            <Parameter Name="Password" Mode="In" Type="String" />
+            <Parameter Name="RoleID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="UpdateUser">
+            <Parameter Name="UserID" Mode="In" Type="Int32" />
+            <Parameter Name="Name" Mode="In" Type="String" />
+            <Parameter Name="Email" Mode="In" Type="String" />
+            <Parameter Name="Password" Mode="In" Type="String" />
+            <Parameter Name="UserRole" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="UserGetList" ReturnType="Collection(Inscriptv4Model.UserGet_Result)" />
+          <FunctionImport Name="UserInscriptionsGetList" ReturnType="Collection(Inscriptv4Model.UserInscriptionsGetList_Result)" />
+          <FunctionImport Name="InsertUserInscriptions">
+            <Parameter Name="UserID" Mode="In" Type="Int32" />
+            <Parameter Name="InscriptionID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="RemoveSavedInscription">
+            <Parameter Name="UserID" Mode="In" Type="Int32" />
+            <Parameter Name="InscriptionID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SelectRecent" ReturnType="Collection(Inscriptv4Model.InscriptionsGet_Result)" />
+        </EntityContainer>
+        <ComplexType Name="InscriptionGetList_Result">
+          <Property Type="String" Name="InscriptionName" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="InscriptionID" Nullable="false" />
+          <Property Type="String" Name="InscriptionDate" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="DateID" Nullable="false" />
+          <Property Type="String" Name="InscriptionLocation" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="InscriptionLanguage" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="TranslationAuthor" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="TranslationText" Nullable="true" />
+          <Property Type="String" Name="TranslationNotes" Nullable="true" />
+          <Property Type="Int32" Name="LocationID" Nullable="true" />
+          <Property Type="Int32" Name="TranslationID" Nullable="true" />
+          <Property Type="Int32" Name="LanguageID" Nullable="true" />
+          <Property Type="String" Name="InscriptionText" Nullable="true" />
+          <Property Type="String" Name="InscriptionImage" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="InscriptionsGet_Result">
+          <Property Type="String" Name="InscriptionName" Nullable="false" MaxLength="100" />
+          <Property Type="Int32" Name="InscriptionID" Nullable="false" />
+          <Property Type="Int32" Name="DateID" Nullable="true" />
+          <Property Type="Int32" Name="LocationID" Nullable="true" />
+          <Property Type="Int32" Name="LanguageID" Nullable="true" />
+          <Property Type="String" Name="Date" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Location" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Language" Nullable="true" MaxLength="100" />
+          <Property Type="Int32" Name="ImageID" Nullable="true" />
+          <Property Type="String" Name="Image" Nullable="true" />
+          </ComplexType>
+        <ComplexType Name="DatesGet_Result">
+          <Property Type="Int32" Name="DateID" Nullable="false" />
+          <Property Type="String" Name="Date" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="DatesGetList_Result">
+          <Property Type="Int32" Name="DateID" Nullable="false" />
+          <Property Type="String" Name="InscriptionDate" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="LanguageGet_Result">
+          <Property Type="Int32" Name="LanguageID" Nullable="false" />
+          <Property Type="String" Name="Language" Nullable="true" MaxLength="100" />
+        </ComplexType>
+        <ComplexType Name="LanguageGetList_Result">
+          <Property Type="Int32" Name="LanguageID" Nullable="false" />
+          <Property Type="String" Name="InscriptionLanguage" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="LocationGet_Result">
+          <Property Type="Int32" Name="LocationID" Nullable="false" />
+          <Property Type="String" Name="Location" Nullable="true" MaxLength="100" />
+        </ComplexType>
+        <ComplexType Name="LocationGetList_Result">
+          <Property Type="Int32" Name="LocationID" Nullable="false" />
+          <Property Type="String" Name="InscriptionLocation" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="TranslationGet_Result">
+          <Property Type="Int32" Name="TranslationID" Nullable="false" />
+          <Property Type="Int32" Name="InscriptionID" Nullable="true" />
+          <Property Type="String" Name="Translator" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Translation" Nullable="true" />
+          <Property Type="String" Name="Notes" Nullable="true" />
+          </ComplexType>
+        <ComplexType Name="TranslationGetList_Result">
+          <Property Type="Int32" Name="TranslationID" Nullable="false" />
+          <Property Type="String" Name="TranslationAuthor" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="TranslationText" Nullable="true" />
+          <Property Type="String" Name="TranslationNotes" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="ImagesGet_Result">
+          <Property Type="Int32" Name="ImageID" Nullable="false" />
+          <Property Type="Int32" Name="InscriptionID" Nullable="true" />
+          <Property Type="String" Name="Image" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="ImagesGetList_Result">
+          <Property Type="Int32" Name="ImageID" Nullable="false" />
+          <Property Type="Int32" Name="InscriptionID" Nullable="true" />
+          <Property Type="String" Name="Image" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="sp_helpdiagramdefinition_Result">
+          <Property Type="Int32" Name="version" Nullable="true" />
+          <Property Type="Binary" Name="definition" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="sp_helpdiagrams_Result">
+          <Property Type="String" Name="Database" Nullable="true" MaxLength="128" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="128" />
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
+          <Property Type="Int32" Name="OwnerID" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="InscriptionTextGet_Result">
+          <Property Type="Int32" Name="TextID" Nullable="false" />
+          <Property Type="Int32" Name="InscriptionID" Nullable="true" />
+          <Property Type="String" Name="Text" Nullable="true" />
+          <Property Type="Int32" Name="LineNumber" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="InscriptionTextGetList_Result">
+          <Property Type="Int32" Name="TextID" Nullable="false" />
+          <Property Type="Int32" Name="InscriptionID" Nullable="true" />
+          <Property Type="String" Name="Text" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="UserGet_Result">
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="100" />
+          <Property Type="Int32" Name="UserID" Nullable="false" />
+          <Property Type="String" Name="Email" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="Password" Nullable="false" />
+          <Property Type="Int32" Name="RoleID" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="UserSavedGetList_Result">
+          <Property Type="Int32" Name="SavedInscriptionID" Nullable="false" />
+          <Property Type="Int32" Name="UserID" Nullable="true" />
+          <Property Type="Int32" Name="InscriptionID" Nullable="true" />
+          <Property Type="Int32" Name="Expr1" Nullable="false" />
+          <Property Type="Int32" Name="UserTranslationID" Nullable="false" />
+          <Property Type="Int32" Name="Expr2" Nullable="true" />
+          <Property Type="Int32" Name="Expr3" Nullable="false" />
+          <Property Type="String" Name="UserTranslation" Nullable="true" />
+          <Property Type="String" Name="TranslationNotes" Nullable="true" />
+          <Property Type="Int32" Name="Expr4" Nullable="false" />
+          <Property Type="String" Name="InscriptionName" Nullable="false" MaxLength="100" />
+        </ComplexType>
+        <ComplexType Name="UserGetList_Result">
+          <Property Type="Int32" Name="UserID" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="Email" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="Password" Nullable="false" />
+          <Property Type="Int32" Name="RoleID" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="UserSavedGet_Result">
+          <Property Type="Int32" Name="UserID" Nullable="false" />
+          <Property Type="Int32" Name="Expr1" Nullable="false" />
+          <Property Type="Int32" Name="SavedUserInscriptionID" Nullable="false" />
+          <Property Type="Int32" Name="SavedUserTranslationID" Nullable="false" />
+          <Property Type="Int32" Name="SavedInscriptionID" Nullable="false" />
+          <Property Type="Int32" Name="InscriptionID" Nullable="false" />
+          <Property Type="Int32" Name="UserTranslationID" Nullable="false" />
+          <Property Type="Int32" Name="Expr2" Nullable="false" />
+          <Property Type="String" Name="UserTranslation" Nullable="true" />
+          <Property Type="String" Name="TranslationNotes" Nullable="true" />
+          <Property Type="Int32" Name="UserSavedID" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="UserInscriptionsGetList_Result">
+          <Property Type="Int32" Name="UserInscriptionsID" Nullable="false" />
+          <Property Type="Int32" Name="UserID" Nullable="false" />
+          <Property Type="Int32" Name="InscriptionID" Nullable="false" />
+          <Property Type="String" Name="InscriptionName" Nullable="false" MaxLength="100" />
+          <Property Type="Int32" Name="Expr1" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="SelectRecent_Result">
+          <Property Type="Int32" Name="InscriptionID" Nullable="false" />
+          <Property Type="String" Name="InscriptionName" Nullable="false" MaxLength="100" />
+          <Property Type="Int32" Name="DateID" Nullable="true" />
+          <Property Type="Int32" Name="LocationID" Nullable="true" />
+          <Property Type="Int32" Name="LanguageID" Nullable="true" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Inscriptv4ModelStoreContainer" CdmEntityContainer="Inscriptv4Entities">
+          <FunctionImportMapping FunctionImportName="InscriptionGetList" FunctionName="Inscriptv4Model.Store.InscriptionGetList">
+          <ResultMapping>
+              <ComplexTypeMapping TypeName="Inscriptv4Model.InscriptionsGet_Result">
+                <ScalarProperty Name="InscriptionName" ColumnName="InscriptionName" />
+                <ScalarProperty Name="InscriptionID" ColumnName="InscriptionID" />
+                <ScalarProperty Name="DateID" ColumnName="DateID" />
+                <ScalarProperty Name="LocationID" ColumnName="LocationID" />
+                <ScalarProperty Name="LanguageID" ColumnName="LanguageID" />
+                </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="InscriptionsGet" FunctionName="Inscriptv4Model.Store.InscriptionsGet">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="Inscriptv4Model.InscriptionsGet_Result">
+                <ScalarProperty Name="InscriptionName" ColumnName="InscriptionName" />
+                <ScalarProperty Name="InscriptionID" ColumnName="InscriptionID" />
+                <ScalarProperty Name="DateID" ColumnName="DateID" />
+                <ScalarProperty Name="LocationID" ColumnName="LocationID" />
+                <ScalarProperty Name="LanguageID" ColumnName="LanguageID" />
+                </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="DeleteInscription" FunctionName="Inscriptv4Model.Store.DeleteInscription" />
+          <FunctionImportMapping FunctionImportName="InsertInscription" FunctionName="Inscriptv4Model.Store.InsertInscription" />
+          <FunctionImportMapping FunctionImportName="UpdateInscriptions" FunctionName="Inscriptv4Model.Store.UpdateInscriptions" />
+          <FunctionImportMapping FunctionImportName="DatesGet" FunctionName="Inscriptv4Model.Store.DatesGet">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="Inscriptv4Model.DatesGet_Result">
+                <ScalarProperty Name="DateID" ColumnName="DateID" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="DatesGetList" FunctionName="Inscriptv4Model.Store.DatesGetList">
+          <ResultMapping>
+              <ComplexTypeMapping TypeName="Inscriptv4Model.DatesGet_Result">
+                <ScalarProperty Name="DateID" ColumnName="DateID" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="LanguageGet" FunctionName="Inscriptv4Model.Store.LanguageGet">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="Inscriptv4Model.LanguageGet_Result">
+                <ScalarProperty Name="LanguageID" ColumnName="LanguageID" />
+                <ScalarProperty Name="Language" ColumnName="Language" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="LanguageGetList" FunctionName="Inscriptv4Model.Store.LanguageGetList">
+          <ResultMapping>
+              <ComplexTypeMapping TypeName="Inscriptv4Model.LanguageGet_Result">
+                <ScalarProperty Name="LanguageID" ColumnName="LanguageID" />
+                <ScalarProperty Name="Language" ColumnName="Language" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="LocationGet" FunctionName="Inscriptv4Model.Store.LocationGet">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="Inscriptv4Model.LocationGet_Result">
+                <ScalarProperty Name="LocationID" ColumnName="LocationID" />
+                <ScalarProperty Name="Location" ColumnName="Location" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="LocationGetList" FunctionName="Inscriptv4Model.Store.LocationGetList">
+          <ResultMapping>
+              <ComplexTypeMapping TypeName="Inscriptv4Model.LocationGet_Result">
+                <ScalarProperty Name="LocationID" ColumnName="LocationID" />
+                <ScalarProperty Name="Location" ColumnName="Location" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="TranslationGet" FunctionName="Inscriptv4Model.Store.TranslationGet">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="Inscriptv4Model.TranslationGet_Result">
+                <ScalarProperty Name="TranslationID" ColumnName="TranslationID" />
+                <ScalarProperty Name="InscriptionID" ColumnName="InscriptionID" />
+                <ScalarProperty Name="Translator" ColumnName="Translator" />
+                <ScalarProperty Name="Translation" ColumnName="Translation" />
+                <ScalarProperty Name="Notes" ColumnName="Notes" />
+                </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="TranslationGetList" FunctionName="Inscriptv4Model.Store.TranslationGetList">
+          <ResultMapping>
+              <ComplexTypeMapping TypeName="Inscriptv4Model.TranslationGet_Result">
+                <ScalarProperty Name="TranslationID" ColumnName="TranslationID" />
+                <ScalarProperty Name="InscriptionID" ColumnName="InscriptionID" />
+                <ScalarProperty Name="Translator" ColumnName="Translator" />
+                <ScalarProperty Name="Translation" ColumnName="Translation" />
+                <ScalarProperty Name="Notes" ColumnName="Notes" />
+                </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ImagesGet" FunctionName="Inscriptv4Model.Store.ImagesGet">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="Inscriptv4Model.ImagesGet_Result">
+                <ScalarProperty Name="ImageID" ColumnName="ImageID" />
+                <ScalarProperty Name="InscriptionID" ColumnName="InscriptionID" />
+                <ScalarProperty Name="Image" ColumnName="Image" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ImagesGetList" FunctionName="Inscriptv4Model.Store.ImagesGetList">
+          <ResultMapping>
+              <ComplexTypeMapping TypeName="Inscriptv4Model.ImagesGet_Result">
+                <ScalarProperty Name="ImageID" ColumnName="ImageID" />
+                <ScalarProperty Name="InscriptionID" ColumnName="InscriptionID" />
+                <ScalarProperty Name="Image" ColumnName="Image" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_alterdiagram" FunctionName="Inscriptv4Model.Store.sp_alterdiagram" />
+          <FunctionImportMapping FunctionImportName="sp_creatediagram" FunctionName="Inscriptv4Model.Store.sp_creatediagram" />
+          <FunctionImportMapping FunctionImportName="sp_dropdiagram" FunctionName="Inscriptv4Model.Store.sp_dropdiagram" />
+          <FunctionImportMapping FunctionImportName="sp_helpdiagramdefinition" FunctionName="Inscriptv4Model.Store.sp_helpdiagramdefinition">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="Inscriptv4Model.sp_helpdiagramdefinition_Result">
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_helpdiagrams" FunctionName="Inscriptv4Model.Store.sp_helpdiagrams">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="Inscriptv4Model.sp_helpdiagrams_Result">
+                <ScalarProperty Name="Database" ColumnName="Database" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Owner" ColumnName="Owner" />
+                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="Inscriptv4Model.Store.sp_renamediagram" />
+          <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="Inscriptv4Model.Store.sp_upgraddiagrams" />
+          <FunctionImportMapping FunctionImportName="InscriptionTextGet" FunctionName="Inscriptv4Model.Store.InscriptionTextGet">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="Inscriptv4Model.InscriptionTextGet_Result">
+                <ScalarProperty Name="TextID" ColumnName="TextID" />
+                <ScalarProperty Name="InscriptionID" ColumnName="InscriptionID" />
+                <ScalarProperty Name="Text" ColumnName="Text" />
+                <ScalarProperty Name="LineNumber" ColumnName="LineNumber" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="InscriptionTextGetList" FunctionName="Inscriptv4Model.Store.InscriptionTextGetList">
+          <ResultMapping>
+              <ComplexTypeMapping TypeName="Inscriptv4Model.InscriptionTextGet_Result">
+                <ScalarProperty Name="TextID" ColumnName="TextID" />
+                <ScalarProperty Name="InscriptionID" ColumnName="InscriptionID" />
+                <ScalarProperty Name="Text" ColumnName="Text" />
+                <ScalarProperty Name="LineNumber" ColumnName="LineNumber" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="DeleteInscriptionText" FunctionName="Inscriptv4Model.Store.DeleteInscriptionText" />
+          <FunctionImportMapping FunctionImportName="InsertInscriptionText" FunctionName="Inscriptv4Model.Store.InsertInscriptionText" />
+          <FunctionImportMapping FunctionImportName="UpdateInscriptionText" FunctionName="Inscriptv4Model.Store.UpdateInscriptionText" />
+          <FunctionImportMapping FunctionImportName="UserGet" FunctionName="Inscriptv4Model.Store.UserGet">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="Inscriptv4Model.UserGet_Result">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="DeleteUser" FunctionName="Inscriptv4Model.Store.DeleteUser" />
+          <FunctionImportMapping FunctionImportName="InsertUser" FunctionName="Inscriptv4Model.Store.InsertUser" />
+          <FunctionImportMapping FunctionImportName="UpdateUser" FunctionName="Inscriptv4Model.Store.UpdateUser" />
+          <FunctionImportMapping FunctionImportName="UserGetList" FunctionName="Inscriptv4Model.Store.UserGetList">
+          <ResultMapping>
+              <ComplexTypeMapping TypeName="Inscriptv4Model.UserGet_Result">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="UserInscriptionsGetList" FunctionName="Inscriptv4Model.Store.UserInscriptionsGetList">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="Inscriptv4Model.UserInscriptionsGetList_Result">
+                <ScalarProperty Name="UserInscriptionsID" ColumnName="UserInscriptionsID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="InscriptionID" ColumnName="InscriptionID" />
+                <ScalarProperty Name="InscriptionName" ColumnName="InscriptionName" />
+                <ScalarProperty Name="Expr1" ColumnName="Expr1" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="InsertUserInscriptions" FunctionName="Inscriptv4Model.Store.InsertUserInscriptions" />
+          <FunctionImportMapping FunctionImportName="RemoveSavedInscription" FunctionName="Inscriptv4Model.Store.RemoveSavedInscription" />
+          <FunctionImportMapping FunctionImportName="SelectRecent" FunctionName="Inscriptv4Model.Store.SelectRecent">
+          <ResultMapping>
+              <ComplexTypeMapping TypeName="Inscriptv4Model.InscriptionsGet_Result">
+                <ScalarProperty Name="InscriptionName" ColumnName="InscriptionName" />
+                <ScalarProperty Name="InscriptionID" ColumnName="InscriptionID" />
+                <ScalarProperty Name="DateID" ColumnName="DateID" />
+                <ScalarProperty Name="LocationID" ColumnName="LocationID" />
+                <ScalarProperty Name="LanguageID" ColumnName="LanguageID" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Location" ColumnName="Location" />
+                <ScalarProperty Name="Language" ColumnName="Language" />
+                <ScalarProperty Name="ImageID" ColumnName="ImageID" />
+                <ScalarProperty Name="Image" ColumnName="Image" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

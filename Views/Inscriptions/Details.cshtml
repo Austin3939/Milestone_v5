@@ -1,0 +1,130 @@
+﻿@model Inscript_v5.Models.InscriptionsModel
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<script src="~/Scripts/jquery-3.7.0.min.js"></script>
+
+<script>
+
+    $(document).ready(() => {
+
+        if (@ViewBag.LoggedIn.ToString().ToLower() && @ViewBag.IsSaved.ToString().ToLower()) {
+            $(".SaveButton").hide();
+            $(".RemoveButton").show();
+            $(".LoginButton").hide();
+
+
+        }
+        else if (@ViewBag.LoggedIn.ToString().ToLower() && !@ViewBag.IsSaved.ToString().ToLower()) {
+            $(".SaveButton").show();
+            $(".RemoveButton").hide();
+            $(".LoginButton").hide();
+        }
+        else {
+            $(".SaveButton").hide();
+            $(".RemoveButton").hide();
+            $(".LoginButton").show();
+        }
+    });
+
+    function SaveInscription() {
+        $.ajax({
+            url: '@Url.Action("SaveInscription", "Inscriptions")',
+            data: {
+                id: @Model.InscriptionID,
+            }
+        })
+        $(document).ajaxStop(function () {
+            window.location.reload();
+        });
+    }
+
+    function RemoveInscription() {
+        $.ajax({
+            url: '@Url.Action("RemoveInscription", "Inscriptions")',
+            data: {
+                id: @Model.InscriptionID,
+            }
+        })
+        $(document).ajaxStop(function () {
+            window.location.reload();
+
+        });
+    }
+    function Login() {
+        window.location = '/UserLogin/Index';
+    }
+
+</script>
+
+<!-- <h2>Details</h2> -->
+
+<div>
+    <h4>@Html.DisplayFor(model => model.InscriptionName)</h4>
+
+    <dl class="dl-horizontal">
+
+        <dd>
+            @Html.DisplayFor(model => model.Location)
+        </dd>
+
+        <dd>
+            @Html.DisplayFor(model => model.Date)
+        </dd>
+
+        <dd>
+            @Html.DisplayFor(model => model.Language)
+        </dd>
+
+    </dl>
+
+    <hr />
+
+    <h5>Inscription Text</h5>
+
+
+    <div>
+
+        @{Html.RenderAction("Details", "InscriptionText", new { Model.InscriptionID }); }
+
+    </div>
+   
+    <br />
+
+    <!--
+    <h5>Translation</h5>
+    <table>
+        <tr>
+            Html.DisplayFor(model => model.Translation)
+        </tr>
+    </table>
+    -->
+
+</div>
+
+<hr />
+
+        <div class="SaveButton">
+            <div class="col-md-offset-2 col-md-10">
+                <input class="btn btn-sm" type="button" value="SAVE to Collection" onclick="SaveInscription();" />
+            </div>
+        </div>
+        <div class="RemoveButton">
+            <div class="col-md-offset-2 col-md-10">
+                <input class="btn btn-sm" type="button" value="REMOVE from Collection" onclick="RemoveInscription();" />
+            </div>
+        </div>
+        <div class="LoginButton">
+            <div class="col-md-offset-2 col-md-10">
+                <input class="btn btn-sm" type="button" value="LOGIN to Save" onclick="Login();" />
+            </div>
+        </div>
+
+ <div>
+     <p>
+         @Html.ActionLink("Edit", "Edit", new { id = Model.InscriptionID }) |
+         @Html.ActionLink("Back to List", "Index")
+     </p>
+ </div>

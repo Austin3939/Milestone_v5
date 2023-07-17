@@ -1,0 +1,73 @@
+﻿@model IEnumerable<Inscript_v5.Models.InscriptionsModel>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<script>
+    function confirmDelete(InscriptionName) {
+
+        var message = `Delete Inscription?\n${InscriptionName}`;
+        return confirm(message);
+}
+</script>
+
+<h2>Database Manager</h2>
+
+<p>
+    @Html.ActionLink("New Inscription", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.InscriptionName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Date)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Language)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Location)
+        <th>
+
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.InscriptionName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Date)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Language)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Location)
+            </td>
+           
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.InscriptionID }) |
+                @Html.ActionLink("Details", "Details", new { id = item.InscriptionID })
+            </td>
+            
+            <td>
+                <form method="post" action="@Url.Action("Delete", "Inscriptions", new { id = item.InscriptionID })" onsubmit="return confirmDelete('@item.InscriptionName')">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="id" value="@item.InscriptionID" />
+                    <input type="submit" value="Delete" class="btn btn-sm" id="deleteButton" />
+                </form>
+            </td>
+        </tr>
+        
+    }
+
+</table>
+
+
+

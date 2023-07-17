@@ -1,0 +1,44 @@
+﻿@model IEnumerable<Inscript_v5.Models.UserInscriptionsModel>
+
+
+
+@{
+    
+    ViewBag.Title = "Index";
+}
+
+@{
+    if (Session["UserID"] == null)
+    {
+        Response.Redirect("~/UserLogin/Index");
+    }
+}
+
+<div class="form-horizontal">
+    <div>
+        <h5>Saved Inscriptions</h5>
+    </div>
+    <div class="card">
+        <table class="table">
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.InscriptionName)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Details", "Details", "Inscriptions", new { id = item.InscriptionID }, null)
+                    </td>
+                </tr>
+            }
+
+        </table>
+    </div>
+</div>
+
+
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+    }
+
