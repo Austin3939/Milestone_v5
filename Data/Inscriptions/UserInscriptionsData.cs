@@ -16,16 +16,16 @@ namespace Inscript_v5.Data.Inscriptions
             var model = db.UserInscriptionsGetList();
             return FillModelList(model);
         }
-        /*
-        public static UserModel Get(int UserID)
+        
+        public static UserInscriptionsModel Get(int InscriptionID)
         {
             var db = new Inscriptv4Entities();
-            var model = db.UserGet(UserID).FirstOrDefault();
+            var model = db.UserInscriptionsGet(InscriptionID).FirstOrDefault();
             return FillModel(model);
         }
-        */
+       
 
-        private static UserInscriptionsModel FillModel(UserInscriptionsGetList_Result model)
+        private static UserInscriptionsModel FillModel(UserInscriptionsGet_Result model)
         {
             if (model == null) return null;
 
@@ -40,7 +40,7 @@ namespace Inscript_v5.Data.Inscriptions
             return itemModel;
         }
 
-        private static List<UserInscriptionsModel> FillModelList(IEnumerable<UserInscriptionsGetList_Result> models)
+        private static List<UserInscriptionsModel> FillModelList(IEnumerable<UserInscriptionsGet_Result> models)
         {
             return models != null
                ? models.Select(FillModel).ToList()
@@ -67,27 +67,6 @@ namespace Inscript_v5.Data.Inscriptions
                 );
         }
 
-        /*
-        public static void Update(UserModel model)
-        {
-            var db = new Inscriptv4Entities();
-            db.UpdateUser(
-                model.UserID,
-                model.Name,
-                model.Email,
-                model.Password,
-                model.RoleID
-                );
-        }
-
-        public static void Delete(UserModel model)
-        {
-            var db = new Inscriptv4Entities();
-            db.DeleteUser(
-                model.UserID
-                );
-        }
-        */
     }
 
 }

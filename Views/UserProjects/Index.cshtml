@@ -1,0 +1,47 @@
+﻿@model IEnumerable<Inscript_v5.Models.UserProjectsModel>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<script>
+    function confirmDelete(Name) {
+        var message = `Delete Project?\n${ProjectName}`;
+        return confirm(message);
+    }
+</script>
+
+<div class="form-horizontal">
+    <div class="center">
+        <h5 class="center">User Projects</h5>
+    </div>
+    <div class="center">
+        <a href="/UserProjects/Create" class="btn btn-primary btn-sm">New Project &raquo;</a>
+    </div>
+    <div class="table">
+        @if (Model != null && Model.Any()) { 
+            <table class="table">
+                <tr>
+                    <th>
+                    Project Name
+                    </th>
+                </tr>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                        @Html.DisplayFor(modelItem => item.ProjectName)
+                        </td>
+                        <td>
+                                @Html.ActionLink("Details", "Details", "UserProjects", new { id = item.ProjectID, UserID = item.UserID }, null)
+                        </td>
+                    </tr>
+                 }
+            </table>
+         }
+            else
+            {
+            <div style="padding-top:15px">No Saved Projects</div>
+            }
+    </div>
+</div>

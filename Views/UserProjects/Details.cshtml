@@ -1,0 +1,126 @@
+﻿@model Inscript_v5.Models.UserProjectsModel
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<script src="~/Scripts/jquery-3.7.0.min.js"></script>
+
+@{
+    if (Session["UserID"] == null)
+    {
+        Response.Redirect("~/UserLogin/Index");
+    }
+}
+
+<div class="card card-width: 100%" style="margin: 0 auto; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2); padding: 10px">
+    <div class="center">
+        <h1 class="center">
+            <button id="editProjectNameButton" style="border: none; background-color: white; padding: 10px; cursor: pointer;"
+                data-toggle="tooltip" data-placement="top" title="Edit Name">
+                @Html.DisplayFor(model => model.ProjectName)
+            </button>
+        </h1>
+        <div id="editProjectNameForm" style="display: none;">
+            @using (Ajax.BeginForm("UpdateProjectName", "UserProjects", new AjaxOptions { HttpMethod = "POST", OnSuccess = "handleSuccess", OnFailure = "handleFailure" }, new { id = "projectNameForm" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.HiddenFor(model => model.ProjectID)
+                @Html.HiddenFor(model => model.UserID)
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.ProjectName)
+                    @Html.EditorFor(model => model.ProjectName, new { htmlAttributes = new { @class = "form-control", @id = "newProjectName" } })
+                    @Html.ValidationMessageFor(model => model.ProjectName, "", new { @class = "text-danger" })
+                </div>
+                <button type="submit" id="saveProjectNameButton">Save</button>
+            }
+        </div>
+    </div>
+    <div class="center">
+        @{Html.RenderAction("AddInscription", "ProjectInscriptions", new { ProjectID = Model.ProjectID });}
+    </div>
+
+    <div>
+        <div class="flex-container">
+
+            <div class="flex-item-sm">
+                <!-- Saved Inscriptions-->
+                @{Html.RenderAction("UserProjectInscriptionsView", "ProjectInscriptions", new { id = Model.ProjectID });}
+            </div>
+
+            <div class="flex-item-md">
+                <!-- Project Doc-->
+                @{Html.RenderAction("Edit", "UserProjects", new { id = Model.ProjectID });}
+            </div>
+
+        </div>
+
+    </div>
+    <br />
+    <br />
+    <br />
+    <div style="position: relative;">
+        <!--Delete Project-->
+        <form method="post" style="position: absolute; bottom: 0; right: 0;" action="@Url.Action("Delete", "UserProjects", new { id = Model.ProjectID, UserID = Model.UserID })" onsubmit="return confirmDelete('@Model.ProjectID')">
+            @Html.AntiForgeryToken()
+            <input type="submit" value="Delete Project" id="deleteButton" />
+            <input type="hidden" name="id" value="@Model.ProjectID" />
+        </form>
+    </div>
+
+    <script>
+        // Initialize tooltips
+        $(document).ready(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+
+        $(document).ready(function () {
+            // Show the form when the button is clicked
+            $("#editProjectNameButton").click(function () {
+                $("#editProjectNameForm").show();
+            });
+
+            // Submit the form using AJAX
+            $("#projectNameForm").submit(function (e) {
+                e.preventDefault();
+
+                var newProjectName = $("#newProjectName").val();
+
+                $.ajax({
+                    url: $(this).attr('action'),
+                    type: 'POST',
+                    data: {
+                        projectName: newProjectName,
+                        UserID: $("#UserID").val(),
+                        ProjectID: $("#ProjectID").val(),
+                        __RequestVerificationToken: $("input[name='__RequestVerificationToken']").val()
+                    },
+
+                    success: function (data) {
+                        if (data.success) {
+                            location.reload();
+
+                        } else {
+                            alert("Failed to update project name.");
+                        }
+                    },
+                    error: function () {
+                        alert("An error occurred during the AJAX request.");
+                    }
+                });
+            });
+        });
+
+        function confirmDelete(ProjectName) {
+            var message = `Delete Prioject?\n${ProjectName}`;
+            return confirm(message);
+        }
+
+    </script>
+
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+    }
+
+</div>

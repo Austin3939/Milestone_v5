@@ -1,0 +1,44 @@
+﻿@model List<Inscript_v5.Models.InscriptionTextModel>
+
+@{
+    ViewBag.Title = "TextDetails";
+}
+@Styles.Render("~/Content/popup_styles.css")
+
+<style>
+    #titleheader {
+        font-family: "News Cycle", "Arial Narrow Bold", sans-serif;
+        font-size: 15px;
+        font-weight: 700;
+    }
+
+    #semiticText {
+        display: inline;
+        margin: 0;
+        padding: 0;
+        border: none;
+        font-family: Time New Roman;
+        font-size: 15pt;
+        line-height: 1.6;
+        background-color: transparent;
+        text-align: right;
+    }
+</style>
+
+<table class="table">
+
+    @foreach (var item in Model)
+    {
+        <tr id="semiticText" class="text-center">
+            <td width="10%" style="font-size: 70%">
+                @Html.DisplayFor(modelItem => item.LineNumber)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Text)
+            </td>
+        </tr>
+    }
+</table>
+
+

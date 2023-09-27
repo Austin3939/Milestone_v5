@@ -1,0 +1,44 @@
+﻿@model IEnumerable<Inscript_v5.Models.TranslationsModel>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2 class="center">Translation Database</h2>
+
+<div class="center">
+    <h6> Search Translations: @Html.TextBox("Search")</h6>
+</div>
+<hr />
+<div class="table-container">
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.InscriptionName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TranslationName)
+            </th>
+        </tr>
+
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.InscriptionName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TranslationName)
+                </td>
+
+                <td>
+                    <a href="@Url.Action("Details", "Inscriptions", new { id = item.InscriptionID})" class="btn btn-sm">Details</a>
+                </td>
+            </tr>
+
+        }
+
+    </table>
+</div>
+

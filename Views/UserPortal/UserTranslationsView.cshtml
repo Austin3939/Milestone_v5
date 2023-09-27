@@ -1,0 +1,61 @@
+﻿@model IEnumerable<Inscript_v5.Models.UserTranslationsModel>
+
+@{
+    ViewBag.Title = "UserTranslationsView";
+}
+
+@{
+    if (Session["UserID"] == null)
+    {
+        Response.Redirect("~/UserLogin/Index");
+    }
+}
+
+<div class="form-horizontal">
+    <div>
+        <h5 class="center">User Translations</h5>
+        <p class="center">@Html.ActionLink("Translation Database", "Filter", "Translations", new { area = "" }, new { @class = "btn btn-primary btn-sm" })</p>
+    </div>
+    <div class="table">
+        @if (ViewBag.Message != null)
+        {
+            <p>@ViewBag.Message</p>
+        }
+        else
+        {
+            <table class="table">
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.InscriptionName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.TranslationName)
+                    </th>
+                </tr>
+
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.InscriptionName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TranslationName)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Details", "UserTranslationDetails", "Translations", new { id = item.InscriptionID, tid = item.TranslationID }, null)
+                        </td>
+                        <td>
+                            <a href="@Url.Action("Edit", "Translations", new { id = item.InscriptionID })" class="btn btn-sm">Edit</a>
+                        </td>
+                    </tr>
+                }     
+            </table>
+        }
+    </div>
+</div>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

@@ -23,6 +23,13 @@ namespace Inscript_v5.Data.Inscriptions
             return FillModel(model);
         }
 
+        public static List<InscriptionsModel> Filter(string searchText)
+        {
+            var db = new Inscriptv4Entities();
+            var model = db.FilterInscriptions(searchText);
+            return FillModelList(model);
+        }
+
         private static InscriptionsModel FillModel(InscriptionsGet_Result model)
         {
             if (model == null) return null;
@@ -36,7 +43,8 @@ namespace Inscript_v5.Data.Inscriptions
                 LocationID = model.LocationID,
                 Location = model.Location,
                 LanguageID = model.LanguageID,
-                Language = model.Language,         
+                Language = model.Language,
+                Notes = model.Notes
 
             };
             return itemModel;
@@ -58,6 +66,7 @@ namespace Inscript_v5.Data.Inscriptions
                 model.Date,
                 model.Location,
                 model.Language,
+                model.Notes,
                 newID
                 );
             model.InscriptionID = (int)newID.Value;
@@ -71,6 +80,7 @@ namespace Inscript_v5.Data.Inscriptions
             db.UpdateInscriptions(
                 model.InscriptionID,
                 model.InscriptionName,
+                model.Notes,
                 model.Date,
                 model.DateID,
                 model.Location,

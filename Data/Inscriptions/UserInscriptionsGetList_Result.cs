@@ -17,6 +17,6 @@ namespace Inscript_v5.Data.Inscriptions
         public int UserID { get; set; }
         public int InscriptionID { get; set; }
         public string InscriptionName { get; set; }
-        public int Expr1 { get; set; }
+        public Nullable<int> ProjectID { get; set; }
     }
 }

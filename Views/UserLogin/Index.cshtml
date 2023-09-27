@@ -1,69 +1,89 @@
-﻿@model Inscript_v5.Models.UserModel
-
+﻿@model Inscript_v5.Models.UsersModel
 
 @{
     ViewBag.Title = "Index";
 }
 
-<head>
-   
-    <title> User Login </title>
-    <style>
+<script src="~/Scripts/jquery-3.7.0.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+
+<style>
         #login-div {
-            position: absolute;
+            position: center;
             left: 40%;
             padding: 10px 10px;
         }
-    </style>
-</head>
-<body>
-    <div id="login-div">
-        @using (Html.BeginForm("Authorize", "UserLogin", FormMethod.Post))
-        {
-            <table>
-                <tr>
-                    <td></td>
-                    <td>Login</td>
-                </tr>
-                <tr>
-                    <td>@Html.LabelFor(model => model.Email, "User Email", htmlAttributes: new { @class = "control-label" })</td>
-                    <td>@Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })</td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td>
-                        @Html.ValidationMessageFor(model => model.Email)
-                    </td>
-                </tr>
-                <tr>
-                    <td>@Html.LabelFor(model => model.Password, "Password", htmlAttributes: new { @class = "control-label" })</td>
-                    <td>@Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })</td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td>
-                        @Html.ValidationMessageFor(model => model.Password)
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="2">
-                        <label class="field-validation-error">@Html.DisplayFor(model => Model.LoginErrorMessage)</label>
-                    </td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td>
-                        <input type="submit" value="Login" class="btn btn-default" />
-                    </td>
 
-                </tr>
-            </table>
-
+        .card-width {
+            width: 300px; /* Adjust the width as needed */
+            position: center;
         }
+</style>
 
-    <script src="~/Scripts/jquery-3.6.4.min.js"></script>
-    <script src="~/Scripts/jquery.validate.min.js"></script>
-    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<body>
+    <div class="card card-width" style="margin: 0 auto; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);">
+        <h2 class="center">User Login</h2>
 
+        <div class="center" id="login-div">
+            @using (Html.BeginForm("Login", "UserLogin", FormMethod.Post, new { id = "login-form" }))
+            {
+                @Html.AntiForgeryToken()
+                <table>
+                    <tr>
+                        <td>@Html.LabelFor(model => model.Email, "Email", htmlAttributes: new { @class = "control-label" })</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })</td>
+                        <td>@Html.ValidationMessageFor(model => model.Email)</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.LabelFor(model => model.Password, "Password", htmlAttributes: new { @class = "control-label" })</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })</td>
+                        <td>@Html.ValidationMessageFor(model => model.Password)</td>
+                    </tr>
+                    <tr>
+                        <td class="text-center">
+                            <input type="button" value="Login" class="btn btn-default" style="margin-top: 10px;" id="login-button" />
+                            <p style="margin-top: 5px;"><a href="/Users/Create" class="btn btn-sm">Create Account &raquo;</a></p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <label class="field-validation-error">@Html.DisplayFor(model => Model.LoginErrorMessage)</label>
+                        </td>
+                    </tr>
+                </table>
+            }
+        </div>
     </div>
+
+    <script>
+        $(document).ready(function () {
+            $("#login-button").click(function () {
+                // Serialize the form data
+                var formData = $("#login-form").serialize();
+
+                $.ajax({
+                    url: "/UserLogin/Login",
+                    type: "POST",
+                    data: formData,
+                    success: function (result) {
+                        if (result.success) {
+                            window.location.href = result.redirectUrl;
+                        } else {
+                            alert("Login failed: " + result.errorMessage);
+                        }
+                    },
+                    error: function () {
+                        alert("An error occurred during login.");
+                    }
+                });
+            });
+        });
+    </script>
+
 </body>

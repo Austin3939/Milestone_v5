@@ -14,9 +14,13 @@ namespace Inscript_v5.Data.Inscriptions
     public partial class TranslationGet_Result
     {
         public int TranslationID { get; set; }
-        public Nullable<int> InscriptionID { get; set; }
-        public string Translator { get; set; }
-        public string Translation { get; set; }
+        public int InscriptionID { get; set; }
         public string Notes { get; set; }
+        public string TranslationText { get; set; }
+        public string InscriptionName { get; set; }
+        public int CreatedByUserID { get; set; }
+        public bool PublicView { get; set; }
+        public string TranslationName { get; set; }
+        public string UserName { get; set; }
     }
 }

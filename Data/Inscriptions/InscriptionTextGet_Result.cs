@@ -17,5 +17,6 @@ namespace Inscript_v5.Data.Inscriptions
         public Nullable<int> InscriptionID { get; set; }
         public string Text { get; set; }
         public Nullable<int> LineNumber { get; set; }
+        public string InscriptionName { get; set; }
     }
 }

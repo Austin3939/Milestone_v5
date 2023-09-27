@@ -4,16 +4,25 @@
     ViewBag.Title = "Create";
 }
 
+<style>
+    textarea {
+        width: 560px !important;
+        height: 200px !important;
+    }
+</style>
+
 <h2>Insert New Inscription</h2>
 
-        @if (ViewBag.NextView == true)
+
+
+@if (ViewBag.NextView == true)
 {
-          <script>
-            function nextView() {
-            window.location.href = "/InscriptionText/Create/?id=" + "@Model.InscriptionID";
-              }
-              nextView();
-          </script>
+    <script>
+                function nextView() {
+                window.location.href = "/InscriptionText/Create/?id=" + "@Model.InscriptionID"
+                  }
+            nextView()
+    </script>
 }
 
 
@@ -26,12 +35,12 @@
         <h5>Inscription Information</h5>
     </div>
 
-    <table>
+    <table class="table">
 
         <tr>
             <td class="col-md-10">
                 @Html.LabelFor(model => model.InscriptionName, "Inscription Name", htmlAttributes: new { @class = "control-label" })
-                <div>
+                <div class="col-md-5">
                     @Html.EditorFor(model => model.InscriptionName, new { htmlAttributes = new { @class = "form-control" } })
                     @Html.ValidationMessageFor(model => model.InscriptionName, "", new { @class = "text-danger" })
                 </div>
@@ -39,32 +48,40 @@
         </tr>
 
 
-        <tr class="form-group">
+        <tr>
             <td class="col-md-10">
-                @Html.LabelFor(model => model.Date, "Date", htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
+                @Html.LabelFor(model => model.Date, "Date", htmlAttributes: new { @class = "control-label" })
+                <div class="col-md-5">
                     @Html.EditorFor(model => model.Date, null, new { htmlAttributes = new { @class = "form-control" } })
                     @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
                 </div>
             </td>
         </tr>
-
-        <tr class="form-group">
+        <tr>
             <td class="col-md-10">
-                @Html.LabelFor(model => model.Location, "Location", htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
+                @Html.LabelFor(model => model.Location, "Location", htmlAttributes: new { @class = "control-label" })
+                <div class="col-md-5">
                     @Html.EditorFor(model => model.Location, null, new { htmlAttributes = new { @class = "form-control" } })
                     @Html.ValidationMessageFor(model => model.Location, "", new { @class = "text-danger" })
                 </div>
             </td>
         </tr>
-
-        <tr class="form-group">
+        <tr>
             <td class="col-md-10">
-                @Html.LabelFor(model => model.Language, "Language", htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
+                @Html.LabelFor(model => model.Language, "Language", htmlAttributes: new { @class = "control-label" })
+                <div class="col-md-5">
                     @Html.EditorFor(model => model.Language, null, new { htmlAttributes = new { @class = "form-control" } })
                     @Html.ValidationMessageFor(model => model.Language, "", new { @class = "text-danger" })
+                </div>
+            </td>
+        </tr>
+
+        <tr class="form-group">
+            <td>
+                @Html.LabelFor(model => model.Notes, "Inscription Notes", htmlAttributes: new { @class = "control-label" })
+                <div class="col-md-10">
+                    @Html.TextAreaFor(model => model.Notes, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Notes, "", new { @class = "text-danger" })
                 </div>
             </td>
         </tr>
@@ -76,14 +93,14 @@
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
 
-            <input type="submit" value="Next" class="btn btn-default" onClick="nextView()" />
+            <input type="submit" value="Next" class="btn btn-default" />
 
         </div>
     </div>
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Back to List", "AdminIndex")
 </div>
 
 @section Scripts {

@@ -1,10 +1,26 @@
 ﻿@{
     ViewBag.Title = "About";
-    Layout = "~/Views/Shared/_SidebarNav.cshtml"; 
 }
-<main aria-labelledby="title">
-    <h2 id="title">@ViewBag.Title.</h2>
-    <h3>@ViewBag.Message</h3>
 
-    <p>Use this area to provide additional information.</p>
-</main>
+<style>
+    #createUser-div {
+        position: center;
+        left: 40%;
+        padding: 10px 10px;
+    }
+
+    .card-width {
+        width: 500px; /* Adjust the width as needed */
+        position: center;
+    }
+</style>
+
+    <div class="card card-width" style="margin: 0 auto; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);">
+        <h2 class="center">About</h2>
+        <p class="center">Created by Austin Blackman</p>
+        <p class="center">Capstone Project for Master of Science in Software Development (2024)</p>
+    </div>
+    
+    <div class="card" style="width: 100%; margin: 15px auto; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2); padding: 10px;">
+        @{Html.RenderAction("SelectRecent", "SiteUpdates");}
+    </div>

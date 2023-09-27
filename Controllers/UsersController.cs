@@ -6,19 +6,28 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.UI.WebControls;
 using Inscript_v5.Data.Inscriptions;
 using Inscript_v5.Models;
 
 namespace Inscript_v5.Controllers
 {
-    public class UserController : Controller
+    public class UsersController : Controller
     { 
          private Inscriptv4Entities db = new Inscriptv4Entities();
-    
+
         // GET: User
-        public ActionResult Index(int id)
+        public ActionResult AdminIndex(string searchText)
         {
-            return View(UserData.Get(id));
+            if (Session["Role"] != null && Session["Role"].ToString() == "Admin")
+            {
+                var filteredData = UsersData.Filter(searchText);
+                return View("AdminIndex", filteredData);
+            }
+            else
+            {
+                return RedirectToAction("Index/UserLogin");
+            }
         }
 
         public ActionResult Details(int id)
@@ -27,7 +36,7 @@ namespace Inscript_v5.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            UserModel user = UserData.Get(id);
+            UsersModel user = UsersData.Get(id);
             if (user == null)
             {
                 return HttpNotFound();
@@ -40,71 +49,73 @@ namespace Inscript_v5.Controllers
         public ActionResult Create()
         {
             ViewBag.NextView = false;
-            return View();
+            var usersModel = new UsersModel();
+            usersModel.RoleID = 1;
+            return View(usersModel);
         }
 
         // POST: User/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(UserModel user)
+        public ActionResult Create(UsersModel users)
         {
             if (ModelState.IsValid)
             {
-                UserModel model = UserData.Insert(user);
-                user.UserID = model.UserID;
+                
+                UsersModel model = UsersData.Insert(users);
+                users.UserID = model.UserID;
                 ViewBag.NextView = true;
+                return RedirectToAction("Index", "Home");
             }
 
-            return View(user);
+            return View(users);
         }
 
-        // GET: User/Edit/5
+        // GET: User/Edit
         public ActionResult Edit(int id)
         {
 
-            var user = UserData.Get(id);
-            if (user == null)
+            var users = UsersData.Get(id);
+            if (users == null)
             {
                 return HttpNotFound();
             }
 
-            return View(user);
+            return View(users);
         }
 
-        // POST: User/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: User/Edit
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(UserModel user)
+        public ActionResult Edit(UsersModel users)
         {
             if (ModelState.IsValid)
             {
-                UserData.Update(user);
+                UsersData.Update(users);
                 return RedirectToAction("Index");
             }
 
-            return View(user);
+            return View(users);
         }
 
-        // GET: Inscriptions/Delete/5
+        // GET: User/Delete
         public ActionResult Delete(int id)
         {
-            var user = UserData.Get(id);
-            if (user == null)
+            var users = UsersData.Get(id);
+            if (users == null)
             {
                 return HttpNotFound();
             }
-            return View(user);
+            return View(users);
         }
 
-        // POST: User/Delete/5
+        // POST: User/Delete
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            var user = UserData.Get(id);
-           UserData.Delete(user);
+            var users = UsersData.Get(id);
+           UsersData.Delete(users);
 
             db.SaveChanges();
             return RedirectToAction("Index");

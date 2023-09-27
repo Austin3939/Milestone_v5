@@ -2,15 +2,23 @@
     ViewBag.Title = "Home Page";
 }
 
-
     <div class="float-container">
 
             <div class="float-child-left">
                 <div class="text-center">
-                <h1 id="title">Digital Scribe</h1>
-                <p class="lead">NW Semitic Inscription database</p>
-                <p><a href="/Inscriptions" class="btn btn-primary btn-md">Database &raquo;</a></p>
-                <p><a href="/UserLogin/Index" class="btn btn-primary btn-md">Login &raquo;</a></p>
+                    <h1 id="title">Digital Scribe</h1>
+                    <p class="lead">NW Semitic Inscription Database</p>
+                    @if (Session["UserID"] == null)
+                    {
+                        <p><a href="/UserLogin/Index" class="btn btn-primary btn-md">LOG IN &raquo;</a></p>
+                        <p><a href="/Users/Create" class="btn btn-primary btn-md">Create Account &raquo;</a></p>
+                    }
+                    else
+                    {
+                        <p>@Html.ActionLink("Inscription Database", "Filter", "Inscriptions", new { area = "" }, new { @class = "btn btn-primary btn-md" })</p>
+                        <p>@Html.ActionLink("User Dashboard", "Index", "UserPortal", new { area = "" }, new { @class = "btn btn-primary btn-md" })</p>
+                    }
+
                 </div>
             </div>
 
@@ -19,20 +27,29 @@
                 <table class="table">
                     <tr>
                         <th>
-                            Recent Entries
+                            Recent Inscription Entries
                         </th>
                     </tr>
                     <tr>
                         @{Html.RenderAction("SelectRecent", "Inscriptions");}
                     </tr>
-                    <tr>
-                        <th>
-                            Recent Updates
-                        </th>
-                    </tr>
                 </table>
             </div>
-        </div>
+            <br />
+                    <div class="card">
+                        <table class="table">
+                            <tr>
+                                <th>
+                                    Site Updates
+                                    <a style="font-size: medium" href="SiteUpdates/Index">>>></a>
+                                </th>
+                            </tr>
+                            <tr>
+                                @{Html.RenderAction("SelectRecent", "SiteUpdates");}
+                            </tr>
+                        </table>
+                    </div>
+          </div>
 
           
-        </div>
+</div>

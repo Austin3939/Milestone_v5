@@ -1,7 +1,9 @@
 ﻿using Inscript_v5.Data.Inscriptions;
 using Inscript_v5.Models;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity.Core.Common.CommandTrees.ExpressionBuilder;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -20,8 +22,20 @@ namespace Inscript_v5.Controllers
         }
         */
 
-        // GET: InscriptionText/Details/5
+        // GET: InscriptionText/Details
         public ActionResult Details(int id)
+        {
+            List<InscriptionTextModel> inscriptions = InscriptionTextData.GetList(id).ToList();
+            if (inscriptions == null)
+            {
+                return HttpNotFound();
+            }
+
+            return PartialView(inscriptions);
+
+        }
+
+        public ActionResult TextDetailsPartial(int id)
         {
             List<InscriptionTextModel> inscriptions = InscriptionTextData.GetList(id).ToList();
             if (inscriptions == null)
@@ -37,47 +51,42 @@ namespace Inscript_v5.Controllers
         [HttpGet]
         public ActionResult Create(int id)
         {
-            var model = new InscriptionTextModel();
-            
-                model.InscriptionID = id;
-            
-            
-            
-            return View(model);
+            var inscriptiontext = new InscriptionTextModel();
+            inscriptiontext.InscriptionID = id;
+            ViewBag.NextView = false;
+            return View(inscriptiontext);
         }
 
-        /*
-        public ActionResult NewEntry(int id)
-        {
-            var model = new InscriptionTextModel();
-
-            model.InscriptionID = id;
-
-            List<newEntry> newLineList = new List<newEntry>
-            {
-                new newEntry  { TextID = 0, InscriptionID = id, LineNumber = 1, Text = "" }
-            };
-            model.newLines = newLineList;
-            ViewBag.List = newLineList;
-            return PartialView(model);
-        }
-        */
-
-        // POST: InscriptionText/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(InscriptionTextModel inscriptionText)
         {
-            if (ModelState.IsValid)
-            { 
-                InscriptionTextData.Insert(inscriptionText);
-                RedirectToAction("Index");
-            }
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    InscriptionTextData.Insert(inscriptionText);
+                    // You can optionally return a JSON response indicating success
+                    return Json(new { success = true, message = "Form submitted successfully." });
+                }
 
-            return View(inscriptionText);
+                // If there are validation errors, return a JSON response with error messages
+                var errorMessages = ModelState.Values.SelectMany(v => v.Errors)
+                    .Select(e => e.ErrorMessage).ToList();
+
+                return Json(new { success = false, errors = errorMessages });
+            }
+            catch (Exception ex)
+            {
+                // Handle unexpected server-side errors
+                return Json(new { success = false, errorMessage = ex.Message });
+            }
         }
 
-        // GET: InscriptionText/Edit/5
+
+
+
+        // GET: InscriptionText/Edit
         public ActionResult Edit(int id)
         {
 
@@ -90,9 +99,7 @@ namespace Inscript_v5.Controllers
             return View(inscriptionText);
         }
 
-        // POST: InscriptionText/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: InscriptionText/Edit
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(InscriptionTextModel inscriptionText)
@@ -106,7 +113,7 @@ namespace Inscript_v5.Controllers
             return View(inscriptionText);
         }
 
-        // GET: InscriptionText/Delete/5
+        // GET: InscriptionText/Delete
         public ActionResult Delete(int id)
         {
             var inscriptionText = InscriptionTextData.Get(id);
@@ -117,7 +124,7 @@ namespace Inscript_v5.Controllers
             return View(inscriptionText);
         }
 
-        // POST: InscriptionText/Delete/5
+        // POST: InscriptionText/Delete
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)

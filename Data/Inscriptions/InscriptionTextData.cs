@@ -31,12 +31,11 @@ namespace Inscript_v5.Data.Inscriptions
             {
                 TextID = model.TextID,
                 InscriptionID = model.InscriptionID,
-                LineNumber = model.LineNumber,
-                Text = model.Text
-
-
-
+                InscriptionName = model.InscriptionName,
+                Text = model.Text,
+                LineNumber= model.LineNumber,
             };
+
             return itemModel;
         }
 
@@ -50,14 +49,17 @@ namespace Inscript_v5.Data.Inscriptions
         public static InscriptionTextModel Insert(InscriptionTextModel model)
         {
             var db = new Inscriptv4Entities();
-            var newID = new ObjectParameter("InscriptionID", typeof(int));
-            db.InsertInscriptionText(
-                model.InscriptionID,
-                model.LineNumber,
-                model.Text
+            var newID = new ObjectParameter("TextID", typeof(int));
+
+                db.InsertInscriptionText(
+                    model.InscriptionID,
+                    model.LineNumber,
+                    model.Text
                 );
+
             return model;
         }
+
 
         public static void Update(InscriptionTextModel model)
         {
@@ -77,6 +79,5 @@ namespace Inscript_v5.Data.Inscriptions
                 model.TextID
                 );
         }
-
     }
 }

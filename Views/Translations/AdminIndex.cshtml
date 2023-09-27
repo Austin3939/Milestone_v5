@@ -1,0 +1,99 @@
+﻿@model IEnumerable<Inscript_v5.Models.TranslationsModel>
+
+@{
+    ViewBag.Title = "AdminIndex";
+}
+
+<script>
+    function confirmDelete(InscriptionName) {
+
+        var message = `Delete Translation for Inscription?\n${InscriptionName}`;
+        return confirm(message);
+    }
+
+    function clearSearch() {
+        document.getElementById("SearchText").value = "";
+        document.forms[0].submit();
+    }
+
+</script>
+
+<h2 class="center">Translation Database (Admin)</h2>
+
+<div class="center">
+    @using (Html.BeginForm("AdminIndex", "Translations", FormMethod.Get, new { @class = "form-inline" }))
+    {
+        <table>
+            <tr>
+                <td>
+                    @Html.TextBox("SearchText", null, new { id = "SearchText", @class = "form-control" })
+                </td>
+                <td>
+                    <button type="submit" class="btn btn-primary">Search</button>
+                </td>
+            </tr>
+            <tr>
+                <td class="center">
+                    <button type="button" onclick="clearSearch()">Clear Search</button>
+                </td>
+            </tr>
+        </table>
+    }
+</div>
+<br />
+<table class="table">
+    <tr class="text-center">
+        <th>
+            @Html.DisplayNameFor(model => model.InscriptionName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TranslationName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UserName)
+        </th>
+        <th class="center">
+            @Html.DisplayNameFor(model => model.PublicView)
+        </th>
+    </tr>
+
+
+    @foreach (var item in Model)
+    {
+        <tr class="text-center">
+            <td>
+                @Html.DisplayFor(modelItem => item.InscriptionName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TranslationName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PublicView)
+                @if (item.PublicView)
+                {
+                    <span>&#10004;</span> <!-- Check mark character -->
+                }
+            </td>
+
+            <td>
+                <a href="@Url.Action("Edit", "Translations", new { id = item.InscriptionID})" class="btn btn-sm">Edit</a>
+                <a href="@Url.Action("Details", "Inscriptions", new { id = item.InscriptionID})" class="btn btn-sm">Details</a>
+            </td>
+
+            <td>
+                <form method="post" action="@Url.Action("Delete", "Translations", new { id = item.TranslationID })" onsubmit="return confirmDelete('@item.InscriptionName')">
+                    @Html.AntiForgeryToken()
+                    <input type="submit" value="Delete Translation" id="deleteButton" />
+                    <input type="hidden" name="id" value="@item.TranslationID" />
+                </form>
+            </td>
+        </tr>
+
+    }
+
+</table>
+
+

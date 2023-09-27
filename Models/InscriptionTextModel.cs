@@ -10,16 +10,12 @@ namespace Inscript_v5.Models
 {
     public class InscriptionTextModel
     {
-        
+
         public int TextID { get; set; }
         public int? InscriptionID { get; set; }
-        public int? LineNumber { get; set; }
+        public string InscriptionName { get; set; }
         public string Text { get; set; }
-
-
-       
+        public int? LineNumber { get; set; }
+        public int Row { get; set; }
     }
-
-   
-
 }

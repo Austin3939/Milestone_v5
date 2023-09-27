@@ -23,5 +23,6 @@ namespace Inscript_v5.Data.Inscriptions
         public string Language { get; set; }
         public Nullable<int> ImageID { get; set; }
         public string Image { get; set; }
+        public string Notes { get; set; }
     }
 }

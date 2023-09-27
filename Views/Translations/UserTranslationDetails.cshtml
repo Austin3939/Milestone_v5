@@ -1,0 +1,119 @@
+﻿@model Inscript_v5.Models.TranslationsModel
+
+@{
+    ViewBag.Title = "UserTranslationDetails";
+}
+
+<style>
+    #titleheader {
+        font-family: "News Cycle", "Arial Narrow Bold", sans-serif;
+        font-size: 15px;
+        font-weight: 700;
+    }
+
+    #semiticText {
+        display: inline;
+        margin: 0;
+        padding: 0;
+        border: none;
+        font-family: Time New Roman;
+        font-size: 15pt;
+        line-height: 1.6;
+        background-color: transparent;
+
+    }
+
+    #formattedText {
+        margin: 0;
+        padding: 0;
+        border: none;
+        font-family: "News Cycle", "Arial Narrow Bold", sans-serif;
+        font-size: 15pt;
+        line-height: 1.6;
+        background-color: transparent;
+    }
+</style>
+
+<h1 class="center"> User Translation</h1>
+<hr />
+
+<div>
+    <table class="table">
+        <tr>
+            <td style="width: 50%; box-sizing: border-box; text-align: center;">
+                @{Html.RenderAction("InscriptionDetails", "Inscriptions", new { Model.InscriptionID });}
+            </td>
+            <td style="width: 50%; box-sizing: border-box; text-align: center;">
+                <div>Translation Name</div>
+                <h4>
+                    @Html.DisplayFor(model => model.TranslationName)
+                </h4>
+            </td>
+        </tr>
+        <tr>
+            <!-- Inscription Text -->
+            <td id="semiticText" style="width: 50%; box-sizing: border-box; text-align: right; ">
+                <div style=" padding: 15px">
+                    @{Html.RenderAction("Details", "InscriptionText"); }
+                </div>
+            </td>
+            <td style="width: 50%; box-sizing: border-box; text-align: left; padding:5px;">
+                <!-- Translation Text -->
+                <div style=" padding: 15px">
+                    <pre id="formattedText" class="preformatted-text">@Html.Raw(Model.TranslationText)
+                </pre>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td style="width: 50%; box-sizing: border-box;">
+                <!-- Inscription Notes -->
+                <br />
+                <div style=" padding-left: 15px">
+                    @{Html.RenderAction("InscriptionNotes", "Inscriptions", new { Model.InscriptionID });}
+                </div>
+            </td>
+            <td style="width: 50%; box-sizing: border-box;">
+                <!-- Translation Notes -->
+                <br />
+                <div style=" padding-left: 15px">
+                    <h6>@Html.LabelFor(model => model.Notes, "Translation Notes")</h6>
+                    <pre id="formattedText" class="preformatted-text">@Html.Raw(Model.Notes)
+                </pre>
+                </div>
+                <div style=" padding-left: 15px">
+                    @Html.LabelFor(model => model.TranslationName, "Translation: ")
+                    @Html.DisplayFor(model => model.TranslationName)
+                </div>
+                <div style=" padding-left: 15px">
+                    @Html.LabelFor(model => model.UserName, "User: ")
+                    @Html.DisplayFor(model => model.UserName)
+                </div>
+                <div style=" padding-left: 15px">
+                    @if (Model.PublicView)
+                    {
+                        <div>View: Public</div>
+                    }
+                    else
+                    {
+                        <div>View: Private</div>
+                    }
+                </div>
+                <div class="center" style="padding-left: 15px;">
+                    @Html.ActionLink("Edit Translation", "Edit", "Translations", null, new { @class = "btn btn-sm"})
+                </div>
+            </td>
+        </tr>
+
+    </table>
+</div>
+
+    <br />
+
+<div>
+    @Html.ActionLink("Back to Dashboard", "Index", "UserPortal")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

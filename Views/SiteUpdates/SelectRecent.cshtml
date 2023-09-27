@@ -1,0 +1,36 @@
+﻿@model IEnumerable<Inscript_v5.Models.SiteUpdatesModel>
+
+@{
+    ViewBag.Title = "SelectRecent";
+}
+
+
+@foreach (var item in Model)
+{
+    <table class="table">
+        <tr>
+            <td>
+                <h5 class="text-center">
+                    @Html.DisplayFor(modelItem => item.UpdateName)
+                </h5>
+                <div>
+                    @Html.Raw(HttpUtility.HtmlDecode(item.Text))
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td class="align-text-bottom" style="text-align: right; font-size: smaller;">
+                <div>
+                    Posted Date:
+                    @item.Date.ToString("MM/dd/yyyy")
+                </div>
+                <div>
+                    @Html.DisplayFor(modelItem => item.UserName)
+                </div>
+            </td>
+        </tr>
+    </table>
+    <hr />
+
+}
+

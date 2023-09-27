@@ -1,0 +1,96 @@
+﻿@model IEnumerable<Inscript_v5.Models.ProjectInscriptionsModel>
+
+@{
+    ViewBag.Title = "Index";
+}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+
+@{
+    if (Session["UserID"] == null)
+    {
+        Response.Redirect("~/UserLogin/Index");
+    }
+}
+
+<script src="~/Scripts/jquery-3.7.0.min.js"></script>
+
+<div class="form-horizontal">
+    <div>
+        <h6 class="center">Project Inscriptions</h6>
+    </div>
+
+    <div class="card">
+        <table class="table">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.InscriptionName)
+                </th>
+            </tr>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        <a href="@Url.Action("Details", "Inscriptions", new { id = item.InscriptionID })">
+                            @Html.DisplayFor(modelItem => item.InscriptionName)
+                        </a>
+                    </td>
+                    <td>
+                        <a href="javascript:void(0);" onclick="openPopup('@Url.Action("DetailsPopup", "Inscriptions", new { id = item.InscriptionID })')" style="font-size: small;">
+                            Inscription Text <i class="fa fa-external-link" style="margin-right: 1px;"></i>
+                        </a>
+
+                    </td>
+                    <td>
+                        <form method="post" action="@Url.Action("Remove", "ProjectInscriptions", new { id = item.ProjectInscriptionID })">
+                            @Html.AntiForgeryToken()
+                            <input type="submit" value="Remove" class="removeButton" data-inscription-name="@item.InscriptionName" />
+                        </form>
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>
+
+<script>
+    $('.removeButton').click(function (e) {
+        e.preventDefault();
+
+        var form = $(this).closest('form');
+
+        $.ajax({
+            url: form.attr('action'),
+            type: 'POST',
+            data: form.serialize(),
+            success: function (data) {
+                if (data.success) {
+                    location.reload();
+                } else {
+                    handleFailure(data.message);
+                }
+            },
+            error: function () {
+                handleFailure('An error occurred during the AJAX request.');
+            }
+        });
+    });
+
+    function handleFailure(message) {
+        $('#messageContainer').html('<div class="alert alert-danger">' + message + '</div>');
+    }
+
+
+    function openPopup(url) {
+        var width = 600;
+        var height = 400;
+        var left = (screen.width - width) / 2;
+        var top = (screen.height - height) / 2;
+        // Open the popup window
+        window.open(url, 'PopupWindow', 'width=' + width + ',height=' + height + ',left=' + left + ',top=' + top);
+    }
+
+</script>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

@@ -1,7 +1,9 @@
 ﻿
-
 @{
     ViewBag.Title = "Index";
+}
+@{
+    Layout = "~/Views/Shared/_Dashboard.cshtml"; // Specify the path to your layout view
 }
 
 @{
@@ -11,47 +13,35 @@
     }
 }
 
-<h2>Dashboard</h2>
-
-<h4>Hello @Session["Name"]!</h4>
-
-<div class="form-horizontal">
-    <div>
-        <h5>User Information</h5>
+<div class="card" style="width: 100%; margin: 0 auto; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2); padding: 10px;">
+    <h1 class="center">Dashboard</h1>
+    <h4 class="center">Hello @Session["UserName"]!</h4>
+    <div style="margin-top: auto; text-align: right;">
+        <a href="@Url.Action("Details", "Users", new { id = Session["UserID"]})" class="link-primary">Account Information</a>
     </div>
-<div class="flex-container" style="width: 30%";>
-    <div>
+</div>
 
-                    @{Html.RenderAction("UserInscriptionsView", "UserPortal"); }
+<br />
 
+<body>
+    <div class="flex-container">
+        <div class="card" style="width: 30%; margin: 0 auto; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2); padding: 10px;">
+            <!-- User Projects-->
+            @{Html.RenderAction("Index", "UserProjects");}
+        </div>
+        <div class="card" style="width: 30%; margin: 0 auto; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2); padding: 10px; ">
+            <!-- Saved Inscriptions-->
+            @{Html.RenderAction("UserInscriptionsView", "UserPortal", new { id = Session["UserID"] });}
+        </div>
+        <div class="card" style="width: 30%; margin: 0 auto; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2); padding: 10px; ">
+            <!-- Saved Translations-->
+            @{Html.RenderAction("UserTranslationsView", "UserPortal", new { id = Session["UserID"] });}
         </div>
     </div>
-<div class="flex-container" style="width: 30%";>
-    <div class="card">
-        <table class="table">
-            <tr>
-                <th>
-                    Saved Translations
-                </th>
-            </tr>
-        </table>
-    </div>
-</div>
-<div class="flex-container" style="width: 30%";>
-    <div class="card">
-        <table class="table">
-            <tr>
-                <th>
-                    Notes
-                </th>
-            </tr>
-        </table>
-    </div>
-</div>
-
-</div>
 
 
-    @section Scripts {
-        @Scripts.Render("~/bundles/jqueryval")
-    }
+</body>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

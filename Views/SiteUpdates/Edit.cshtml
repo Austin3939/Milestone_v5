@@ -1,0 +1,119 @@
+﻿@model Inscript_v5.Models.SiteUpdatesModel
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/2.3.3/purify.min.js"></script>
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<!-- suneditor -->
+<link href="~/Content/suneditor.min.css" rel="stylesheet" />
+<!-- suneditor -->
+<script src="~/Scripts/suneditor.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        const projectDocumentTextArea = document.getElementById('Text');
+        const editor = SUNEDITOR.create('projectDocumentEditor', {
+            display: 'block',
+            width: '100%',
+            height: '100%',
+            popupDisplay: 'full',
+            buttonList: [
+                ['font', 'fontSize', 'formatBlock'],
+                ['paragraphStyle', 'blockquote'],
+                ['bold', 'underline', 'align', 'strike', 'subscript', 'superscript', 'horizontalRule', 'list'],
+                ['table', 'link'],
+                ['align', 'horizontalRule', 'list', 'lineHeight'],
+                ['codeView']
+            ],
+            placeholder: 'Start typing something...'
+        });
+
+        editor.onChange = function (contents, core) {
+            projectDocumentTextArea.value = contents;
+        };
+
+        const decodedContent = decodeURIComponent(projectDocumentTextArea.value);
+        editor.setContents(decodedContent, true);
+
+    });
+
+    $('#UpdateDetails').submit(function (e) {
+        e.preventDefault();
+
+        $.ajax({
+            url: $(this).attr('action'),
+            type: 'POST',
+            data: $(this).serialize(),
+            success: function (data) {
+            },
+            error: function () {
+            }
+        });
+    });
+</script>
+
+<h2>Edit Post</h2>
+
+
+
+@using (Ajax.BeginForm("Edit", "SiteUpdates", null, new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "UpdateDetails" }, new { id = "UpdateDetails" }))
+
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.UserID)
+    @Html.HiddenFor(model => model.Date)
+    @Html.HiddenFor(model => model.UpdateID)
+
+    <table>
+
+        <tr>
+            <td class="col-md-10">
+                <div>
+                    @Html.EditorFor(model => model.UpdateName, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.UpdateName, "", new { @class = "text-danger" })
+                </div>
+            </td>
+        </tr>
+
+        <tr class="form-group">
+            <td>
+                <div id="projectDocumentEditor" class="sun-editor">
+                    @Html.TextAreaFor(model => model.Text, new { @class = "custom-textarea", id = "Text" })
+                    @Html.ValidationMessageFor(model => model.Text, "", new { @class = "text-danger" })
+                </div>
+            </td>
+        </tr>
+
+        <tr class="form-group">
+            <td class="col-md-10">
+                <div class="col-md-10">
+                    @Html.DisplayFor(model => model.Date, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
+                </div>
+            </td>
+        </tr>
+    </table>
+
+
+    <br />
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input id="submit" type="submit" value="Post" class="btn btn-default" />
+        </div>
+    </div>
+}
+
+<br />
+
+<div>
+    @Html.ActionLink("Cancel", "Index", "Home")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+

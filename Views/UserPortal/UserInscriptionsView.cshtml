@@ -16,29 +16,43 @@
 
 <div class="form-horizontal">
     <div>
-        <h5>Saved Inscriptions</h5>
+        <h5 class="center">Saved Inscriptions</h5>
+        <p class="center">@Html.ActionLink("Inscription Database", "Filter", "Inscriptions", new { area = "" }, new { @class = "btn btn-primary btn-sm" })</p>
     </div>
-    <div class="card">
-        <table class="table">
+    <div class="table">
+        @if (ViewBag.Message != null)
+        {
+            <p>@ViewBag.Message</p>
+        }
+        else
+        {
+            <table class="table">
 
-            @foreach (var item in Model)
-            {
                 <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.InscriptionName)
-                    </td>
-                    <td>
-                        @Html.ActionLink("Details", "Details", "Inscriptions", new { id = item.InscriptionID }, null)
-                    </td>
+                    <th>
+                        @Html.DisplayNameFor(model => model.InscriptionName)
+                    </th>
                 </tr>
-            }
 
-        </table>
-    </div>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.InscriptionName)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Details", "Details", "Inscriptions", new { id = item.InscriptionID }, null)
+                        </td>
+                    </tr>
+                }
+
+            </table>
+        }
+        </div>
 </div>
 
 
     @section Scripts {
-        @Scripts.Render("~/bundles/jqueryval")
-    }
+    @Scripts.Render("~/bundles/jqueryval")
+}
 

@@ -1,0 +1,86 @@
+﻿@model IEnumerable<Inscript_v5.Models.UsersModel>
+
+@{
+    ViewBag.Title = "AdminIndex";
+}
+
+<script>
+    function confirmDelete(Name) {
+
+        var message = `Delete User?\n${Name}`;
+        return confirm(message);
+    }
+
+    function clearSearch() {
+        document.getElementById("SearchText").value = "";
+        document.forms[0].submit();
+    }
+</script>
+
+<h1 class="center">User Database (Admin)</h1>
+
+<div class="center">
+    @using (Html.BeginForm("AdminIndex", "Users", FormMethod.Get, new { @class = "form-inline" }))
+    {
+        <table>
+            <tr>
+                <td>
+                    @Html.TextBox("SearchText", null, new { id = "SearchText", @class = "form-control" })
+                </td>
+                <td>
+                    <button type="submit" class="btn btn-primary">Search</button>
+                </td>
+            </tr>
+            <tr>
+                <td class="center">
+                    <button type="button" onclick="clearSearch()">Clear Search</button>
+                </td>
+            </tr>
+        </table>
+    }
+</div>
+
+<br />
+<table class="table">
+    <tr class="text-center">
+        <th>
+            @Html.DisplayNameFor(model => model.UserName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Email)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Role)
+        </th>
+    </tr>
+
+
+    @foreach (var item in Model)
+    {
+        <tr class="text-center">
+            <td>
+                @Html.DisplayFor(modelItem => item.UserName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Role)
+            </td>
+
+            <td>
+                <a href="@Url.Action("Edit", "Users", new { id = item.UserID})" class="btn btn-sm">Edit</a>
+            </td>
+
+            <td>
+                <form method="post" action="@Url.Action("Delete", "Users", new { id = item.UserID })" onsubmit="return confirmDelete('@item.UserName')">
+                    @Html.AntiForgeryToken()
+                    <input type="submit" value="Delete User" id="deleteButton" />
+                    <input type="hidden" name="id" value="@item.UserID" />
+                </form>
+            </td>
+        </tr>
+
+    }
+
+</table>

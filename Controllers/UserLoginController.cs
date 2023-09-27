@@ -4,45 +4,63 @@ using Microsoft.Ajax.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Principal;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 
 namespace Inscript_v5.Controllers
 {
     public class UserLoginController : Controller
     {
         private Inscriptv4Entities db = new Inscriptv4Entities();
-        public ActionResult Index()
+
+        public ActionResult Index(string returnUrl)
         {
+            TempData["returnUrl"] = returnUrl;
             return View();
         }
 
         [HttpPost]
-        public ActionResult Authorize(UserModel user)
+        [ValidateAntiForgeryToken]
+        public ActionResult Login(UsersModel user)
         {
             using (Inscriptv4Entities db = new Inscriptv4Entities())
             {
-                var userDetails = UserData.GetList().Where(x => x.Email == user.Email && x.Password == user.Password).FirstOrDefault();
-                if (userDetails == null)
+                if (ModelState.IsValid)
                 {
-                    user.LoginErrorMessage = "Wrong Username or Password";
-                    return View("Index", user);
+                    var userDetails = UsersData.GetList().FirstOrDefault(x => x.Email == user.Email && x.Password == user.Password);
+                    if (userDetails != null)
+                    {
+                        FormsAuthentication.SetAuthCookie(userDetails.Email, false);
+                        Session["UserID"] = userDetails.UserID;
+                        Session["UserName"] = userDetails.UserName;
+                        Session["Role"] = userDetails.Role;
+
+                        return Json(new { success = true, redirectUrl = Url.Action("Index", "UserPortal") });
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", "Login failed. Please check your credentials.");
+                    }
                 }
-                else
-                {
-                    Session["UserID"] = userDetails.UserID;
-                    Session["Name"] = userDetails.Name;
-                    return RedirectToAction("Index", "UserPortal");
-                }
+
+                return Json(new { success = false, errorMessage = "Login failed. Please check your credentials." });
             }
-         
         }
+
+
 
         public ActionResult Logout()
         {
-            int UserID = (int) Session["UserID"];
+            FormsAuthentication.SignOut();
             Session.Abandon();
+
+            Response.Cache.SetCacheability(HttpCacheability.NoCache);
+            Response.Cache.SetNoStore();
+            Response.Cache.SetExpires(DateTime.UtcNow - TimeSpan.FromDays(1));
             return RedirectToAction("Index", "UserLogin");
         }
+        
     }
 }

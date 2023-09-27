@@ -4,20 +4,96 @@
     ViewBag.Title = "Create";
 }
 
-
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
 <script>
-    function addRow() {
-        
-    }
+    $(document).ready(function () {
+        var rowCount = 1; 
 
-        
+        $("#addRowBtn").click(function () {
+            addRow();
+            rowCount++; 
+            updateRowCountInput();
+        });
+
+        function addRow() {
+            var formId = "InscriptionText_" + rowCount;
+            var rowId = "InscriptionText_" + rowCount;
+
+            // Create a new form element
+            var newForm =
+                '<form class="ajax-form" id="' + formId + '">' +
+                '<input type="hidden" name="' + rowId + '.LineNumber" value="' + rowCount + '" />' +
+                '@Html.AntiForgeryToken()' +
+                '@Html.HiddenFor(model => model.InscriptionID)' +
+                '<table>' +
+                '<tr>' +
+                '<td width="10%">' +
+                '@Html.EditorFor(model => model.LineNumber, new { htmlAttributes = new { @class = "form-control" } })' +
+                '@Html.ValidationMessageFor(model => model.LineNumber, "", new { @class = "text-danger" })' +
+                '</td>' +
+                '<td>' +
+                '@Html.EditorFor(model => model.Text, new { htmlAttributes = new { @class = "form-control" } })' +
+                '@Html.ValidationMessageFor(model => model.Text, "", new { @class = "text-danger" })' +
+                '</td>' +
+                '</tr>' +
+                '</table>' +
+                '</form>';
+
+            // Append the new form
+            $("#externalForm").append(newForm);
+            rowCount++;
+
+            updateRowCountInput();
+        }
+
+        function updateRowCountInput() {
+            $("#RowCount").val(rowCount);
+        }
+
+
+        $("#submitAllBtn").click(function () {
+            var forms = $(".ajax-form");
+            var totalForms = forms.length;
+            var formsProcessed = 0; // Initialize the counter for processed forms
+            var errorsOccurred = false; // Track if any errors
+
+            forms.each(function (index, form) {
+                var formData = new FormData(form);
+
+                $.ajax({
+                    url: "/InscriptionText/Create",
+                    type: "POST",
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function (result) {
+                        console.log("Form " + (index + 1) + " submitted successfully.");
+                        formsProcessed++;
+
+                        // Check if all forms have been processed successfully
+                        if (formsProcessed === totalForms && !errorsOccurred) {
+                            console.log("All forms submitted successfully.");
+                            window.location.href = "/Inscriptions/AdminIndex";
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("Form " + (index + 1) + " submission error:", error);
+
+                        errorsOccurred = true;
+
+                        formsProcessed++;
+
+                        if (formsProcessed === totalForms) {
+                            console.log("All forms processed with errors.");
+                        }
+                    }
+                });
+            });
+        });
+
+
+    });
 </script>
-
-
-@Html.AntiForgeryToken()
-
-@Html.HiddenFor(model => model.InscriptionID)
-
 
 <div class="form-horizontal">
     <hr />
@@ -25,58 +101,54 @@
 
 <h5>Inscription Text</h5>
 
-
-@using (Ajax.BeginForm("Create", new { }, new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "InscriptionsModel" }, new { @id = "InscriptionText" }))
+@using (Html.BeginForm("Create", "InscriptionText", FormMethod.Post, new { @id = "InscriptionText", @class = "ajax-form" }))
 {
+    @Html.AntiForgeryToken()
+
+    @Html.HiddenFor(model => model.InscriptionID)
+    @Html.HiddenFor(model => model.Row, new { id = "RowCount" })
+
     <table>
         <tr class="form-group">
             <td width="10%">
-                @Html.LabelFor(model => model.LineNumber, "Line#", htmlAttributes: new { @class = "control-label" })
+                Line Number
             </td>
-
             <td>
-                @Html.LabelFor(model => model.Text, "", htmlAttributes: new { @class = "control-label" })
+                Text
             </td>
         </tr>
-
-
         <tbody id="dataRow">
-
             <tr>
-                <td>
-                    @Html.EditorFor(model => model.LineNumber, null, new { htmlAttributes = new { @class = "form-control" } })
+                <td width="10%">
+                    @Html.EditorFor(model => model.LineNumber, new { htmlAttributes = new { @class = "form-control" } })
                     @Html.ValidationMessageFor(model => model.LineNumber, "", new { @class = "text-danger" })
                 </td>
                 <td>
-                    @Html.EditorFor(model => model.Text, null, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.EditorFor(model => model.Text, new { htmlAttributes = new { @class = "form-control" } })
                     @Html.ValidationMessageFor(model => model.Text, "", new { @class = "text-danger" })
                 </td>
-               
             </tr>
-            
         </tbody>
     </table>
+}
+<div id="externalForm">
+    <!-- Append new rows here -->
+</div>
 
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <button id="addRowBtn" type="button">Add Row</button>
+        </div>
+    </div>
 
-
-
-    }
-<br />
 
 <div class="form-group">
     <div class="col-md-offset-2 col-md-10">
-        <button type="button" onClick="addRow">Add</button>
+        <button id="submitAllBtn" type="button">Submit</button>
     </div>
 </div>
-
-<div class="form-group">
-    <div class="col-md-offset-2 col-md-10">
-        <input type="submit" value="Submit" class="btn btn-default" />
-    </div>
-</div>
-
-
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }
+

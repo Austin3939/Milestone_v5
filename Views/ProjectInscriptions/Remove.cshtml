@@ -1,0 +1,27 @@
+﻿@model Inscript_v5.Models.ProjectInscriptionsModel
+
+@{
+    ViewBag.Title = "Remove";
+}
+
+<h4>Confirm Delete</h4>
+<div>
+    <div>Inscription</div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dd>
+            @Html.DisplayFor(model => model.InscriptionName)
+        </dd>
+        <dd>
+            @Html.DisplayFor(model => model.ProjectID)
+        </dd>
+    </dl>
+
+    @using (Html.BeginForm("Remove", "YourControllerName", new { id = Model.UserInscriptionsID }, FormMethod.Post, new { @id = "RemoveInscription" }))
+    {
+        @Html.AntiForgeryToken()
+        <div class="form-actions no-color">
+            <input type="submit" value="Remove" class="btn btn-default" />
+        </div>
+    }
+</div>

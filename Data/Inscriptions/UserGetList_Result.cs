@@ -18,5 +18,6 @@ namespace Inscript_v5.Data.Inscriptions
         public string Email { get; set; }
         public string Password { get; set; }
         public int RoleID { get; set; }
+        public string Role { get; set; }
     }
 }

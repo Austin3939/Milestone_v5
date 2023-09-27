@@ -1,0 +1,71 @@
+﻿@model Inscript_v5.Models.UsersModel
+
+@{
+    ViewBag.Title = "Index";
+}
+
+@{
+    if (Session["UserID"] == null)
+    {
+        Response.Redirect("~/UserLogin/Index");
+    }
+}
+
+<h2 class="center">User Information</h2>
+<div style="text-align:right">
+    <a href="@Url.Action("Edit", "Users", new { id = Session["UserID"]})" class="link-primary">Edit Account Information</a>
+</div>
+<hr />
+
+<div class="card">
+    <table class="table">
+
+        <tr class="form-group">
+            <th>
+                @Html.LabelFor(model => model.UserName, "User Name", htmlAttributes: new { @class = "control-label" })
+            </th>
+            <th>
+                @Html.LabelFor(model => model.FirstName, "First Name", htmlAttributes: new { @class = "control-label" })
+            </th>
+            <th>
+                @Html.LabelFor(model => model.LastName, "Last Name", htmlAttributes: new { @class = "control-label" })
+            </th>
+            <th>
+                @Html.LabelFor(model => model.Email, "Email", htmlAttributes: new { @class = "control-label" })
+            </th>
+            <th>
+                @Html.LabelFor(model => model.Role, "Role", htmlAttributes: new { @class = "control-label" })
+            </th>
+
+        </tr>
+
+        <tr class="form-group">
+            <td>
+                @Html.DisplayFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control" } })
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control" } })
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control" } })
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.Email, null, new { htmlAttributes = new { @class = "form-control" } })
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.Role, null, new { htmlAttributes = new { @class = "form-control" } })
+            </td>
+
+        </tr>
+    </table>
+</div>
+
+<br />
+
+<div>
+    @Html.ActionLink("Back", "Index", "UserPortal")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

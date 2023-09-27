@@ -3,22 +3,29 @@
 @{
     ViewBag.Title = "Details";
 }
+<style>
+    #table{
+        width: 100%;
+    }
+</style>
 
-<div>
-    Inscription Text View 
-    <table>
-       @foreach (var item in Model)
-       {
+
+    <table id="table">
+        @foreach (var item in Model)
+        {
             <tr class="form-group">
-                <td width="10%">
+                <td width="5%" style="font-size: 60%">
                     @Html.DisplayFor(modelItem => item.LineNumber)
                 </td>
 
-                <td>
+                <td id="semiticText">
                     @Html.DisplayFor(modelItem => item.Text)
                 </td>
-            </tr>
-       }
-        </table>
 
-    </div>
+                <td width="5%" style="font-size: 60%">
+                    @Html.DisplayFor(modelItem => item.LineNumber)
+                </td>
+            </tr>
+        }
+    </table>
+

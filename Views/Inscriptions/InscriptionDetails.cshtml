@@ -1,0 +1,44 @@
+﻿@model Inscript_v5.Models.InscriptionsModel
+
+@{
+    ViewBag.Title = "InscriptionDetails";
+}
+
+<style>
+    #titleheader {
+        font-family: "News Cycle", "Arial Narrow Bold", sans-serif;
+        font-size: 15px;
+        font-weight: 700;
+    }
+
+    #semiticText {
+        display: inline;
+        margin: 0;
+        padding: 0;
+        border: none;
+        font-family: Time New Roman;
+        font-size: 15pt;
+        line-height: 1.6;
+        background-color: transparent;
+        text-align: right;
+    }
+</style>
+
+<div>
+    <dl>
+        <dd>
+            <h4>
+                @Html.DisplayFor(model => model.InscriptionName)
+            </h4>
+        </dd>
+        <dd>
+            @Html.DisplayFor(model => model.Location)
+            |
+            @Html.DisplayFor(model => model.Date)
+            |
+            @Html.DisplayFor(model => model.Language)
+        </dd>
+
+    </dl>
+    <br />
+</div>

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -19,6 +20,26 @@ namespace Inscript_v5.Controllers
         public ActionResult Index()
         {
             return View(InscriptionsData.GetList());
+        }
+
+        public ActionResult Filter(string searchText)
+        {
+            var filteredData = InscriptionsData.Filter(searchText);
+            return View("Filter", filteredData);
+        }
+
+        //Admin Index
+        public ActionResult AdminIndex(string searchText)
+        {
+            if (Session["Role"] != null && Session["Role"].ToString() == "Admin")
+            {
+                var filteredData = InscriptionsData.Filter(searchText);
+                return View("AdminIndex", filteredData);
+            }
+            else
+            {
+                return RedirectToAction("Index", "UserLogin");
+            }
         }
 
         // GET: Inscriptions/Details/5
@@ -51,8 +72,39 @@ namespace Inscript_v5.Controllers
             {
                 return HttpNotFound();
             }
-           
+
             return View(inscriptions);
+        }
+        public ActionResult DetailsPopup(int id)
+        {
+            InscriptionsModel inscriptions = InscriptionsData.Get(id);
+            if (inscriptions == null)
+            {
+                return HttpNotFound();
+            }
+
+            return PartialView(inscriptions);
+        }
+        public ActionResult InscriptionDetails(int id)
+        {
+            InscriptionsModel inscriptions = InscriptionsData.Get(id);
+            if (inscriptions == null)
+            {
+                return HttpNotFound();
+            }
+
+            return PartialView(inscriptions);
+        }
+
+        public ActionResult InscriptionNotes(int id)
+        {
+            InscriptionsModel inscriptions = InscriptionsData.Get(id);
+            if (inscriptions == null)
+            {
+                return HttpNotFound();
+            }
+
+            return PartialView(inscriptions);
         }
 
         public ActionResult SaveInscription(int id)
@@ -67,6 +119,7 @@ namespace Inscript_v5.Controllers
             UserInscriptionsData.Remove(UserID, id);
             return View();
         }
+
 
         // GET: Inscriptions/Create
         [HttpGet]
@@ -91,7 +144,7 @@ namespace Inscript_v5.Controllers
             return View(inscription);
         }
 
-        // GET: Inscriptions/Edit/5
+        // GET: Inscriptions/Edit
         public ActionResult Edit(int id)
         {
        
@@ -104,7 +157,7 @@ namespace Inscript_v5.Controllers
             return View(inscription);
         }
 
-        // POST: Inscriptions/Edit/5
+        // POST: Inscriptions/Edit
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(InscriptionsModel inscription)
@@ -118,7 +171,7 @@ namespace Inscript_v5.Controllers
             return View(inscription);
         }
 
-        // GET: Inscriptions/Delete/5
+        // GET: Inscriptions/Delete
         public ActionResult Delete(int id)
         {
             var inscription = InscriptionsData.Get(id);
@@ -129,7 +182,7 @@ namespace Inscript_v5.Controllers
             return View(inscription);
         }
 
-        // POST: Inscriptions/Delete/5
+        // POST: Inscriptions/Delete
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
@@ -138,7 +191,7 @@ namespace Inscript_v5.Controllers
             InscriptionsData.Delete(inscription);
             
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("AdminIndex");
         }
 
         public ActionResult SelectRecent()

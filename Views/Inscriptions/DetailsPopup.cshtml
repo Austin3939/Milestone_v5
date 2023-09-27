@@ -1,0 +1,79 @@
+﻿@model Inscript_v5.Models.InscriptionsModel
+
+@{
+    ViewBag.Title = "DetailsPopup";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Popup Content</title>
+    <style>
+        /* Center the text horizontally and vertically */
+        body {
+            display: flex;
+            margin: 0;
+        }
+
+        .content {
+            width: 80%; /* Adjust this as needed */
+            max-width: 600px; /* Set a maximum width */
+            padding: 10px;
+            background-color: #fff;
+            border: 1px solid #fff;
+            border-radius: 5px;
+        }
+
+        #header {
+            font-family: "News Cycle", "Arial Narrow Bold", sans-serif;
+            font-size: 20px;
+            font-weight: 700;
+            margin: 0;
+            text-align: center;
+        }
+
+        #details {
+            font-family: "News Cycle", "Arial Narrow Bold", sans-serif;
+            font-size: 15px;
+            margin: 0;
+            text-align: center;
+        }
+
+        #semiticText {
+            display: inline;
+            margin: 0;
+            padding: 0;
+            border: none;
+            font-family: Time New Roman;
+            font-size: 15pt;
+            line-height: 1.6;
+            background-color: transparent;
+            align-items: center;
+            text-align: right;
+        }
+    </style>
+</head>
+<body>
+        <div class="content">
+            <p id="header">
+                    @Html.DisplayFor(model => model.InscriptionName)
+            </p>
+            <p id="details">
+
+                    @Html.DisplayFor(model => model.Location)
+                    |
+                    @Html.DisplayFor(model => model.Date)
+                    |
+                    @Html.DisplayFor(model => model.Language)
+            </p>
+            <br />
+            <div id="semiticText">
+                <!-- Inscription Text -->
+                    @{Html.RenderAction("Details", "InscriptionText", new { Model.InscriptionID }); }
+
+            </div>
+        </div>
+</body>
+</html>

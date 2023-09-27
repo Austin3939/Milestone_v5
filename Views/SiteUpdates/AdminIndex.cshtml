@@ -1,0 +1,55 @@
+﻿@model IEnumerable<Inscript_v5.Models.SiteUpdatesModel>
+
+@{
+    ViewBag.Title = "AdminIndex";
+}
+
+<script>
+    function confirmDelete(Name) {
+
+        var message = `Delete Post?\n${UpdateName}`;
+        return confirm(message);
+    }
+</script>
+
+<h2>Site Update Posts (Admin)</h2>
+
+<p>@Html.ActionLink("Create Post", "Create", "SiteUpdates", new { area = "" }, new { @class = "btn btn-primary btn-md" })</p>
+
+<hr />
+<table class="table">
+
+    @foreach (var item in Model)
+    {
+        <tr class="text-center">
+            <td>
+                <a href="@Url.Action("Details", "SiteUpdates", new { id = item.UpdateID })">
+                    @Html.DisplayFor(modelItem => item.UpdateName)
+                </a>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserName)
+            </td>
+            <td>
+                @item.Date.ToString("MM/dd/yyyy")
+            </td>
+            <td>
+                @Html.Raw(HttpUtility.HtmlDecode(item.Text))
+            </td>
+
+            <td>
+                <a href="@Url.Action("Edit", "SiteUpdates", new { id = item.UpdateID})" class="btn btn-sm">Edit</a>
+            </td>
+
+            <td>
+                <form method="post" action="@Url.Action("Delete", "SiteUpdates", new { id = item.UpdateID })" onsubmit="return confirmDelete('@item.UpdateName')">
+                    @Html.AntiForgeryToken()
+                    <input type="submit" value="Delete Post" id="deleteButton" />
+                    <input type="hidden" name="id" value="@item.UpdateID" />
+                </form>
+            </td>
+        </tr>
+
+    }
+
+</table>

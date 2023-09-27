@@ -1,0 +1,47 @@
+﻿@using System.Web
+@model IEnumerable<Inscript_v5.Models.SiteUpdatesModel>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Site Updates</h2>
+
+<hr />
+
+@foreach (var item in Model)
+{
+    <div class="center">
+        <div class="card" style="width: 70%; margin: 0 auto; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);">
+            <table class="table">
+                <tr>
+                    <td>
+                        <h5 class="text-center">
+                            @Html.DisplayFor(modelItem => item.UpdateName)
+                        </h5>
+                        <div class="text-center">
+                            Posted Date:
+                            @item.Date.ToString("MM/dd/yyyy")
+                        </div>
+                        <div>
+                            @Html.Raw(HttpUtility.HtmlDecode(item.Text))
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="align-text-bottom" style="text-align: right; font-size: smaller;">
+                        <div>
+                            @Html.DisplayFor(modelItem => item.UserName)
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <br />
+
+}
+
+
+

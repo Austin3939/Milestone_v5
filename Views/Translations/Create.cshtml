@@ -1,0 +1,100 @@
+﻿@model Inscript_v5.Models.TranslationsModel
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<style>
+    #titleheader {
+        font-family: "News Cycle", "Arial Narrow Bold", sans-serif;
+        font-size: 15px;
+        font-weight: 700;
+    }
+
+    #semiticText {
+        display: inline;
+        margin: 0;
+        padding: 0;
+        border: none;
+        font-family: Time New Roman;
+        font-size: 15pt;
+        line-height: 1.6;
+        background-color: transparent;
+        text-align: right;
+    }
+</style>
+
+<h1 class="center"> Create Translation</h1>
+<hr />
+
+@using (Html.BeginForm())
+{
+
+    <table class="table">
+        <tr>
+            <td style="width: 50%; box-sizing: border-box;">
+                @{Html.RenderAction("InscriptionDetails", "Inscriptions", new { Model.InscriptionID });}
+            </td>
+            <td style="width: 50%; box-sizing: border-box;">
+                @Html.AntiForgeryToken()
+                @Html.HiddenFor(model => model.InscriptionID)
+                @Html.HiddenFor(model => model.CreatedByUserID)
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.HiddenFor(model => model.TranslationID)
+
+                <div class="form-group">
+                    <h6>Translation Name</h6>
+                    @Html.EditorFor(model => model.TranslationName, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.TranslationName, "", new { @class = "text-danger" })
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <!-- Inscription Text -->
+            <td id="semiticText" style="width: 50%; box-sizing: border-box;">
+                <br />
+                @{Html.RenderAction("Details", "InscriptionText"); }
+            </td>
+            <td style="width: 50%; box-sizing: border-box;">
+                <!-- Translation Text -->
+                <h6>Translation</h6>
+                @Html.TextAreaFor(model => model.TranslationText, new { @class = "custom-textarea", rows = 4, cols = 60 })
+                @Html.ValidationMessageFor(model => model.TranslationText, "", new { @class = "text-danger" })
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <!-- Inscription Notes -->
+                <br />
+                @{Html.RenderAction("InscriptionNotes", "Inscriptions", new { Model.InscriptionID });}
+            </td>
+            <td>
+                <!-- Translation Notes -->
+                <h6>Translation Notes</h6>
+                @Html.TextAreaFor(model => model.Notes, new { @class = "custom-textarea", rows = 4, cols = 60 })
+                @Html.ValidationMessageFor(model => model.Notes, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    <br />
+                    @Html.LabelFor(model => model.PublicView, "Make Translation Public?", htmlAttributes: new { @class = "control-label" })
+                    @Html.CheckBoxFor(model => model.PublicView, new { @class = "form-check-input" })
+                    @Html.ValidationMessageFor(model => model.PublicView, "", new { @class = "text-danger" })
+                </div>
+                <div>
+                    <input type="submit" value="Save" class="btn btn-default" />
+                </div>
+            </td>
+        </tr>
+    </table>
+
+    <br />
+
+    
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Filter", "Inscriptions")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

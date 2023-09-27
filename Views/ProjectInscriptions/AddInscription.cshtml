@@ -1,0 +1,63 @@
+﻿@model Inscript_v5.Models.ProjectInscriptionsModel
+
+
+@{
+    ViewBag.Title = "AddInscription";
+}
+@{
+    var inscriptionList = ViewBag.SelectInscription as SelectList;
+}
+
+
+
+@using (Ajax.BeginForm("AddInscription", "ProjectInscriptions", new AjaxOptions { HttpMethod = "POST", OnSuccess = "handleSuccess", OnFailure = "handleFailure" }, new { @id = "AddInscription" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.ProjectID)
+<table class="center">
+    <tr>
+        <th class="center">Add Inscription to Project</th>
+    </tr>
+    <tr>
+        <td>
+            @Html.DropDownListFor(model => model.UserInscriptionsID, ViewBag.SelectInscription as SelectList, "- - Saved Inscriptions - -", new { style = "font-size: medium; text-align: center;" })
+            @Html.ValidationMessageFor(model => model.UserInscriptionsID, "", new { @class = "text-danger" })
+        </td>
+        <td>
+            <input type="submit" value="Add" class="btn btn-sm btn-primary" />
+        </td>
+    </tr>
+</table>
+   
+
+    <script src="~/Scripts/jquery-3.7.0.min.js"></script>
+    <script>
+        $('#AddInscription').submit(function (e) {
+            e.preventDefault();
+
+            $.ajax({
+                url: $(this).attr('action'),
+                type: 'POST',
+                data: $(this).serialize(),
+                success: function (data) {
+                    if (data.success) {
+                        location.reload();
+                    } else {
+                        handleFailure(data.message);
+                    }
+                },
+                error: function () {
+                    handleFailure('An error occurred during the AJAX request.');
+                }
+            });
+        });
+
+        function handleSuccess(message) {
+            $('#messageContainer').html('<div class="alert alert-success">' + message + '</div>');
+        }
+
+        function handleFailure(message) {
+            $('#messageContainer').html('<div class="alert alert-danger">' + message + '</div>');
+        }
+    </script>
+}

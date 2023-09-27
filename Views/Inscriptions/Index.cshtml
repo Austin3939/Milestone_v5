@@ -4,21 +4,46 @@
     ViewBag.Title = "Index";
 }
 
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
 <script>
-    function confirmDelete(InscriptionName) {
+    $(document).ready(function () {
+        // Function to update the table based on search criteria
+        function updateTable(searchText) {
+            $.ajax({
+                url: '@Url.Action("Filter", "Inscriptions")',
+                type: 'GET',
+                data: { searchText: searchText },
+                success: function (data) {
+                    // Update the existing table with the new search results
+                    $("#inscriptionsTable").html(data);
+                }
+            });
+        }
 
-        var message = `Delete Inscription?\n${InscriptionName}`;
-        return confirm(message);
-}
+        // Initially, load the table with all data
+        updateTable(null);
+
+        // Handle input change event in the search box
+        $("#SearchText").on("input", function () {
+            var searchText = $(this).val();
+            if (searchText.length >= 3 || searchText.length === 0) {
+                // Update the table based on the search text (or all data if empty)
+                updateTable(searchText);
+            }
+        });
+    });
 </script>
 
-<h2>Database Manager</h2>
+<h2 class="center">Inscription Database</h2>
 
-<p>
-    @Html.ActionLink("New Inscription", "Create")
-</p>
-<table class="table">
-    <tr>
+<div class="center">
+    Search @Html.TextBox("SearchText", null, new { id = "SearchText", @class = "form-control" })
+</div>
+
+
+<hr />
+<table id="inscriptionsTable" class="table">
+    <tr class="text-center">
         <th>
             @Html.DisplayNameFor(model => model.InscriptionName)
         </th>
@@ -30,16 +55,16 @@
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Location)
-        <th>
-
-        <th></th>
+        </th>
     </tr>
 
     @foreach (var item in Model)
     {
-        <tr>
+        <tr class="text-center">
             <td>
-                @Html.DisplayFor(modelItem => item.InscriptionName)
+                <a href="@Url.Action("Details", "Inscriptions", new { id = item.InscriptionID })">
+                    @Html.DisplayFor(modelItem => item.InscriptionName)
+                </a>
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Date)
@@ -50,21 +75,17 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Location)
             </td>
-           
+
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.InscriptionID }) |
-                @Html.ActionLink("Details", "Details", new { id = item.InscriptionID })
-            </td>
-            
-            <td>
-                <form method="post" action="@Url.Action("Delete", "Inscriptions", new { id = item.InscriptionID })" onsubmit="return confirmDelete('@item.InscriptionName')">
-                    @Html.AntiForgeryToken()
-                    <input type="hidden" name="id" value="@item.InscriptionID" />
-                    <input type="submit" value="Delete" class="btn btn-sm" id="deleteButton" />
-                </form>
+                @{
+                    if (Session["UserID"] != null)
+                    {
+                        <a href="@Url.Action("Create", "Translations", new { id = item.InscriptionID})" class="btn btn-sm">Create Translation</a>
+                    }
+                }
             </td>
         </tr>
-        
+
     }
 
 </table>

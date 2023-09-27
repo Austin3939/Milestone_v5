@@ -1,0 +1,125 @@
+﻿@model Inscript_v5.Models.UserProjectsModel
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/2.3.3/purify.min.js"></script>
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<!-- suneditor -->
+<link href="~/Content/suneditor.min.css" rel="stylesheet" />
+<!-- suneditor -->
+<script src="~/Scripts/suneditor.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        const projectDocumentTextArea = document.getElementById('ProjectDocument');
+        const editor = SUNEDITOR.create('projectDocumentEditor', {
+            display: 'block',
+            width: '100%',
+            height: '100%',
+            popupDisplay: 'full',
+            buttonList: [
+                ['font', 'fontSize', 'formatBlock'],
+                ['paragraphStyle', 'blockquote'],
+                ['bold', 'underline', 'align', 'strike', 'subscript', 'superscript', 'horizontalRule', 'list'],
+                ['table', 'link'],
+                ['align', 'horizontalRule', 'list', 'lineHeight'],
+                ['codeView']
+            ],
+            placeholder: 'Start typing something...'
+        });
+
+        editor.onChange = function (contents, core) {
+            projectDocumentTextArea.value = encodeURIComponent(contents);
+        };
+
+        const decodedContent = decodeURIComponent(projectDocumentTextArea.value);
+        editor.setContents(decodedContent, true);
+
+    });
+</script>
+<style>
+    .custom-textarea {
+        height: 150px;
+    }
+</style>
+
+@using (Ajax.BeginForm("Edit", "UserProjectsController", new AjaxOptions { HttpMethod = "POST", OnSuccess = "handleSuccess", OnFailure = "handleFailure" }, new { @id = "UserProject" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.ProjectID)
+    @Html.HiddenFor(model => model.UserID)
+    @Html.HiddenFor(model => model.ProjectName)
+
+<div class="form-horizontal">
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    <div class="form-group">
+        <h6>
+            @Html.LabelFor(model => model.ProjectDocument, "Project Document", htmlAttributes: new { @class = "control-label col-md-2" })
+        </h6>
+        <div>
+            <div id="projectDocumentEditor" class="sun-editor">
+                @Html.TextAreaFor(model => model.ProjectDocument, new { @class = "custom-textarea", style = "display:none;" })
+            </div>
+            @Html.ValidationMessageFor(model => model.ProjectDocument, "", new { @class = "text-danger" })
+        </div>
+        <div id="messageContainer" class="width-md"></div>
+    </div>
+    <br />
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input id="submit" type="submit" value="Save" class="btn btn-default" />
+            <a href="@Url.Action("DownloadProject", new { id = Model.ProjectID, UserID = Model.UserID })" class="btn btn-default">
+                <i class="fa fa-download"></i> Download Word.doc
+            </a>
+        </div>
+    </div>
+
+</div>
+}
+
+
+<script>
+
+    $('#UserProject').submit(function (e) {
+        e.preventDefault();
+
+        $.ajax({
+            url: $(this).attr('action'),
+            type: 'POST',
+            data: $(this).serialize(),
+            success: function (data) {
+                if (data.success) {
+                    handleSuccess(data.message);
+                } else {
+                    handleFailure(data.message);
+                }
+            },
+            error: function () {
+                handleFailure('An error occurred during the AJAX request.');
+            }
+        });
+    });
+
+    function handleSuccess(message) {
+        $('#messageContainer').html('<div class="alert alert-success">' + message + '</div>');
+        setTimeout(function () {
+            $('#messageContainer').empty(); 
+        }, 2000); 
+    }
+
+    function handleFailure(message) {
+        $('#messageContainer').html('<div class="alert alert-danger">' + message + '</div>');
+        setTimeout(function () {
+            $('#messageContainer').empty(); 
+        }, 2000);
+    }
+    
+</script>
+
+
+

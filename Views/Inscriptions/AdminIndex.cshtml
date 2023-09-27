@@ -1,0 +1,101 @@
+﻿@model IEnumerable<Inscript_v5.Models.InscriptionsModel>
+
+@{
+    ViewBag.Title = "AdminIndex";
+}
+
+<script>
+    function confirmDelete(InscriptionName) {
+
+        var message = `Delete Inscription?\n${InscriptionName}`;
+        return confirm(message);
+    }
+
+    function clearSearch() {
+        document.getElementById("SearchText").value = "";
+        document.forms[0].submit();
+    }
+
+</script>
+
+
+<h2 class="center">Inscription Database (Admin)</h2>
+
+<div class="center">
+    @using (Html.BeginForm("AdminIndex", "Inscriptions", FormMethod.Get, new { @class = "form-inline" }))
+    {
+        <table>
+            <tr>
+                <td>
+                    @Html.TextBox("SearchText", null, new { id = "SearchText", @class = "form-control" })
+                </td>
+                <td>
+                    <button type="submit" class="btn btn-primary">Search</button>
+                </td>
+            </tr>
+            <tr>
+                <td class="center">
+                    <button type="button" onclick="clearSearch()">Clear Search</button>
+                </td>
+            </tr>
+        </table>
+    }
+</div>
+
+<br />
+
+<table id="inscriptionsTable" class="table">
+    <tr id="tableHeading" class="text-center">
+        <th>
+            <h5>@Html.DisplayNameFor(model => model.InscriptionName)</h5>
+        </th>
+        <th>
+            <h5>@Html.DisplayNameFor(model => model.Date)</h5>
+        </th>
+        <th>
+            <h5>@Html.DisplayNameFor(model => model.Language)</h5>
+        </th>
+        <th>
+            <h5>@Html.DisplayNameFor(model => model.Location)</h5>
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr class="text-center">
+            <td>
+                <a href="@Url.Action("Details", "Inscriptions", new { id = item.InscriptionID })">
+                    @Html.DisplayFor(modelItem => item.InscriptionName)
+                </a>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Date)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Language)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Location)
+            </td>
+
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.InscriptionID }, new { @class = "btn btn-sm" })
+                @Html.ActionLink("Details", "Details", new { id = item.InscriptionID }, new { @class = "btn btn-sm" }) |
+                @Html.ActionLink("Add Text", "Create", "InscriptionText", new { id = item.InscriptionID }, new { @class = "btn btn-sm" })
+            </td>
+
+            <td>
+                <form method="post" action="@Url.Action("Delete", "Inscriptions", new { id = item.InscriptionID })" onsubmit="return confirmDelete('@item.InscriptionName')">
+                    @Html.AntiForgeryToken()
+                    <input type="submit" value="Delete Inscription" id="deleteButton" />
+                    <input type="hidden" name="id" value="@item.InscriptionID" />
+                </form>
+            </td>
+        </tr>
+
+    }
+
+</table>
+
+
+
