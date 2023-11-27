@@ -67,15 +67,20 @@
             </div>
             @Html.ValidationMessageFor(model => model.ProjectDocument, "", new { @class = "text-danger" })
         </div>
-        <div id="messageContainer" class="width-md"></div>
+        
     </div>
+
     <br />
+
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
             <input id="submit" type="submit" value="Save" class="btn btn-default" />
             <a href="@Url.Action("DownloadProject", new { id = Model.ProjectID, UserID = Model.UserID })" class="btn btn-default">
                 <i class="fa fa-download"></i> Download Word.doc
             </a>
+        </div>
+        <div style="padding-top: 10px;">
+            <div id="messageContainer" class="width-md"></div>
         </div>
     </div>
 

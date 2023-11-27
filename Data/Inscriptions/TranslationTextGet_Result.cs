@@ -14,8 +14,12 @@ namespace Inscript_v5.Data.Inscriptions
     public partial class TranslationTextGet_Result
     {
         public Nullable<int> LineNumber { get; set; }
-        public Nullable<int> TranslationID { get; set; }
-        public int TranslationTextID { get; set; }
-        public string TranslationText { get; set; }
+        public int TranslationID { get; set; }
+        public int TextID { get; set; }
+        public string Text { get; set; }
+        public int CreatedByUserID { get; set; }
+        public string TranslationName { get; set; }
+        public int InscriptionID { get; set; }
+        public string InscriptionName { get; set; }
     }
 }

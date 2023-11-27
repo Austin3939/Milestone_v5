@@ -1,0 +1,66 @@
+﻿@model IEnumerable<Inscript_v5.Models.InscriptionTextModel>
+
+@{
+    ViewBag.Title = "AdvancedSearch";
+}
+
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.css" />
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.js"></script>
+
+<script>
+    function clearSearch() {
+        document.getElementById("SearchText").value = "";
+        document.forms[0].submit();
+    }
+
+    $(document).ready(function () {
+        new DataTable('#inscriptionTextTable');
+    });
+</script>
+
+<div class="card" style="width: 100%; margin: 0 auto; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2); padding: 10px;">
+    <h1 id="pageHeading" class="center">Search Inscription Text</h1>
+
+    <div style="width: 100%; text-align: right;">
+        <h6>IPA letters</h6>
+        <p>ʾa ʾi ʾu ḏ ḥ ḫ ṭ ẓ ś ʿ ǵ ṣ š ṯ</p>
+    </div>
+
+    <table id="inscriptionTextTable" class="display">
+        <thead>
+            <tr id="tableHeading" class="text-center">
+                <th>
+                    <h5>@Html.DisplayNameFor(model => model.InscriptionName)</h5>
+                </th>
+                <th>
+                    <h5>@Html.DisplayNameFor(model => model.LineNumber)</h5>
+                </th>
+                <th>
+                    <h5>@Html.DisplayNameFor(model => model.Text)</h5>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        <a href="@Url.Action("Details", "Inscriptions", new { id = item.InscriptionID })">
+                            @Html.DisplayFor(modelItem => item.InscriptionName)
+                        </a>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LineNumber)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Text)
+                    </td>
+                </tr>
+            }
+        </tbody>
+
+    </table>
+</div>
+<br />
+

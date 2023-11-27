@@ -35,6 +35,12 @@ namespace Inscript_v5.Controllers
 
         }
 
+        public ActionResult AdvancedSearch(string searchText)
+        {
+            var filteredData = InscriptionTextData.AdvancedSearch(searchText);
+            return View("AdvancedSearch", filteredData);
+        }
+
         public ActionResult TextDetailsPartial(int id)
         {
             List<InscriptionTextModel> inscriptions = InscriptionTextData.GetList(id).ToList();
@@ -54,7 +60,7 @@ namespace Inscript_v5.Controllers
             var inscriptiontext = new InscriptionTextModel();
             inscriptiontext.InscriptionID = id;
             ViewBag.NextView = false;
-            return View(inscriptiontext);
+            return PartialView(inscriptiontext);
         }
 
         [HttpPost]
@@ -83,34 +89,74 @@ namespace Inscript_v5.Controllers
             }
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CreateAndTranslate(InscriptionTextModel inscriptionText)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    InscriptionTextData.Insert(inscriptionText);
+                    // You can optionally return a JSON response indicating success
+                    return Json(new { success = true, message = "Form submitted successfully." });
 
+                }
+
+                // If there are validation errors, return a JSON response with error messages
+                var errorMessages = ModelState.Values.SelectMany(v => v.Errors)
+                    .Select(e => e.ErrorMessage).ToList();
+
+                return Json(new { success = false, errors = errorMessages });
+            }
+            catch (Exception ex)
+            {
+                // Handle unexpected server-side errors
+                return Json(new { success = false, errorMessage = ex.Message });
+            }
+        }
 
 
         // GET: InscriptionText/Edit
         public ActionResult Edit(int id)
         {
 
-            var inscriptionText = InscriptionTextData.Get(id);
+            var inscriptionText = InscriptionTextData.GetList(id);
             if (inscriptionText == null)
             {
                 return HttpNotFound();
             }
 
-            return View(inscriptionText);
+            return PartialView(inscriptionText);
         }
 
         // POST: InscriptionText/Edit
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(InscriptionTextModel inscriptionText)
+        public ActionResult Edit(List<InscriptionTextModel> inscriptionTextList)
         {
-            if (ModelState.IsValid)
+            try
             {
-                InscriptionTextData.Update(inscriptionText);
-                return RedirectToAction("Index");
-            }
+                if (ModelState.IsValid)
+                {
+                    int InscriptionID = inscriptionTextList.FirstOrDefault().InscriptionID.Value;
+                    InscriptionTextData.Update(inscriptionTextList);
+                    // You can optionally return a JSON response indicating success
+                    return RedirectToAction("Details", "Inscriptions", new { id = InscriptionID });
 
-            return View(inscriptionText);
+                }
+
+                // If there are validation errors, return a JSON response with error messages
+                var errorMessages = ModelState.Values.SelectMany(v => v.Errors)
+                    .Select(e => e.ErrorMessage).ToList();
+
+                return Json(new { success = false, errors = errorMessages });
+            }
+            catch (Exception ex)
+            {
+                // Handle unexpected server-side errors
+                return Json(new { success = false, errorMessage = ex.Message });
+            }
         }
 
         // GET: InscriptionText/Delete

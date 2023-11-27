@@ -71,7 +71,6 @@
                 @Html.DisplayFor(modelItem => item.UserName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.PublicView)
                 @if (item.PublicView)
                 {
                     <span>&#10004;</span> <!-- Check mark character -->
@@ -79,7 +78,7 @@
             </td>
 
             <td>
-                <a href="@Url.Action("Edit", "Translations", new { id = item.InscriptionID})" class="btn btn-sm">Edit</a>
+                <a href="@Url.Action("EditTranslationText", "Translations", new { InscriptionID = item.InscriptionID, TranslationID = item.TranslationID})" class="btn btn-sm">Edit</a>
                 <a href="@Url.Action("Details", "Inscriptions", new { id = item.InscriptionID})" class="btn btn-sm">Details</a>
             </td>
 

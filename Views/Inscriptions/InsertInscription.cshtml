@@ -1,0 +1,174 @@
+﻿@model Inscript_v5.Models.InscriptionsModel
+
+<script src="~/Scripts/jquery-3.7.0.min.js"></script>
+<script>
+
+    $(document).ready(function () {
+        $("#submitBothForms").click(function () {
+            $.ajax({
+                url: "/Inscriptions/Edit",
+                type: 'POST',
+                data: $("#InscriptionDetails").serialize(),
+                success: function (data) {
+                    console.log("submitBothForms success");
+
+                    // Run the submitAllBtn function
+                    submitAllBtnFunction();
+                },
+                error: function () {
+
+                }
+            });
+        });
+
+        function submitAllBtnFunction() {
+            var forms = $(".ajax-form");
+            var totalForms = forms.length;
+            var formsProcessed = 0; // Initialize the counter for processed forms
+            var errorsOccurred = false; // Track if any errors
+
+            forms.each(function (index, form) {
+                var formData = new FormData(form);
+
+                $.ajax({
+                    url: "/InscriptionText/Create",
+                    type: "POST",
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function (result) {
+                        console.log("Form " + (index + 1) + " submitted successfully");
+                        if (++formsProcessed === totalForms && !errorsOccurred) {
+                            console.log("All forms submitted successfully.");
+                            window.location.href = "/Inscriptions/AdminIndex";
+
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("Form " + (index + 1) + " submission error:", error);
+                        $("#successMessage").text("Error").show();
+
+                        errorsOccurred = true;
+
+                        if (++formsProcessed === totalForms) {
+                            var errorMessage = "All forms processed with errors.";
+                            console.log(errorMessage);
+                            displayMessage(errorMessage);
+                            $("#successMessage").text("Error").show();
+                        }
+                    }
+                });
+            });
+        }
+    });
+
+</script>
+
+
+<style>
+    textarea {
+        width: 560px !important;
+        height: 200px !important;
+    }
+</style>
+
+
+<h1 class="center">Insert Inscription</h1>
+<div class="center">
+    <div class="rounded-box" style="width: 20%">
+        <div class="center" style="font-size: 20px;">IPA letters</div>
+        <p class="center" style="font-size: 20px;">ʾ ʾa  ʾi  ʾu  ḏ  ḥ  ḫ  ṭ  ẓ  ś  ʿ  ǵ  ṣ  š  ṯ</p>
+    </div>
+</div>
+
+
+<hr />
+
+<body>
+    <div class="flex-container">
+        <div class="card" style="width: 49%; margin: 0 auto; margin-right: 5px; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2); padding: 10px;">
+            <!-- Inscription Details -->
+            <div class="col-md-10">
+                <h5>Inscription Details</h5>
+            </div>
+            @using (Ajax.BeginForm("Create", new { }, new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "InscriptionsModel" }, new { @id = "InscriptionDetails" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.HiddenFor(model => model.InscriptionID)
+
+                <table class="table">
+                    <tr>
+                        <td class="col-md-5">
+                            @Html.LabelFor(model => model.InscriptionName, "Inscription Name", htmlAttributes: new { @class = "control-label" })
+                            <div class="col-md-5">
+                                @Html.EditorFor(model => model.InscriptionName, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.InscriptionName, "", new { @class = "text-danger" })
+                            </div>
+                        </td>
+                    </tr>
+
+
+                    <tr>
+                        <td class="col-md-5">
+                            @Html.LabelFor(model => model.Date, "Date", htmlAttributes: new { @class = "control-label" })
+                            <div class="col-md-5">
+                                @Html.EditorFor(model => model.Date, null, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-5">
+                            @Html.LabelFor(model => model.Location, "Location", htmlAttributes: new { @class = "control-label" })
+                            <div class="col-md-5">
+                                @Html.EditorFor(model => model.Location, null, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Location, "", new { @class = "text-danger" })
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-5">
+                            @Html.LabelFor(model => model.Language, "Language", htmlAttributes: new { @class = "control-label" })
+                            <div class="col-md-5">
+                                @Html.EditorFor(model => model.Language, null, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Language, "", new { @class = "text-danger" })
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr class="form-group">
+                        <td>
+                            @Html.LabelFor(model => model.Notes, "Inscription Notes", htmlAttributes: new { @class = "control-label" })
+                            <div class="col-md-10">
+                                @Html.TextAreaFor(model => model.Notes, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Notes, "", new { @class = "text-danger" })
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            }
+        </div>
+
+        <div class="card" style="width: 49%; margin: 0 auto; margin-left: 5px; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2); padding: 10px;">
+            <!-- Inscription Text -->
+            <div class="col-md-10">
+                <h5>Inscription Text</h5>
+            </div>
+            @{Html.RenderAction("Create", "InscriptionText", new { id = Model.InscriptionID });}
+        </div>
+    </div>
+
+    <div class="center" style="padding: 10px;">
+        <button id="submitBothForms" value="Save" class="btn btn-default">Submit</button>
+    </div>
+
+</body>
+<div>
+    <form method="post" action="@Url.Action("CancelInscription", "Inscriptions", new { id = Model.InscriptionID })">
+        @Html.AntiForgeryToken()
+        <input class="btn btn-outline-light" type="submit" value="Cancel" id="deleteButton" />
+    </form>
+</div>
+
+<br />
+

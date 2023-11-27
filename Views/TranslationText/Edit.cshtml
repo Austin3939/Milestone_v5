@@ -1,0 +1,82 @@
+﻿@model List<Inscript_v5.Models.TranslationTextModel>
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<script>
+
+
+</script>
+
+<style>
+    .linenumber-textbox {
+        width: 40px; /* Set the desired width */
+        height: 30px; /* Set the desired height */
+        display: block;
+        padding: 0.1rem 0.3rem;
+        color: #222;
+        background-color: #fff;
+        background-clip: padding-box;
+        border: 1px solid #ced4da;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        border-radius: 0.375rem;
+        /* Add any other custom styling properties you need */
+    }
+
+    .line-textbox {
+        width: 300px; /* Set the desired width */
+        height: 30px; /* Set the desired height */
+        display: block;
+        padding: 0.1rem 0.3rem;
+        color: #222;
+        background-color: #fff;
+        background-clip: padding-box;
+        border: 1px solid #ced4da;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        border-radius: 0.375rem;
+    }
+</style>
+
+<div style="padding-bottom: 60px;">
+    <h2>Edit Translation Text</h2>
+</div>
+
+@using (Html.BeginForm("Edit", "TranslationText", FormMethod.Post, new { @id = "translationText", @class = "ajax-form" }))
+{
+    @Html.AntiForgeryToken()
+
+    <table class="table">
+        @for (int i = 0; i < Model.Count; i++)
+        {
+            @Html.HiddenFor(modelItem => Model[i].InscriptionID, new { Name = $"translationTextList[{i}].InscriptionID" })
+            @Html.HiddenFor(modelItem => Model[i].TranslationID, new { Name = $"translationTextList[{i}].TranslationID" })
+            @Html.HiddenFor(modelItem => Model[i].TextID, new { Name = $"translationTextList[{i}].TextID" })
+            <tr>
+                <td  style= "width:10%; padding: 0.2px;">
+                    @Html.EditorFor(modelItem => Model[i].LineNumber, new { htmlAttributes = new { @class = "linenumber-textbox", Name = $"translationTextList[{i}].LineNumber" } })
+                </td>
+                <td  style="padding: 0.2px;">
+                    @Html.EditorFor(modelItem => Model[i].Text, new { htmlAttributes = new { @class = "line-textbox", Name = $"translationTextList[{i}].Text" } })
+                    @Html.ValidationMessageFor(modelItem => Model[i].Text, "", new { @class = "text-danger" })
+                </td>
+            </tr>
+         }
+    </table>
+
+
+    <br />
+    <br />
+    <br />
+
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+

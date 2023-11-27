@@ -46,7 +46,7 @@
                             @Html.ActionLink("Details", "UserTranslationDetails", "Translations", new { id = item.InscriptionID, tid = item.TranslationID }, null)
                         </td>
                         <td>
-                            <a href="@Url.Action("Edit", "Translations", new { id = item.InscriptionID })" class="btn btn-sm">Edit</a>
+                            <a href="@Url.Action("EditTranslationText", "Translations", new { InscriptionID = item.InscriptionID, TranslationID = item.TranslationID})" class="btn btn-sm">Edit</a>
                         </td>
                     </tr>
                 }     

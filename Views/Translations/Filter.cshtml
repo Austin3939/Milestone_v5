@@ -4,74 +4,61 @@
     ViewBag.Title = "Filter";
 }
 
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.css" />
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.js"></script>
+
 <script>
     function clearSearch() {
         document.getElementById("SearchText").value = "";
         document.forms[0].submit();
     }
-    
+
+    $(document).ready(function () {
+        new DataTable('#translationTable');
+    });
+
 </script>
 
 <div class="card" style="width: 100%; margin: 0 auto; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2); padding: 10px;">
     <h1 class="center">Translation Database</h1>
 
-    <div class="center">
-        @using (Html.BeginForm("Filter", "Translations", FormMethod.Get, new { @class = "form-inline" }))
-        {
-            <table>
-                <tr>
-                    <td>
-                        @Html.TextBox("SearchText", null, new { id = "SearchText", @class = "form-control" })
-                    </td>
-                    <td>
-                        <button type="submit" class="btn btn-primary">Search</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="center">
-                        <button type="button" onclick="clearSearch()">Clear Search</button>
-                    </td>
-                </tr>
-            </table>
-        }
-    </div>
-    <div class="center">
-        ** Search includes Inscription, Translation Name, and Translation Text **
-    </div>
-
+    <br />
     <br />
 
-    <div class="table-container">
-        <table class="table">
-            <tr>
+    <table id="translationTable" class="display">
+        <thead>
+            <tr id="tableHeading" class="text-center">
+                <th>
+                    <h5>@Html.DisplayNameFor(model => model.TranslationName)</h5>
+                </th>
                 <th>
                     <h5>@Html.DisplayNameFor(model => model.InscriptionName)</h5>
                 </th>
                 <th>
-                    <h5>@Html.DisplayNameFor(model => model.TranslationName)</h5>
+                    <h5>@Html.DisplayNameFor(model => model.UserName)</h5>
                 </th>
             </tr>
-
-
+        </thead>
+        <tbody>
             @foreach (var item in Model)
             {
                 <tr>
                     <td>
+                        <a href="@Url.Action("UserTranslationDetails", "Translations", new { id = item.InscriptionID, tid = item.TranslationID})">
+                            @Html.DisplayFor(modelItem => item.TranslationName)
+                        </a>
+                    </td>
+                    <td>
                         @Html.DisplayFor(modelItem => item.InscriptionName)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.TranslationName)
-                    </td>
-
-                    <td>
-                        <a href="@Url.Action("Details", "Inscriptions", new { id = item.InscriptionID})" class="btn btn-sm">Details</a>
+                        @Html.DisplayFor(modelItem => item.UserName)
                     </td>
                 </tr>
-
             }
+        </tbody>
 
-        </table>
-    </div>
-
+    </table>
 </div>
 <br />

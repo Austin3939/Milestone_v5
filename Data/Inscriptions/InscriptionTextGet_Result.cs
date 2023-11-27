@@ -13,10 +13,10 @@ namespace Inscript_v5.Data.Inscriptions
     
     public partial class InscriptionTextGet_Result
     {
-        public int TextID { get; set; }
         public Nullable<int> InscriptionID { get; set; }
-        public string Text { get; set; }
-        public Nullable<int> LineNumber { get; set; }
         public string InscriptionName { get; set; }
+        public int TextID { get; set; }
+        public Nullable<int> LineNumber { get; set; }
+        public string Text { get; set; }
     }
 }

@@ -21,6 +21,11 @@ namespace Inscript_v5.Controllers
             return View();
         }
 
+        public ActionResult NewAccountLogin()
+        {
+            return View();
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Login(UsersModel user)
@@ -36,17 +41,26 @@ namespace Inscript_v5.Controllers
                         Session["UserID"] = userDetails.UserID;
                         Session["UserName"] = userDetails.UserName;
                         Session["Role"] = userDetails.Role;
+                        var id = userDetails.UserID;
+
+                        UsersData.SuccessLogin(userDetails.Email);
 
                         return Json(new { success = true, redirectUrl = Url.Action("Index", "UserPortal") });
                     }
                     else
                     {
+                        UsersData.FailLogin(user.Email);
                         ModelState.AddModelError("", "Login failed. Please check your credentials.");
                     }
                 }
 
                 return Json(new { success = false, errorMessage = "Login failed. Please check your credentials." });
             }
+        }
+
+        public ActionResult ForgotPassword()
+        {
+            return View();
         }
 
 

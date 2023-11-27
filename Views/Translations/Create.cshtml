@@ -24,7 +24,17 @@
     }
 </style>
 
-<h1 class="center"> Create Translation</h1>
+@if (ViewBag.NextView == true)
+{
+    <script>
+            function nextView() {
+            window.location.href = "/TranslationText/Create/?id=" + "@Model.TranslationID"
+              }
+        nextView()
+    </script>
+}
+
+<h1 class="center">Create Translation</h1>
 <hr />
 
 @using (Html.BeginForm())
@@ -58,8 +68,7 @@
             <td style="width: 50%; box-sizing: border-box;">
                 <!-- Translation Text -->
                 <h6>Translation</h6>
-                @Html.TextAreaFor(model => model.TranslationText, new { @class = "custom-textarea", rows = 4, cols = 60 })
-                @Html.ValidationMessageFor(model => model.TranslationText, "", new { @class = "text-danger" })
+
             </td>
         </tr>
         <tr>
@@ -88,7 +97,7 @@
 
     <br />
 
-    
+
 }
 
 <div>

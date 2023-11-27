@@ -25,15 +25,15 @@
 
 <body>
     <div class="flex-container">
-        <div class="card" style="width: 30%; margin: 0 auto; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2); padding: 10px;">
+        <div class="card" style="width: 30%; margin: 0 auto; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2); padding: 10px; max-height: 600px; overflow-y: auto;">
             <!-- User Projects-->
             @{Html.RenderAction("Index", "UserProjects");}
         </div>
-        <div class="card" style="width: 30%; margin: 0 auto; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2); padding: 10px; ">
+        <div class="card" style="width: 30%; margin: 0 auto; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2); padding: 10px; max-height: 600px; overflow-y: auto;">
             <!-- Saved Inscriptions-->
             @{Html.RenderAction("UserInscriptionsView", "UserPortal", new { id = Session["UserID"] });}
         </div>
-        <div class="card" style="width: 30%; margin: 0 auto; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2); padding: 10px; ">
+        <div class="card" style="width: 30%; margin: 0 auto; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2); padding: 10px; max-height: 600px; overflow-y: auto;">
             <!-- Saved Translations-->
             @{Html.RenderAction("UserTranslationsView", "UserPortal", new { id = Session["UserID"] });}
         </div>

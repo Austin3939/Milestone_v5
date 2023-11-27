@@ -20,7 +20,6 @@
         font-size: 15pt;
         line-height: 1.6;
         background-color: transparent;
-
     }
 
     #formattedText {
@@ -34,81 +33,78 @@
     }
 </style>
 
-<h1 class="center"> User Translation</h1>
-<hr />
+<h4 class="center">
+    User Translation
+</h4>
 
-<div>
-    <table class="table">
-        <tr>
-            <td style="width: 50%; box-sizing: border-box; text-align: center;">
-                @{Html.RenderAction("InscriptionDetails", "Inscriptions", new { Model.InscriptionID });}
-            </td>
-            <td style="width: 50%; box-sizing: border-box; text-align: center;">
-                <div>Translation Name</div>
-                <h4>
-                    @Html.DisplayFor(model => model.TranslationName)
-                </h4>
-            </td>
-        </tr>
-        <tr>
+<div class="center">
+    <div class="flex-item" style="display: felx; flex-wrap: wrap; justify-content: center; text-align:center;">
+        @{Html.RenderAction("InscriptionDetails", "Inscriptions", new { id = Model.InscriptionID });}
+    </div>
+</div>
+<!--<div class="center">
+    <div class="flex-item" style="display: felx; flex-wrap: wrap; justify-content: center; text-align:center;">
+        Html.DropDownListFor(model => model.TranslationID, new SelectList(Model.Translations, "TranslationID", "TranslationName"), "- - Saved Inscriptions - -", new { style = "font-size: medium; text-align: center;" })
+        <button id="loadDetailsBtn" class="btn btn-default">Load Details</button>
+    </div>
+</div>
+    -->
+
+<body>
+    <div class="center">
+        <div class="card" style="display: inline-block; width: 50%; min-width: 25%; max-width: 50%; margin: 10px; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2); padding: 5px;">
             <!-- Inscription Text -->
-            <td id="semiticText" style="width: 50%; box-sizing: border-box; text-align: right; ">
-                <div style=" padding: 15px">
-                    @{Html.RenderAction("Details", "InscriptionText"); }
-                </div>
-            </td>
-            <td style="width: 50%; box-sizing: border-box; text-align: left; padding:5px;">
-                <!-- Translation Text -->
-                <div style=" padding: 15px">
-                    <pre id="formattedText" class="preformatted-text">@Html.Raw(Model.TranslationText)
-                </pre>
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <td style="width: 50%; box-sizing: border-box;">
-                <!-- Inscription Notes -->
-                <br />
-                <div style=" padding-left: 15px">
-                    @{Html.RenderAction("InscriptionNotes", "Inscriptions", new { Model.InscriptionID });}
-                </div>
-            </td>
-            <td style="width: 50%; box-sizing: border-box;">
-                <!-- Translation Notes -->
-                <br />
-                <div style=" padding-left: 15px">
-                    <h6>@Html.LabelFor(model => model.Notes, "Translation Notes")</h6>
-                    <pre id="formattedText" class="preformatted-text">@Html.Raw(Model.Notes)
-                </pre>
-                </div>
-                <div style=" padding-left: 15px">
-                    @Html.LabelFor(model => model.TranslationName, "Translation: ")
-                    @Html.DisplayFor(model => model.TranslationName)
-                </div>
-                <div style=" padding-left: 15px">
-                    @Html.LabelFor(model => model.UserName, "User: ")
-                    @Html.DisplayFor(model => model.UserName)
-                </div>
-                <div style=" padding-left: 15px">
-                    @if (Model.PublicView)
+            @{Html.RenderAction("Details", "InscriptionText", new { id = Model.InscriptionID });}
+            <br />
+        </div>
+        <div class="card" style="display: inline-block; width: 50%; min-width: 25%; max-width: 50%; margin: 10px; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2); padding: 5px; ">
+            <!-- Translations -->
+            @{Html.RenderAction("Details", "Translations", new { id = Model.InscriptionID, tid = Model.TranslationID });}
+        </div>
+    </div>
+    <div class="center" style="width:100%;">
+        <div style="display: inline-block; width: 50%; max-width: 50%; margin: 10px; box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.2);  padding: 5px; ">
+            @{Html.RenderAction("InscriptionNotes", "Inscriptions", new { id = Model.InscriptionID });}
+        </div>
+        <div style="display: inline-block; width: 50%; max-width: 50%; margin: 10px; box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.2); padding: 5px; ">
+            @{Html.RenderAction("TranslationNotes", "Translations", new { id = Model.InscriptionID, tid = Model.TranslationID });}
+            <div style="padding-top: 10px">
+                @{
+                    var user = Model.CreatedByUserID;
+                    var sessionUserID = Convert.ToInt32(Session["UserID"]);
+                    if (sessionUserID == user)
                     {
-                        <div>View: Public</div>
+                        <a href="@Url.Action("EditTranslationText", "Translations", new { InscriptionID = Model.InscriptionID, TranslationID = Model.TranslationID })" class="btn btn-sm">Edit Translation</a>
+                    }
+                }
+            </div>
+            <div style="padding-top: 10px">
+                @{
+                    if (Session["UserID"] == null)
+                    {
+
+                        <div>
+                            <a class="btn btn-sm" href="@Url.Action("Index", "UserLogin", new { returnUrl = Request.Url.AbsoluteUri })">LOGIN to create translation</a>
+                        </div>
                     }
                     else
                     {
-                        <div>View: Private</div>
+                        <div>
+                            @Html.ActionLink("Create Translation", "Create", "Translations", new { id = Model.InscriptionID }, new { @class = "btn btn-sm" })
+                        </div>
                     }
-                </div>
-                <div class="center" style="padding-left: 15px;">
-                    @Html.ActionLink("Edit Translation", "Edit", "Translations", null, new { @class = "btn btn-sm"})
-                </div>
-            </td>
-        </tr>
+                }
+            </div>
+        </div>
+    </div>
 
-    </table>
-</div>
 
-    <br />
+
+</body>
+
+<br />
+
+<hr />
 
 <div>
     @Html.ActionLink("Back to Dashboard", "Index", "UserPortal")

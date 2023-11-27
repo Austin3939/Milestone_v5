@@ -25,40 +25,39 @@
                 <!--<li>Html.ActionLink("Updates", "Index", "ProjectUpdates", new { area = "" }, new { class = "nav-link" })</li>-->
                 <!--<li>Html.ActionLink("Contact", "Contact", "Home", new { area = "" }, new { class = "nav-link" })</li>-->
             </ul>
-            
-                <ul class="navbar-nav navbar-right">
-                    @if (Session["Role"] != null && Session["Role"].ToString() == "Admin")
-                    {
-                        <li>
-                            @* Admin Tools *@
-                            @Html.ActionLink("Admin Tools", "AdminIndex", "UserPortal", new { area = "" }, new { @class = "nav-link" })
-                        </li>
-                    }
-                    @if (Session["UserID"] == null)
-                    {
-                        <li>@Html.ActionLink("Login", "Index", "UserLogin", new { area = "" }, new { @class = "nav-link" })</li>
-                    }
-                    else
-                    {
-                        <li>@Html.ActionLink("User Dashboard", "Index", "UserPortal", new { area = "" }, new { @class = "nav-link" })</li>
-                        <li class="nav-link">|</li>
-                        <li>@Html.ActionLink("Logout", "Logout", "UserLogin", new { area = "" }, new { @class = "nav-link" })</li>
-                    }
-                </ul>
-            </div>
+
+            <ul class="navbar-nav navbar-right">
+                @if (Session["Role"] != null && Session["Role"].ToString() == "Admin")
+                {
+                    <li>
+                        @* Admin Tools *@
+                        @Html.ActionLink("Admin Tools", "AdminIndex", "UserPortal", new { area = "" }, new { @class = "nav-link" })
+                    </li>
+                }
+                @if (Session["UserID"] == null)
+                {
+                    <li>@Html.ActionLink("Login", "Index", "UserLogin", new { area = "" }, new { @class = "nav-link" })</li>
+                }
+                else
+                {
+                    <li>@Html.ActionLink("User Dashboard", "Index", "UserPortal", new { area = "" }, new { @class = "nav-link" })</li>
+                    <li class="nav-link">|</li>
+                    <li>@Html.ActionLink("Logout", "Logout", "UserLogin", new { area = "" }, new { @class = "nav-link" })</li>
+                }
+            </ul>
+        </div>
     </nav>
-    <div class="container body-content">
+    <div class="container body-content" style="padding-bottom: 20px;">
         @RenderBody()
-        
+
     </div>
 
-    <!--
-    <div style="position: absolute; bottom: 0; width:100%; height: 30px;">
+    <div style="position: fixed; bottom: 0; width:100%; height: 30px; padding-left: 10px;">
         <footer>
-            <p> &copy; @DateTime.Now.Year - Digital Scribe Online</p>
+            <p> &copy; @DateTime.Now.Year - Digital Scribe Online (version 1.0)</p>
         </footer>
     </div>
-    -->
+
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)

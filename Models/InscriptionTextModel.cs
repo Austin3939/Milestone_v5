@@ -15,6 +15,8 @@ namespace Inscript_v5.Models
         public int? InscriptionID { get; set; }
         public string InscriptionName { get; set; }
         public string Text { get; set; }
+
+        [Display(Name = "Line")]
         public int? LineNumber { get; set; }
         public int Row { get; set; }
     }

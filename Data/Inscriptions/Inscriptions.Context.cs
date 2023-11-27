@@ -480,7 +480,7 @@ namespace Inscript_v5.Data.Inscriptions
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<InscriptionsGet_Result>("SelectRecent");
         }
     
-        public virtual int InsertTranslation(Nullable<bool> publicView, Nullable<int> inscriptionID, Nullable<int> createByUserID, string translationName, string translationText, string notes)
+        public virtual int InsertTranslation(Nullable<bool> publicView, Nullable<int> inscriptionID, Nullable<int> createByUserID, string translationName, string notes, ObjectParameter translationID)
         {
             var publicViewParameter = publicView.HasValue ?
                 new ObjectParameter("PublicView", publicView) :
@@ -498,18 +498,14 @@ namespace Inscript_v5.Data.Inscriptions
                 new ObjectParameter("TranslationName", translationName) :
                 new ObjectParameter("TranslationName", typeof(string));
     
-            var translationTextParameter = translationText != null ?
-                new ObjectParameter("TranslationText", translationText) :
-                new ObjectParameter("TranslationText", typeof(string));
-    
             var notesParameter = notes != null ?
                 new ObjectParameter("Notes", notes) :
                 new ObjectParameter("Notes", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("InsertTranslation", publicViewParameter, inscriptionIDParameter, createByUserIDParameter, translationNameParameter, translationTextParameter, notesParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("InsertTranslation", publicViewParameter, inscriptionIDParameter, createByUserIDParameter, translationNameParameter, notesParameter, translationID);
         }
     
-        public virtual int UpdateTranslation(Nullable<int> inscriptionID, Nullable<bool> publicView, string translationName, string translationText, string notes, Nullable<int> translationID)
+        public virtual int UpdateTranslation(Nullable<int> inscriptionID, Nullable<bool> publicView, string translationName, string notes, Nullable<int> translationID)
         {
             var inscriptionIDParameter = inscriptionID.HasValue ?
                 new ObjectParameter("InscriptionID", inscriptionID) :
@@ -523,10 +519,6 @@ namespace Inscript_v5.Data.Inscriptions
                 new ObjectParameter("TranslationName", translationName) :
                 new ObjectParameter("TranslationName", typeof(string));
     
-            var translationTextParameter = translationText != null ?
-                new ObjectParameter("TranslationText", translationText) :
-                new ObjectParameter("TranslationText", typeof(string));
-    
             var notesParameter = notes != null ?
                 new ObjectParameter("Notes", notes) :
                 new ObjectParameter("Notes", typeof(string));
@@ -535,42 +527,7 @@ namespace Inscript_v5.Data.Inscriptions
                 new ObjectParameter("TranslationID", translationID) :
                 new ObjectParameter("TranslationID", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("UpdateTranslation", inscriptionIDParameter, publicViewParameter, translationNameParameter, translationTextParameter, notesParameter, translationIDParameter);
-        }
-    
-        public virtual ObjectResult<TranslationTextGet_Result> TranslationTextGet(Nullable<int> translationTextID)
-        {
-            var translationTextIDParameter = translationTextID.HasValue ?
-                new ObjectParameter("TranslationTextID", translationTextID) :
-                new ObjectParameter("TranslationTextID", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<TranslationTextGet_Result>("TranslationTextGet", translationTextIDParameter);
-        }
-    
-        public virtual ObjectResult<TranslationTextGet_Result> TranslationTextGetList(Nullable<int> translationID)
-        {
-            var translationIDParameter = translationID.HasValue ?
-                new ObjectParameter("TranslationID", translationID) :
-                new ObjectParameter("TranslationID", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<TranslationTextGet_Result>("TranslationTextGetList", translationIDParameter);
-        }
-    
-        public virtual int InsertTranslationText(Nullable<int> translationID, Nullable<int> lineNumber, string translationText)
-        {
-            var translationIDParameter = translationID.HasValue ?
-                new ObjectParameter("TranslationID", translationID) :
-                new ObjectParameter("TranslationID", typeof(int));
-    
-            var lineNumberParameter = lineNumber.HasValue ?
-                new ObjectParameter("LineNumber", lineNumber) :
-                new ObjectParameter("LineNumber", typeof(int));
-    
-            var translationTextParameter = translationText != null ?
-                new ObjectParameter("TranslationText", translationText) :
-                new ObjectParameter("TranslationText", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("InsertTranslationText", translationIDParameter, lineNumberParameter, translationTextParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("UpdateTranslation", inscriptionIDParameter, publicViewParameter, translationNameParameter, notesParameter, translationIDParameter);
         }
     
         public virtual int DeleteTranslation(Nullable<int> translationID)
@@ -733,13 +690,13 @@ namespace Inscript_v5.Data.Inscriptions
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("GetRolesForUser", userIDParameter);
         }
     
-        public virtual ObjectResult<InscriptionsGet_Result> FilterInscriptions(string searchText)
+        public virtual ObjectResult<InscriptionTextGet_Result> FilterInscriptions(string searchText)
         {
             var searchTextParameter = searchText != null ?
                 new ObjectParameter("SearchText", searchText) :
                 new ObjectParameter("SearchText", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<InscriptionsGet_Result>("FilterInscriptions", searchTextParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<InscriptionTextGet_Result>("FilterInscriptions", searchTextParameter);
         }
     
         public virtual ObjectResult<TranslationGet_Result> FilterTranslation(string searchText)
@@ -859,6 +816,137 @@ namespace Inscript_v5.Data.Inscriptions
                 new ObjectParameter("InscriptionID", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<TranslationGet_Result>("TranslationDefaultGet", inscriptionIDParameter);
+        }
+    
+        public virtual int DeleteTranslationText(Nullable<int> translationID)
+        {
+            var translationIDParameter = translationID.HasValue ?
+                new ObjectParameter("TranslationID", translationID) :
+                new ObjectParameter("TranslationID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("DeleteTranslationText", translationIDParameter);
+        }
+    
+        public virtual ObjectResult<TranslationTextGet_Result> TranslationTextGet(Nullable<int> textID)
+        {
+            var textIDParameter = textID.HasValue ?
+                new ObjectParameter("TextID", textID) :
+                new ObjectParameter("TextID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<TranslationTextGet_Result>("TranslationTextGet", textIDParameter);
+        }
+    
+        public virtual ObjectResult<TranslationTextGet_Result> TranslationTextGetList(Nullable<int> translationID)
+        {
+            var translationIDParameter = translationID.HasValue ?
+                new ObjectParameter("TranslationID", translationID) :
+                new ObjectParameter("TranslationID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<TranslationTextGet_Result>("TranslationTextGetList", translationIDParameter);
+        }
+    
+        public virtual int UpdateTranslationText(Nullable<int> textID, Nullable<int> translationID, string text, Nullable<int> lineNumber)
+        {
+            var textIDParameter = textID.HasValue ?
+                new ObjectParameter("TextID", textID) :
+                new ObjectParameter("TextID", typeof(int));
+    
+            var translationIDParameter = translationID.HasValue ?
+                new ObjectParameter("TranslationID", translationID) :
+                new ObjectParameter("TranslationID", typeof(int));
+    
+            var textParameter = text != null ?
+                new ObjectParameter("Text", text) :
+                new ObjectParameter("Text", typeof(string));
+    
+            var lineNumberParameter = lineNumber.HasValue ?
+                new ObjectParameter("LineNumber", lineNumber) :
+                new ObjectParameter("LineNumber", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("UpdateTranslationText", textIDParameter, translationIDParameter, textParameter, lineNumberParameter);
+        }
+    
+        public virtual int InsertTranslationText(Nullable<int> translationID, Nullable<int> lineNumber, string text, Nullable<int> inscriptionID)
+        {
+            var translationIDParameter = translationID.HasValue ?
+                new ObjectParameter("TranslationID", translationID) :
+                new ObjectParameter("TranslationID", typeof(int));
+    
+            var lineNumberParameter = lineNumber.HasValue ?
+                new ObjectParameter("LineNumber", lineNumber) :
+                new ObjectParameter("LineNumber", typeof(int));
+    
+            var textParameter = text != null ?
+                new ObjectParameter("Text", text) :
+                new ObjectParameter("Text", typeof(string));
+    
+            var inscriptionIDParameter = inscriptionID.HasValue ?
+                new ObjectParameter("InscriptionID", inscriptionID) :
+                new ObjectParameter("InscriptionID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("InsertTranslationText", translationIDParameter, lineNumberParameter, textParameter, inscriptionIDParameter);
+        }
+    
+        public virtual int InsertLoginLog(string email)
+        {
+            var emailParameter = email != null ?
+                new ObjectParameter("Email", email) :
+                new ObjectParameter("Email", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("InsertLoginLog", emailParameter);
+        }
+    
+        public virtual ObjectResult<LoginLogGet_Result> LoginLogGet(Nullable<int> loginID)
+        {
+            var loginIDParameter = loginID.HasValue ?
+                new ObjectParameter("LoginID", loginID) :
+                new ObjectParameter("LoginID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<LoginLogGet_Result>("LoginLogGet", loginIDParameter);
+        }
+    
+        public virtual ObjectResult<LoginLogGet_Result> LoginLogGetList()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<LoginLogGet_Result>("LoginLogGetList");
+        }
+    
+        public virtual int InsertLoginLogFail(string email)
+        {
+            var emailParameter = email != null ?
+                new ObjectParameter("Email", email) :
+                new ObjectParameter("Email", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("InsertLoginLogFail", emailParameter);
+        }
+    
+        public virtual ObjectResult<UserGet_Result> UserCheckUserName(string userName)
+        {
+            var userNameParameter = userName != null ?
+                new ObjectParameter("UserName", userName) :
+                new ObjectParameter("UserName", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<UserGet_Result>("UserCheckUserName", userNameParameter);
+        }
+    
+        public virtual int CancelInscription(Nullable<int> inscriptionID, Nullable<int> dateID, Nullable<int> languageID, Nullable<int> locationID)
+        {
+            var inscriptionIDParameter = inscriptionID.HasValue ?
+                new ObjectParameter("InscriptionID", inscriptionID) :
+                new ObjectParameter("InscriptionID", typeof(int));
+    
+            var dateIDParameter = dateID.HasValue ?
+                new ObjectParameter("DateID", dateID) :
+                new ObjectParameter("DateID", typeof(int));
+    
+            var languageIDParameter = languageID.HasValue ?
+                new ObjectParameter("LanguageID", languageID) :
+                new ObjectParameter("LanguageID", typeof(int));
+    
+            var locationIDParameter = locationID.HasValue ?
+                new ObjectParameter("LocationID", locationID) :
+                new ObjectParameter("LocationID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("CancelInscription", inscriptionIDParameter, dateIDParameter, languageIDParameter, locationIDParameter);
         }
     }
 }

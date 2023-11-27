@@ -27,9 +27,9 @@ namespace Inscript_v5.Models
         [Display(Name = "Translation Name")]
         public string TranslationName { get; set; }
 
-        [Display(Name = "Translation Text")]
-        public string TranslationText { get; set; }
         public string Notes { get; set; }
+
+        public List<TranslationsModel> Translations { get; set; }
 
     }
 

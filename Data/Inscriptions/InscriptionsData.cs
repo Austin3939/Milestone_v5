@@ -23,12 +23,7 @@ namespace Inscript_v5.Data.Inscriptions
             return FillModel(model);
         }
 
-        public static List<InscriptionsModel> Filter(string searchText)
-        {
-            var db = new Inscriptv4Entities();
-            var model = db.FilterInscriptions(searchText);
-            return FillModelList(model);
-        }
+        
 
         private static InscriptionsModel FillModel(InscriptionsGet_Result model)
         {
@@ -95,6 +90,17 @@ namespace Inscript_v5.Data.Inscriptions
             var db = new Inscriptv4Entities();
             db.DeleteInscription(
                 model.InscriptionID
+                );
+        }
+
+        public static void CancelInscription(InscriptionsModel model)
+        {
+            var db = new Inscriptv4Entities();
+            db.CancelInscription(
+                model.InscriptionID,
+                model.DateID,
+                model.LanguageID,
+                model.LocationID
                 );
         }
 

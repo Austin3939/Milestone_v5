@@ -31,9 +31,9 @@
         margin: 0;
         padding: 0;
         border: none;
-        font-family: "News Cycle", "Arial Narrow Bold", sans-serif;
-        font-size: 15pt;
-        line-height: 1.4;
+        font-family: Time New Roman;
+        font-size: 16pt;
+        line-height: 1.62;
         background-color: transparent;
     }
 
@@ -44,6 +44,7 @@
         box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2); /* Apply the shadow */
         background-color: white; /* Set the background color */
     }
+
     .padding-container {
         padding: 20px; /* Adjust as needed */
     }
@@ -106,29 +107,29 @@
 <!-- <h2>Details</h2> -->
 
 <div class="center">
-    <div class="flex-item" style="display: felx; flex-wrap: wrap; justify-content: center;">
+    <div class="flex-item" style="display: felx; flex-wrap: wrap; justify-content: center; text-align:center;">
         <dl>
             <dd class="SaveButton">
-                <h4>
+                <h1>
                     @Html.DisplayFor(model => model.InscriptionName)
                     <button type="button" style="border:none !important; background-color:transparent !important" onclick="SaveInscription()" aria-label="Save">
-                        <i class="fa-regular fa-star" style="color: #eb6864; font-size: 16px;"></i>
+                        <i class="fa-regular fa-star" style="color: #eb6864; font-size: 25px;"></i>
                     </button>
-                </h4>
+                </h1>
             </dd>
             <dd class="RemoveButton">
-                <h4>
+                <h1>
                     @Html.DisplayFor(model => model.InscriptionName)
                     <button type="button" style="border:none !important; background-color:transparent !important" onclick="RemoveInscription()" aria-label="Remove">
-                        <i class="fa-solid fa-star" style="color: #eb6864; font-size: 16px;"></i>
+                        <i class="fa-solid fa-star" style="color: #eb6864; font-size: 25px;"></i>
                     </button>
-                </h4>
+                </h1>
             </dd>
             <dd class="LoginButton">
-                <h4>
+                <h1>
                     @Html.DisplayFor(model => model.InscriptionName)
                     <a class="btn btn-sm" href="@Url.Action("Index", "UserLogin", new { returnUrl = Request.Url.AbsoluteUri })">LOGIN to Save</a>
-                </h4>
+                </h1>
             </dd>
 
 
@@ -150,57 +151,58 @@
     -->
 </div>
 
-    <table class="table">
-        <tr>
+
+<body>
+    <div class="center">
+            <div class="card" style="display: inline-block; width: 50%; min-width: 25%; max-width: 50%; margin: 10px; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2); padding: 5px;">
                 <!-- Inscription Text -->
-            <td id="semiticText" style="width: 50%; box-sizing: border-box;">
-                <div style= "padding: 15px;">
-                    @{Html.RenderAction("Details", "InscriptionText", new { Model.InscriptionID }); }
+                @{Html.RenderAction("Details", "InscriptionText", new { id = Model.InscriptionID });}
+                <br />
+            </div>
+            <div class="card" style="display: inline-block; width: 50%; min-width: 25%; max-width: 50%; margin: 10px; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2); padding: 5px; ">
+                <!-- Translations -->
+                @{Html.RenderAction("Details", "Translations", new { id = Model.InscriptionID, tid = 0 });}
+            </div>
+    </div>
+            <div class="center" style="width:100%;">
+                <div style="display: inline-block; width: 50%; max-width: 50%; margin: 10px; box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.2); padding: 5px; ">
+                    <h6>
+                        @Html.LabelFor(model => model.Notes, "Inscription Notes")
+                    </h6>
+                    <pre id="formattedText" class="preformatted-text">@Html.Raw(Model.Notes)
+                </pre>
                 </div>
-            </td>
-            <td id="formatedText" style="width: 50%; box-sizing: border-box; padding: 5px;">
-                <div style= "padding: 15px;">
-                    <!-- Translation Text -->
-                    @{Html.RenderAction("Details", "Translations", new { id = Model.InscriptionID, tid = 0 }); }
+                <div style="display: inline-block; width: 50%; max-width: 50%; margin: 10px; box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.2); padding: 5px; ">
+                    @{Html.RenderAction("TranslationNotes", "Translations", new { id = Model.InscriptionID, tid = 0 });}
+                    <div style="padding-top: 10px">
+                        @{
+                            if (Session["UserID"] == null)
+                            {
+
+                                <div>
+                                    <a class="btn btn-sm" href="@Url.Action("Index", "UserLogin", new { returnUrl = Request.Url.AbsoluteUri })">LOGIN to create translation</a>
+                                </div>
+                            }
+                            else
+                            {
+                                <div>
+                                    @Html.ActionLink("Create Translation", "Create", "Translations", new { id = Model.InscriptionID }, new { @class = "btn btn-sm" })
+                                </div>
+                            }
+                        }
+                    </div>
                 </div>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <!-- Inscription Notes -->
-                <div class="padding-container">
-                    @{Html.RenderAction("InscriptionNotes", "Inscriptions", new { Model.InscriptionID });}
-                </div>
-            </td>
-            <td>
-                <!-- Translation Notes -->
-                <div class="padding-container">
-                    @{Html.RenderAction("TranslationNotes", "Translations", new { id = Model.InscriptionID });}
-                </div>
-            </td>
-        </tr>
-    </table>
+            </div>
+
+
+
+</body>
 
 <br />
 <hr />
 
 
 <div class="content">
-    @{
-        if (Session["UserID"] == null)
-        {
-
-            <div>
-                <a class="btn btn-sm" href="@Url.Action("Index", "UserLogin", new { returnUrl = Request.Url.AbsoluteUri })">LOGIN to create translation</a>
-            </div>
-        }
-        else
-        {
-            <div>
-                @Html.ActionLink("Create Translation", "Create", "Translations", new { id = Model.InscriptionID }, new { @class = "btn btn-sm" })
-            </div>
-        }
-    }
     <p>
         @Html.ActionLink("Back to Database", "Filter")
     </p>

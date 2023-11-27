@@ -23,6 +23,13 @@ namespace Inscript_v5.Data.Inscriptions
             return FillModel(model);
         }
 
+        public static List<InscriptionTextModel> AdvancedSearch(string searchText)
+        {
+            var db = new Inscriptv4Entities();
+            var model = db.FilterInscriptions(searchText);
+            return FillModelList(model);
+        }
+
         private static InscriptionTextModel FillModel(InscriptionTextGet_Result model)
         {
             if (model == null) return null;
@@ -61,15 +68,20 @@ namespace Inscript_v5.Data.Inscriptions
         }
 
 
-        public static void Update(InscriptionTextModel model)
+        public static void Update(List<InscriptionTextModel> inscriptionTextList)
         {
-            var db = new Inscriptv4Entities();
-            db.UpdateInscriptionText(
-                model.TextID,
-                model.InscriptionID,
-                model.Text,
-                model.LineNumber
-                );
+            using (var db = new Inscriptv4Entities())
+            {
+                foreach (var item in inscriptionTextList)
+                {
+                    db.UpdateInscriptionText(
+                        item.TextID,
+                        item.InscriptionID,
+                        item.Text,
+                        item.LineNumber
+                    );
+                }
+            }
         }
 
         public static void Delete(InscriptionTextModel model)

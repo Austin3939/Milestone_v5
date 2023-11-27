@@ -15,7 +15,6 @@
         document.getElementById("SearchText").value = "";
         document.forms[0].submit();
     }
-
 </script>
 
 
@@ -43,6 +42,11 @@
 </div>
 
 <br />
+
+<div>
+    @Html.ActionLink("Add Inscription", "NewInscription", null, new { @class = "btn btn-primary" })
+</div>
+
 
 <table id="inscriptionsTable" class="table">
     <tr id="tableHeading" class="text-center">
@@ -79,9 +83,8 @@
             </td>
 
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.InscriptionID }, new { @class = "btn btn-sm" })
-                @Html.ActionLink("Details", "Details", new { id = item.InscriptionID }, new { @class = "btn btn-sm" }) |
-                @Html.ActionLink("Add Text", "Create", "InscriptionText", new { id = item.InscriptionID }, new { @class = "btn btn-sm" })
+                @Html.ActionLink("Edit Text", "EditInscriptionText", new { id = item.InscriptionID }, new { @class = "btn btn-sm" })
+                @Html.ActionLink("Edit Details", "Edit", new { id = item.InscriptionID }, new { @class = "btn btn-sm" })
             </td>
 
             <td>

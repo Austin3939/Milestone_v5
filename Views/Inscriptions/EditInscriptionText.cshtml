@@ -1,0 +1,68 @@
+﻿@model Inscript_v5.Models.InscriptionsModel
+
+@{
+    ViewBag.Title = "EditInscriptionText";
+}
+
+<style>
+    textarea {
+        width: 560px !important;
+        height: 200px !important;
+    }
+
+    #formatedText {
+        margin: 0;
+        padding: 0;
+        border: none;
+        font-family: Time New Roman;
+        font-size: 16pt;
+        line-height: 1.62;
+        background-color: transparent;
+    }
+</style>
+
+<div class="center">
+    <div class="flex-item" style="display: felx; flex-wrap: wrap; justify-content: center;">
+        <dl>
+            <dd>
+                <h4>
+                    @Html.DisplayFor(model => model.InscriptionName)
+                </h4>
+            </dd>
+            <dd>
+                @Html.DisplayFor(model => model.Location)
+                |
+                @Html.DisplayFor(model => model.Date)
+                |
+                @Html.DisplayFor(model => model.Language)
+            </dd>
+
+        </dl>
+        <br />
+    </div>
+</div>
+
+    <body>
+        <div>
+            <div>
+                @{Html.RenderAction("Edit", "InscriptionText", new { id = Model.InscriptionID });}
+            </div>
+                <hr />
+                <div style="width: 50%;">
+                    <h6>
+                        @Html.LabelFor(model => model.Notes, "Inscription Notes")
+                    </h6>
+                    <pre id="formattedText" class="preformatted-text">@Html.Raw(Model.Notes)
+                    </pre>
+                </div>
+        </div>
+    </body>
+
+            <div>
+                @Html.ActionLink("Back to List", "AdminIndex")
+            </div>
+
+            @section Scripts {
+                @Scripts.Render("~/bundles/jqueryval")
+            }
+

@@ -61,11 +61,16 @@ namespace Inscript_v5.Controllers
         {
             if (ModelState.IsValid)
             {
-                
+                var checkName = UsersData.UserCheckUserName(users.UserName);
+                if (checkName != null)
+                {
+                    ModelState.AddModelError("Username", "Username already exists. Please choose another.");
+                    return View(users);
+                }
                 UsersModel model = UsersData.Insert(users);
                 users.UserID = model.UserID;
                 ViewBag.NextView = true;
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("NewAccountLogin", "UserLogin");
             }
 
             return View(users);

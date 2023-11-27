@@ -16,7 +16,6 @@ namespace Inscript_v5.Data.Inscriptions
         public int TranslationID { get; set; }
         public int InscriptionID { get; set; }
         public string Notes { get; set; }
-        public string TranslationText { get; set; }
         public string InscriptionName { get; set; }
         public int CreatedByUserID { get; set; }
         public bool PublicView { get; set; }

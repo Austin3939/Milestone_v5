@@ -26,6 +26,13 @@ namespace Inscript_v5.Data.Inscriptions
             return FillModel(model);
         }
 
+        public static UsersModel UserCheckUserName(string userName)
+        {
+            var db = new Inscriptv4Entities();
+            var model = db.UserCheckUserName(userName).FirstOrDefault();
+            return FillModel(model);
+        }
+
         public static List<UsersModel> Filter(string searchText)
         {
             var db = new Inscriptv4Entities();
@@ -77,6 +84,22 @@ namespace Inscript_v5.Data.Inscriptions
             
 
             return model;
+        }
+
+        public static void SuccessLogin(string email)
+        {
+            var db = new Inscriptv4Entities();
+            db.InsertLoginLog(
+                email
+                );
+        }
+
+        public static void FailLogin(string email)
+        {
+            var db = new Inscriptv4Entities();
+            db.InsertLoginLogFail(
+                email
+                );
         }
 
         public static void Update(UsersModel model)

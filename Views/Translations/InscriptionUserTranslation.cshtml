@@ -1,0 +1,70 @@
+﻿@model Inscript_v5.Models.TranslationsModel
+
+@{
+    ViewBag.Title = "UserTranslationDetails";
+}
+
+<style>
+    #titleheader {
+        font-family: "News Cycle", "Arial Narrow Bold", sans-serif;
+        font-size: 15px;
+        font-weight: 700;
+    }
+
+    #semiticText {
+        display: inline;
+        margin: 0;
+        padding: 0;
+        border: none;
+        font-family: Time New Roman;
+        font-size: 15pt;
+        line-height: 1.6;
+        background-color: transparent;
+    }
+
+    #formattedText {
+        margin: 0;
+        padding: 0;
+        border: none;
+        font-family: "News Cycle", "Arial Narrow Bold", sans-serif;
+        font-size: 15pt;
+        line-height: 1.6;
+        background-color: transparent;
+    }
+</style>
+
+<h1 class="center"> User Translation</h1>
+<div class="center">
+    <div class="flex-item" style="display: felx; flex-wrap: wrap; justify-content: center; text-align:center;">
+        @{Html.RenderAction("InscriptionDetails", "Inscriptions", new { id = Model.InscriptionID });}
+    </div>
+</div>
+
+<body>
+    <div class="center">
+        <div class="card" style="display: inline-block; width: auto; min-width: 25%; max-width: 50%; margin: 10px; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2); padding: 5px;">
+            <!-- Inscription Text -->
+            @{Html.RenderAction("Details", "InscriptionText", new { id = Model.InscriptionID });}
+            <br />
+        </div>
+        <div class="card" style="display: inline-block; width: auto; min-width: 25%; max-width: 50%; margin: 10px; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2); padding: 5px; ">
+            <!-- Translations -->
+            @{Html.RenderAction("Details", "Translations", new { id = Model.InscriptionID, tid = Model.TranslationID });}
+        </div>
+    </div>
+    <div class="center" style="width:100%;">
+        <div class="card" style="display: inline-block; width: 40%; max-width: 50%; margin: 10px; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2); padding: 5px; ">
+            <h6>
+                @Html.LabelFor(model => model.Notes, "Inscription Notes")
+            </h6>
+            <pre id="formattedText" class="preformatted-text">@Html.Raw(Model.Notes)
+                </pre>
+        </div>
+        <div class="card" style="display: inline-block; width: 40%; max-width: 50%; margin: 10px; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2); padding: 5px; ">
+            @{Html.RenderAction("TranslationNotes", "Translations", new { id = Model.InscriptionID, tid = Model.TranslationID });}
+        </div>
+    </div>
+
+
+
+</body>

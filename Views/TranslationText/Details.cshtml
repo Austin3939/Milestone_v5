@@ -1,0 +1,40 @@
+﻿@model List<Inscript_v5.Models.TranslationTextModel>
+
+@{
+    ViewBag.Title = "Details";
+}
+<style>
+    #table {
+        width: 100%;
+    }
+</style>
+
+
+
+@if (Model == null || Model.Count == 0)
+{
+
+    <div style="font-style:italic; text-align:center">
+       No Translation
+    </div>
+
+}
+else
+{
+    <table id="table">
+        @foreach (var item in Model)
+        {
+            <tr class="form-group">
+                <td style="font-size: 60%; width: 15px !important">
+                    @Html.DisplayFor(modelItem => item.LineNumber)
+                </td>
+                <td id="semiticText">
+                    @Html.DisplayFor(modelItem => item.Text)
+                </td>
+            </tr>
+        }
+    </table>
+}
+
+
+

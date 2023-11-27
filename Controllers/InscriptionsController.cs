@@ -22,18 +22,18 @@ namespace Inscript_v5.Controllers
             return View(InscriptionsData.GetList());
         }
 
-        public ActionResult Filter(string searchText)
+        public ActionResult Filter()
         {
-            var filteredData = InscriptionsData.Filter(searchText);
+            var filteredData = InscriptionsData.GetList();
             return View("Filter", filteredData);
         }
 
         //Admin Index
-        public ActionResult AdminIndex(string searchText)
+        public ActionResult AdminIndex()
         {
             if (Session["Role"] != null && Session["Role"].ToString() == "Admin")
             {
-                var filteredData = InscriptionsData.Filter(searchText);
+                var filteredData = InscriptionsData.GetList();
                 return View("AdminIndex", filteredData);
             }
             else
@@ -144,6 +144,48 @@ namespace Inscript_v5.Controllers
             return View(inscription);
         }
 
+        // POST: Inscriptions/InsertInscription
+        public ActionResult NewInscription()
+        {
+            var inscription = new InscriptionsModel();
+
+            if (ModelState.IsValid)
+            {
+                InscriptionsModel model = InscriptionsData.Insert(inscription);
+                inscription.InscriptionID = model.InscriptionID;
+                return RedirectToAction("InsertInscription", new { inscription.InscriptionID});
+            }
+
+            return View(inscription);
+        }
+
+        // GET: Inscriptions/InsertInscription
+        public ActionResult InsertInscription(int InscriptionID)
+        {
+
+            var inscription = InscriptionsData.Get(InscriptionID);
+            if (inscription == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View(inscription);
+        }
+
+        // POST: Inscriptions/InsertInscription
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult InsertInscription(InscriptionsModel inscription)
+        {
+            if (ModelState.IsValid)
+            {
+                InscriptionsData.Update(inscription);
+                return RedirectToAction("Index");
+            }
+
+            return View(inscription);
+        }
+
         // GET: Inscriptions/Edit
         public ActionResult Edit(int id)
         {
@@ -165,10 +207,21 @@ namespace Inscript_v5.Controllers
             if (ModelState.IsValid)
             {
                 InscriptionsData.Update(inscription);
-                return RedirectToAction("Index");
+                return RedirectToAction("AdminIndex");
             }
             
             return View(inscription);
+        }
+
+        public ActionResult EditInscriptionText(int id)
+        {
+            InscriptionsModel inscriptions = InscriptionsData.Get(id);
+            if (inscriptions == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View(inscriptions);
         }
 
         // GET: Inscriptions/Delete
@@ -190,6 +243,18 @@ namespace Inscript_v5.Controllers
             var inscription = InscriptionsData.Get(id);
             InscriptionsData.Delete(inscription);
             
+            db.SaveChanges();
+            return RedirectToAction("AdminIndex");
+        }
+
+        // POST: Inscriptions/Cancel
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CancelInscription(int id)
+        {
+            var inscription = InscriptionsData.Get(id);
+            InscriptionsData.CancelInscription(inscription);
+
             db.SaveChanges();
             return RedirectToAction("AdminIndex");
         }

@@ -36,7 +36,7 @@ namespace Inscript_v5.Data.Inscriptions
             }
     
             private static TranslationsModel FillModel(TranslationGetById_Result model)
-        {
+            {
             if (model == null) return null;
 
             var itemModel = new TranslationsModel
@@ -47,7 +47,6 @@ namespace Inscript_v5.Data.Inscriptions
                 PublicView = model.PublicView,
                 InscriptionID = model.InscriptionID,
                 InscriptionName = model.InscriptionName,
-                TranslationText = model.TranslationText,
                 TranslationName = model.TranslationName,
                 Notes = model.Notes,
 
@@ -71,6 +70,13 @@ namespace Inscript_v5.Data.Inscriptions
                 return FillModel(model);
             }
 
+        public static List<TranslationsModel> GetForList(int InscriptionID)
+        {
+            var db = new Inscriptv4Entities();
+            var model = db.TranslationDefaultGet(InscriptionID);
+            return FillModelList(model);
+        }
+
         private static TranslationsModel FillModel(TranslationGet_Result model)
             {
                 if (model == null) return null;
@@ -84,7 +90,6 @@ namespace Inscript_v5.Data.Inscriptions
                     InscriptionID = model.InscriptionID,
                     InscriptionName = model.InscriptionName,
                     TranslationName = model.TranslationName,
-                    TranslationText = model.TranslationText,
                     Notes = model.Notes,
 
 
@@ -96,15 +101,16 @@ namespace Inscript_v5.Data.Inscriptions
             public static TranslationsModel Insert(TranslationsModel model)
             {
                     var db = new Inscriptv4Entities();
-                    var newID = new ObjectParameter("InscriptionID", typeof(string));
+                    var newID = new ObjectParameter("TranslationID", typeof(string));
                     db.InsertTranslation(
                         model.PublicView,
                         model.InscriptionID,
                         model.CreatedByUserID,
                         model.TranslationName,
-                        model.TranslationText,
-                        model.Notes
+                        model.Notes,
+                        newID
                         );
+                        model.TranslationID = (int)newID.Value;
 
                     return model;
             }
@@ -124,7 +130,6 @@ namespace Inscript_v5.Data.Inscriptions
                         model.InscriptionID,
                         model.PublicView,
                         model.TranslationName,
-                        model.TranslationText,
                         model.Notes,
                         model.TranslationID
                 );

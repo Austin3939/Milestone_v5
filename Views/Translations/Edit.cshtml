@@ -3,92 +3,148 @@
 @{
     ViewBag.Title = "Edit";
 }
+<script src="~/Scripts/jquery-3.7.0.min.js"></script>
+<script>
 
-<h2>Edit</h2>
+    $(document).ready(function () {
+        $("#submitBothForms").click(function () {
+            $.ajax({
+                url: "/Translations/Edit",
+                type: 'POST',
+                data: $("#TranslationDetails").serialize(),
+                success: function (data) {
+                    console.log("submitBothForms success");
 
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
-    @Html.HiddenFor(model => model.InscriptionID)
-    @Html.HiddenFor(model => model.CreatedByUserID)
+                    // Run the submitAllBtn function
+                    submitAllBtnFunction();
+                },
+                error: function () {
 
-    <div class="form-horizontal">
-        <h4>Translation</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.TranslationID)
+                }
+            });
+        });
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.TranslationName, "Translation Name", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.TranslationName, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.TranslationName, "", new { @class = "text-danger" })
-            </div>
-        </div>
+        function submitAllBtnFunction() {
+            var forms = $(".ajax-form");
+            var totalForms = forms.length;
+            var formsProcessed = 0; // Initialize the counter for processed forms
+            var errorsOccurred = false; // Track if any errors
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.PublicView, "Make Translation Public?", htmlAttributes: new { @class = "control-label col-md-2" })
-            @Html.CheckBoxFor(model => model.PublicView)
-            <div class="col-md-10">
-                @Html.ValidationMessageFor(model => model.PublicView, "", new { @class = "text-danger" })
-            </div>
-        </div>
+            function displayMessage(message) {
+                // Create a new <p> element with the message text
+                var messageElement = $("<p>").text(message);
 
-    </div>
-    <br />
+                // Append the <p> element to the message container
+                $("#messageContainer").append(messageElement);
+            }
 
+            forms.each(function (index, form) {
+                var formData = new FormData(form);
+
+                $.ajax({
+                    url: "/TranslationText/Create",
+                    type: "POST",
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function (result) {
+                        console.log("Form " + (index + 1) + " submitted successfully");
+                        if (++formsProcessed === totalForms && !errorsOccurred) {
+                            console.log("All forms submitted successfully.");
+                            window.location.href = "/Translations/AdminIndex";
+
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("Form " + (index + 1) + " submission error:", error);
+                        $("#successMessage").text("Error").show();
+
+                        errorsOccurred = true;
+
+                        if (++formsProcessed === totalForms) {
+                            var errorMessage = "All forms processed with errors.";
+                            console.log(errorMessage);
+                            displayMessage(errorMessage);
+                            $("#successMessage").text("Error").show();
+                        }
+                    }
+                });
+            });
+        }
+    });
+
+</script>
+
+
+<h1 class="center">Create Translation</h1>
+<hr />
+
+<body>
     <div class="flex-container">
-        <div class="flex-items">
+        <div class="card" style="width: 49%; margin: 0 auto; margin-left: 5px; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2); padding: 10px;">
+            <!-- User Projects-->
+            @{Html.RenderAction("InscriptionDetails", "Inscriptions", new { id = Model.InscriptionID });}
+            @{Html.RenderAction("Details", "InscriptionText", new { id = Model.InscriptionID });}
+            <br />
+            <br />
+            <hr />
+            @{Html.RenderAction("InscriptionNotes", "Inscriptions", new { id = Model.InscriptionID });}
+        </div>
+        <div class="card" style="width: 49%; margin: 0 auto; margin-left: 5px; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2); padding: 10px;">
+            <!-- Saved Inscriptions-->
+            @{Html.RenderAction("Create", "TranslationText", new { id = Model.TranslationID });}
+
+            <br />
+            <!-- Translation Details -->
+            @using (Ajax.BeginForm("Edit", new { }, new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "TranslationsModel" }, new { @id = "TranslationDetails" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.HiddenFor(model => model.InscriptionID)
+                @Html.HiddenFor(model => model.CreatedByUserID)
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.HiddenFor(model => model.TranslationID)
+                <div class="form-group">
+                    <h6>Translation Name</h6>
+                    <div class="col-md-5">
+                        @Html.EditorFor(model => model.TranslationName, new { htmlAttributes = new { @class = "form-control col-md-5" } })
+                        @Html.ValidationMessageFor(model => model.TranslationName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <h6>Translation Notes</h6>
+                    @Html.TextAreaFor(model => model.Notes, new { @class = "custom-textarea", rows = 4, cols = 60 })
+                    @Html.ValidationMessageFor(model => model.Notes, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    <br />
+                    @Html.LabelFor(model => model.PublicView, "Make Translation Public?", htmlAttributes: new { @class = "control-label" })
+                    @Html.CheckBoxFor(model => model.PublicView, new { @class = "form-check-input" })
+                    @Html.ValidationMessageFor(model => model.PublicView, "", new { @class = "text-danger" })
+                </div>
+
+            }
             <div>
-                <h5>Insciprtion Text</h5>
-                @{Html.RenderAction("Details", "InscriptionText"); }
+                <button id="submitBothForms" value="Save" class="btn btn-default">Submit</button>
             </div>
         </div>
-
-        <div class="flex-items">
-            <table>
-                <tr class="form-group">
-                    <td class="col-md-10">
-                        @Html.LabelFor(model => model.TranslationText, "Translation Text", htmlAttributes: new { @class = "control-label" })
-                        <div>
-                            @Html.TextAreaFor(model => model.TranslationText, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.TranslationText, "", new { @class = "text-danger" })
-                        </div>
-                    </td>
-                </tr>
-            </table>
-        </div>
-
-        <div class="flex-items">
-            <table>
-                <tr class="form-group">
-                    <td class="col-md-10">
-                        @Html.LabelFor(model => model.Notes, "Translation Notes", htmlAttributes: new { @class = "control-label" })
-                        <div>
-                            @Html.TextAreaFor(model => model.Notes, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.Notes, "", new { @class = "text-danger" })
-                        </div>
-                    </td>
-                </tr>
-            </table>
-        </div>
     </div>
 
-    <br />
 
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Save" class="btn btn-default" />
-        </div>
-    </div>
+</body>
 
-}
+<br />
 
 <div>
-    @Html.ActionLink("Back to List", "Filter", "Inscriptions")
+    <form method="post" action="@Url.Action("Delete", "Translations", new { id = Model.TranslationID })">
+        @Html.AntiForgeryToken()
+        <input class="btn btn-outline-light" type="submit" value="Cancel" id="deleteButton" />
+    </form>
 </div>
+
+<br />
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }
+
 

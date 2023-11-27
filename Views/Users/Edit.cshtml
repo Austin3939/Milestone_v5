@@ -63,7 +63,7 @@
             <td class="col-md-10">
                 @Html.LabelFor(model => model.RoleID, "User Role", htmlAttributes: new { @class = "control-label" })
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model.RoleID, null, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.DisplayFor(model => model.Role, null, new { htmlAttributes = new { @class = "form-control" } })
                     @Html.ValidationMessageFor(model => model.RoleID, "", new { @class = "text-danger" })
                 </div>
             </td>

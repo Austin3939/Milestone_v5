@@ -14,16 +14,12 @@
         @foreach (var item in Model)
         {
             <tr class="form-group">
-                <td width="5%" style="font-size: 60%">
+                <td style="font-size: 60%; width:15px !important">
                     @Html.DisplayFor(modelItem => item.LineNumber)
                 </td>
 
                 <td id="semiticText">
                     @Html.DisplayFor(modelItem => item.Text)
-                </td>
-
-                <td width="5%" style="font-size: 60%">
-                    @Html.DisplayFor(modelItem => item.LineNumber)
                 </td>
             </tr>
         }

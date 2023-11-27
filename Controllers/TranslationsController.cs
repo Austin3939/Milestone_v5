@@ -67,22 +67,43 @@ namespace Inscript_v5.Controllers
                 }
         }
 
-        public ActionResult TranslationNotes(int id)
+        public ActionResult TranslationNotes(int id, int tid)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            TranslationsModel translation = TranslationsData.GetDefault(id);
-            if (translation == null)
+            if (tid == 0)
             {
-                return Content("No Translation Notes");
+                TranslationsModel translation = TranslationsData.GetDefault(id);
+                if (translation == null)
+                {
+                    return Content("No Notes");
+                }
+                return PartialView(translation);
             }
-            return PartialView(translation);
+            else
+            {
+                TranslationsModel translation = TranslationsData.Get(id, tid);
+                if (translation == null)
+                {
+                    return Content("No Translation Notes");
+                }
+                return PartialView(translation);
+            }
         }
 
         public ActionResult UserTranslationDetails(int id, int tid)
         {
+
+            List<TranslationsModel> translations = TranslationsData.GetForList(id); // Replace with your actual data retrieval logic
+
+            // Create an instance of your view model and populate the Translations property
+            TranslationsModel viewModel = new TranslationsModel
+            {
+                Translations = translations
+            };
+
             TranslationsModel inscriptions = TranslationsData.Get(id, tid);
             if (inscriptions == null)
             {
@@ -92,52 +113,39 @@ namespace Inscript_v5.Controllers
             return View(inscriptions);
         }
 
-        // GET: Translation/Create
-        [HttpGet]
+        // POST: Translation/Create
         public ActionResult Create(int id)
         {
+            var translation = new TranslationsModel();
+            translation.InscriptionID = id;
+            translation.CreatedByUserID = (int)Session["UserID"];
 
-            var model = new TranslationsModel();
-            model.InscriptionID = id;
-            model.CreatedByUserID = (int)Session["UserID"];
-
-
-                return View(model);
-        }
-
-            // POST: Translation/Create
-            [HttpPost]
-            [ValidateAntiForgeryToken]
-            public ActionResult Create(TranslationsModel translation)
+            if (ModelState.IsValid)
             {
-
-                if (ModelState.IsValid)
-                {
                 TranslationsModel model = TranslationsData.Insert(translation);
-                translation.InscriptionID = model.InscriptionID;
-                translation.CreatedByUserID = model.CreatedByUserID;
-                    return RedirectToAction("Index", "UserPortal");
-                }
-
-                return View(translation);
+                translation.TranslationID = model.TranslationID;
+                return RedirectToAction("Edit", new { translation.InscriptionID, translation.TranslationID });
             }
 
-            // GET: Translations/Edit
-            public ActionResult Edit(int id)
-            {
+            return View(translation);
+        }
 
-                var translations = TranslationsData.GetById(id);
+        // GET: Translations/Edit
+        public ActionResult Edit(int InscriptionID, int TranslationID)
+        {
+
+                var translations = TranslationsData.Get(InscriptionID, TranslationID);
                 if (translations == null)
                 {
                     return HttpNotFound();
                 }
 
                 return View(translations);
-            }
+        }
 
             // POST: Translations/Edit
             [HttpPost]
-            [ValidateAntiForgeryToken]
+            
             public ActionResult Edit(TranslationsModel translations)
             {
                 if (ModelState.IsValid)
@@ -149,8 +157,35 @@ namespace Inscript_v5.Controllers
                 return View(translations);
             }
 
-            // GET: Translartions/Delete
-            public ActionResult Delete(int id)
+        // GET: Translations/Edit
+        public ActionResult EditTranslationText(int InscriptionID, int TranslationID)
+        {
+
+            var translations = TranslationsData.Get(InscriptionID, TranslationID);
+            if (translations == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View(translations);
+        }
+
+        // POST: Translations/Edit
+        [HttpPost]
+
+        public ActionResult EditTranslationText(TranslationsModel translations)
+        {
+            if (ModelState.IsValid)
+            {
+                TranslationsData.Update(translations);
+                return RedirectToAction("Index");
+            }
+
+            return View(translations);
+        }
+
+        // GET: Translartions/Delete
+        public ActionResult Delete(int id)
             {
                 var translation = TranslationsData.GetById(id);
                 if (translation == null)
@@ -169,7 +204,7 @@ namespace Inscript_v5.Controllers
                 TranslationsData.Delete(translation);
 
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Filter");
             }
 
             protected override void Dispose(bool disposing)

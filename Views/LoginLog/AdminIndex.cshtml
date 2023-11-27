@@ -1,0 +1,54 @@
+﻿@model IEnumerable<Inscript_v5.Models.LoginLogModel>
+
+@{
+    ViewBag.Title = "AdminIndex";
+}
+
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.css" />
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.js"></script>
+
+<script>
+
+    $(document).ready(function () {
+        new DataTable('#userLogTable');
+    });
+
+</script>
+
+<h1 class="center">Login Log (Admin)</h1>
+
+<br />
+
+<table id="userLogTable" class="display">
+    <thead>
+        <tr id="tableHeading" class="text-center">
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Success)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Date)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Success)
+                </td>
+            </tr>
+        }
+    </tbody>
+
+</table>

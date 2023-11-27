@@ -4,14 +4,35 @@
     ViewBag.Title = "AdminIndex";
 }
 
-
-<h2 class="center">Admin Tools</h2>
-
-<div class="text-center">
-    <div>
-        <p><a href="/Inscriptions/AdminIndex" class="btn btn-primary btn-md">Inscriptions Database</a></p>
-        <p><a href="/Translations/AdminIndex" class="btn btn-primary btn-md">Translations Database</a></p>
-        <p><a href="/Users/AdminIndex" class="btn btn-primary btn-md">Users Database</a></p>
-        <p><a href="/SiteUpdates/AdminIndex" class="btn btn-primary btn-md">Site Updates</a></p>
-    </div>
+<div class="card" style="width: 100%; margin: 0 auto; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2); padding: 10px;">
+    <h1 class="center">Admin Managment</h1>
 </div>
+
+<br />
+
+<body>
+    <div class="flex-container">
+        <div class="card" style="width: 30%; margin: 0 auto; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2); padding: 10px;">
+            <h2 class="center">Database Tools</h2>
+
+            <div class="text-center">
+                <div>
+                    <p><a href="/Inscriptions/AdminIndex" class="btn btn-primary btn-md">Inscriptions Database</a></p>
+                    <p><a href="/Translations/AdminIndex" class="btn btn-primary btn-md">Translations Database</a></p>
+                </div>
+            </div>
+        </div>
+        <div class="card" style="width: 30%; margin: 0 auto; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2); padding: 10px; ">
+            <h2 class="center">Admin Tools</h2>
+
+            <div class="text-center">
+                <div>
+                    <p><a href="/Users/AdminIndex" class="btn btn-primary btn-md">Users Database</a></p>
+                    <p><a href="/SiteUpdates/AdminIndex" class="btn btn-primary btn-md">Site Updates</a></p>
+                    <p><a href="/LoginLog/AdminIndex" class="btn btn-primary btn-md">Login Log</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>

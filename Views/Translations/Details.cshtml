@@ -15,19 +15,28 @@
         line-height: 1.6;
         background-color: transparent;
     }
-
 </style>
 
-<div>
+<style>
+    #formattedText {
+        display: inline;
+        margin: 0;
+        padding: 0;
+        border: none;
+        font-family: Time New Roman;
+        font-size: 12pt;
+        line-height: 1.6;
+        background-color: transparent;
+        text-wrap: wrap
+    }
+</style>
 
-    <table>
-        <tr class="form-group">
-            <td>
-                <div class="col-md-10">
-                    <pre id="formattedText" class="preformatted-text">@Html.Raw(Model.TranslationText)
-                    </pre>
-                </div>
-            </td>
-        </tr>
-    </table>
-</div>
+<table>
+    <tr class="form-group">
+        <td>
+            @{Html.RenderAction("Details", "TranslationText", new { id = Model.TranslationID });}
+            <br />
+        </td>
+    </tr>
+</table>
+
