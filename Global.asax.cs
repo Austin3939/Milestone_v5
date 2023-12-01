@@ -15,13 +15,6 @@ namespace Inscript_v5
     {
         protected void Application_Start(object sender, EventArgs e)
         {
-            string connectionString = ConfigurationManager.ConnectionStrings["Inscriptv4Entities"]?.ConnectionString;
-
-            if (!string.IsNullOrEmpty(connectionString))
-            {
-                // Use the connection string in your code...
-            }
-
 
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
