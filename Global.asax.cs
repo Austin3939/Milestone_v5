@@ -13,10 +13,10 @@ namespace Inscript_v5
     {
         protected void Application_Start(object sender, EventArgs e)
         {
-            string connectionString = Environment.GetEnvironmentVariable("ConnectionStrings__Inscript_v5Context");
+            string connectionString = Environment.GetEnvironmentVariable("ConnectionStrings__Inscriptv4Entities");
             if (!string.IsNullOrEmpty(connectionString))
             {
-            var connectionStringsSection = ConfigurationManager.ConnectionStrings["Inscript_v5Context"];
+            var connectionStringsSection = ConfigurationManager.ConnectionStrings["Inscriptv4Entities"];
             connectionStringsSection.ConnectionString = connectionString;
             }
             AreaRegistration.RegisterAllAreas();
