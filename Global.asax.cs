@@ -6,6 +6,8 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using Azure.Core;
+using Azure.Identity;
 
 namespace Inscript_v5
 {
@@ -13,12 +15,14 @@ namespace Inscript_v5
     {
         protected void Application_Start(object sender, EventArgs e)
         {
-            string connectionString = Environment.GetEnvironmentVariable("ConnectionStrings__Inscriptv4Entities");
+            string connectionString = ConfigurationManager.ConnectionStrings["Inscriptv4Entities"]?.ConnectionString;
+
             if (!string.IsNullOrEmpty(connectionString))
             {
-            var connectionStringsSection = ConfigurationManager.ConnectionStrings["Inscriptv4Entities"];
-            connectionStringsSection.ConnectionString = connectionString;
+                // Use the connection string in your code...
             }
+
+
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
