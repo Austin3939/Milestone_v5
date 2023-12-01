@@ -43,7 +43,7 @@ namespace Inscript_v5.Controllers
 
         public ActionResult Details(int id, int tid)
         {
-                if (id == null)
+                if (id == 0)
                 {
                     return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
                 }
@@ -69,7 +69,7 @@ namespace Inscript_v5.Controllers
 
         public ActionResult TranslationNotes(int id, int tid)
         {
-            if (id == null)
+            if (id == 0)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }

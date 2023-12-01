@@ -40,7 +40,7 @@ namespace Inscript_v5.Data.Controllers
 
         public ActionResult Details(int id, int UserID)
         {
-            if (id == null)
+            if (id == 0)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
