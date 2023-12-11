@@ -8,6 +8,7 @@ using System.Web.Optimization;
 using System.Web.Routing;
 using Azure.Core;
 using Azure.Identity;
+using Microsoft.Data.SqlClient;
 
 namespace Inscript_v5
 {
